@@ -86,3 +86,11 @@
 - 领域层预先实现树操作约束；对应命令和拓扑测试在后续阶段接入。
 - 基础图形、嵌套移动、快照独立性、唯一 id、白名单和非法尺寸共 8 个测试通过，严格类型检查通过。
 - XML 库最终选择 `@xmldom/xmldom`，在基础设施层使用 DOM API，依据官方项目文档：https://github.com/xmldom/xmldom。
+
+### CLI 与历史阶段
+
+- 接入引号词法分析、命令工厂、REPL、基础编辑和 tree/show/help。
+- Command 与历史在本阶段一并接入：EditingCommand 的 execute/apply/undo/redo 与前后 Memento 相互配合，避免先实现一条绕过事务的临时编辑路径。
+- 失败编辑在独立文档副本中丢弃；测试覆盖递归缩放溢出、redo 保留/清空以及文档操作后的历史屏障。
+- `npm run check` 通过：15 项测试、严格类型检查、生产构建。
+- 文件端口已定义，实际 SVG IO 在后续阶段注入；基础版暂不配置持久化。
