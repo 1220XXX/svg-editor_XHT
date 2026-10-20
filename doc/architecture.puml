@@ -1,0 +1,16 @@
+@startuml
+title SVG CLI — module dependencies
+component "CLI\nREPL / tokenizer / output" as CLI
+component "Application\nCommands / history / ports" as APP
+component "Domain\nShapes / document / factory" as DOMAIN
+component "Infrastructure\nFile system / SVG codec" as INFRA
+component "Bootstrap\nComposition root" as BOOT
+CLI --> APP
+APP --> DOMAIN
+INFRA --> APP : implements ports
+INFRA --> DOMAIN
+BOOT --> CLI
+BOOT --> APP
+BOOT --> DOMAIN
+BOOT --> INFRA
+@enduml
