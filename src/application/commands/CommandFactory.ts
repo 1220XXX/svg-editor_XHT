@@ -17,6 +17,12 @@ import { RedoCommand } from './RedoCommand.js';
 import { ReadCommand } from './ReadCommand.js';
 import { SaveCommand } from './SaveCommand.js';
 
+import { GroupCommand } from './GroupCommand.js';
+import { UngroupCommand } from './UngroupCommand.js';
+import { AddToCommand } from './AddToCommand.js';
+import { FrontCommand } from './FrontCommand.js';
+import { BackCommand } from './BackCommand.js';
+
 type Registration = { readonly syntax: string; readonly create: (args: readonly Argument[]) => Command };
 
 export class CommandFactory {
@@ -33,6 +39,11 @@ export class CommandFactory {
       ['move', { syntax: 'move <id> <dx> <dy>', create: args => new MoveCommand(args) }],
       ['scale', { syntax: 'scale <id> <factor>', create: args => new ScaleCommand(args) }],
       ['set', { syntax: 'set <id> <attr> <value>', create: args => new SetCommand(args) }],
+      ['group', { syntax: 'group <newGid> <id1> <id2>...', create: args => new GroupCommand(args) }],
+      ['ungroup', { syntax: 'ungroup <gid>', create: args => new UngroupCommand(args) }],
+      ['addto', { syntax: 'addto <gid> <id>', create: args => new AddToCommand(args) }],
+      ['front', { syntax: 'front <id>', create: args => new FrontCommand(args) }],
+      ['back', { syntax: 'back <id>', create: args => new BackCommand(args) }],
       ['tree', { syntax: 'tree [id]', create: args => new TreeCommand(args) }],
       ['show', { syntax: 'show <id>', create: args => new ShowCommand(args) }],
       ['undo', { syntax: 'undo', create: args => new UndoCommand(args) }],
