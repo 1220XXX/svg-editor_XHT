@@ -1,6 +1,6 @@
 # SVG 编辑器 · Lab1 Phase 1
 
-使用 TypeScript 面向对象实现的 SVG 命令行编辑器，采用 **Command + Composite + Memento**。提供六种图形、分组、绘制顺序、撤销重做和 SVG 文件读写。
+使用 TypeScript 面向对象实现的 SVG 命令行编辑器，采用 **Command + Composite + Memento**。提供六种图形、分组、绘制顺序、撤销重做和 SVG 文件读写；另含背景示例 transform 导入增强。
 
 正式提交报告：**[doc/README.md](doc/README.md)** · [原始任务书](doc/phase_cli_1.md) · [架构图](doc/architecture.svg)
 
@@ -82,3 +82,16 @@ npm run test:coverage
 `check` 包含严格类型检查、自动化测试和生产构建，测试同时约束模块依赖方向、一类一文件与无循环依赖。GitHub Actions 会在 push 和 pull request 时执行相同检查。
 
 支持范围、设计取舍、真实迭代过程和验收结果均记录在 [正式报告](doc/README.md) 中。
+
+
+## transform 优化
+
+```sh
+npm run cli < examples/transform.cli
+```
+
+支持 translate、正等比 scale 和嵌套组合。导入时将变换归一化为几何坐标，同时处理字号和线宽，保存后的 SVG 保留显示效果与分组，省去原始 transform 属性。
+
+![背景示例归一化效果](examples/transform-normalized.png)
+
+不支持 rotate / skew / 非等比 scale / 任意 matrix。遇到超出范围的结构会报错，保持当前文档不变。完整范围和验证数据见正式报告。

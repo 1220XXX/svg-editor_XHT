@@ -6,9 +6,12 @@ import { ShapeFactory } from '../../domain/factories/ShapeFactory.js';
 import { Shape } from '../../domain/shapes/Shape.js';
 import { Group } from '../../domain/shapes/Group.js';
 import { Numeric } from '../../domain/Numeric.js';
+import { UniformTransform } from '../../domain/UniformTransform.js';
+import { TransformParser } from './TransformParser.js';
 import { EditorError } from '../../domain/errors/EditorError.js';
 
 export class SvgCodec implements DocumentCodec {
+  private readonly transforms = new TransformParser();
   private readonly namespace = 'http://www.w3.org/2000/svg';
   constructor(private readonly factory: ShapeFactory) {}
   decode(content: string): { document: SvgDocument; warnings: readonly string[] } {
@@ -25,6 +28,8 @@ export class SvgCodec implements DocumentCodec {
     const height = Numeric.length(root.getAttribute('height') ?? '600', 'canvas height');
     const document = new SvgDocument(width, height);
     const rootAttributes = this.attributes(root);
+    const rootTransform = this.transforms.parse(rootAttributes.transform ?? '');
+    delete rootAttributes.transform;
     for (const [name, value] of Object.entries(rootAttributes)) {
       if (['width', 'height', 'viewBox'].includes(name)) continue;
       document.importPresentation(name, value);
@@ -48,7 +53,8 @@ export class SvgCodec implements DocumentCodec {
     this.elements(root).forEach(collect);
     const counters = new Map<string, number>();
     const warnings: string[] = [];
-    const build = (element: Element): Shape => {
+    const build = (element: Element, parentTransform: UniformTransform,
+      inherited: Readonly<Record<string, string>>): Shape => {
       const type = element.localName ?? element.tagName;
       const attributes = this.attributes(element);
       let id = attributes.id;
@@ -58,19 +64,24 @@ export class SvgCodec implements DocumentCodec {
         counters.set(type, counter); used.add(id);
         warnings.push(`warning: assigned id ${id} to unnamed <${type}>`);
       }
-      if (attributes.transform?.trim()) throw new EditorError('unsupported SVG attribute: transform');
+      const transform = parentTransform.compose(this.transforms.parse(attributes.transform ?? ''));
       delete attributes.transform;
       const shape = this.factory.read(type, id, attributes, element.textContent ?? '');
       const children = this.elements(element);
-      if (shape instanceof Group) children.forEach(child => shape.insert(build(child)));
-      else if (children.length) throw new EditorError(`unsupported child element in <${type}>`);
+      const presentation = { ...inherited, ...shape.attributes };
+      if (shape instanceof Group) children.forEach(child => shape.insert(build(child, transform, presentation)));
+      else {
+        if (children.length) throw new EditorError(`unsupported child element in <${type}>`);
+        shape.scale(transform.factor); shape.move(transform.dx, transform.dy);
+        shape.normalizePresentationScale(transform.factor, presentation);
+      }
       if (shape.content === undefined && this.directText(element).trim()) {
         throw new EditorError(`unexpected text in <${type}>`);
       }
       return shape;
     };
     if (this.directText(root).trim()) throw new EditorError('unexpected text in <svg>');
-    this.elements(root).forEach(element => document.add(build(element)));
+    this.elements(root).forEach(element => document.add(build(element, rootTransform, document.presentation)));
     return { document, warnings };
   }
   encode(document: SvgDocument): string {

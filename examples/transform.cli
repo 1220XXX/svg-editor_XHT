@@ -1,0 +1,6 @@
+# 将背景示例读入，验证编辑及撤销，再保存归一化 SVG
+read examples/transform-original.svg
+tree
+move nodeB 10 20
+undo
+save examples/transform-normalized.svg

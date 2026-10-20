@@ -37,6 +37,11 @@ export abstract class Shape {
     }
     this.styles.set(attribute, value);
   }
+  normalizePresentationScale(factor: number, inherited: Readonly<Record<string, string>>): void {
+    if (factor === 1) return;
+    const width = Numeric.length(inherited['stroke-width'] ?? '1', 'stroke-width');
+    this.importPresentation('stroke-width', Numeric.format(Numeric.finite(width * factor)));
+  }
   importMetadata(attribute: string, value: string): void {
     if (!attribute.startsWith('data-')) throw new EditorError(`unsupported SVG attribute: ${attribute}`);
     this.metadata.set(attribute, value);

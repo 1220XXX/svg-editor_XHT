@@ -58,7 +58,7 @@
 - `canvas` 只读查询不影响历史。`front` 对应同级最后绘制，`back` 对应最先绘制。
 - `scale` 只缩放位置与尺寸，不修改 stroke-width 或字号；文本仅缩放 x/y。
 - 几何坐标有限，画布尺寸为正，尺寸、半径、线宽非负，factor 为正。
-- 基础版明确拒绝带非空 transform 的输入；优化阶段扩展并增加回归测试。
+- 基础版曾明确拒绝非空 transform；优化版支持 translate 和正等比 scale，导入时归一化，见后文。
 - 导入只承诺约定子集，不静默丢弃不支持的绘制元素；导入时先收集显式 id，再补 id。
 
 ## 过程记录
@@ -147,7 +147,7 @@
 - 领域模型的查找采用封装的树遍历，没有维护第二份可变 id 索引；对 Lab 规模优先减少一致性风险，后续性能需要时再增加索引。
 - 新增 GitHub Actions 配置，推送时运行相同检查。
 
-## 当前支持边界（基础版）
+## 最终支持边界
 
 - 支持 rect/circle/ellipse/line/text/g，纯文字 text，不支持 path、tspan、defs、CSS style 或完整 SVG 标准。
 - 几何长度支持纯数字及导入的 px；不支持百分比和相对单位。
@@ -155,6 +155,44 @@
 - 可保留 font-size、text-anchor、font-family、font-weight、opacity、fill-opacity、stroke-opacity 和 data-*；set 仍使用任务书白名单。
 - 本阶段没有 box 插件，复合图形专属 ungroup 错误没有可触发对象；带 data-kind 的 g 作为普通 g 处理，符合未安装插件时的降级语义。
 - 完整快照需要 O(文档大小 × 历史条数) 内存；本阶段不设历史上限。
-- transform 增强在基础版本验收提交后另行实现，最终报告将更新支持范围。
+- transform 已支持 translate、正等比 scale 及嵌套组合；不支持旋转、倾斜、非等比缩放和任意 matrix。
 
 - 补充交互 EOF 测试时发现输入已关闭后仍输出提示符会抛错；增加 close 状态检查，51 项测试全部通过。
+
+
+## transform 优化版本
+
+### 方案与落地
+
+基础版本验收提交为 `1e72db5`。其后单独增加 transform 支持，保留基础版本与优化版本的真实差异。
+
+选择**导入时归一化**：将父子变换合成为不可变 UniformTransform，再对叶子图形执行几何换算。保存为不含 transform 的普通 SVG，保留分组结构。
+
+采用此策略的原因是现有 move / scale 以文档几何坐标操作，归一化后无需在每条编辑命令中引入局部坐标与逆矩阵，跨容器移动也不会因坐标系改变而跳位。代价是保存时不能保留原始 transform 写法，归一化时可能增加显式字号和线宽。
+
+- `src/domain/UniformTransform.ts`：封装正等比缩放与平移，组合公式为 `parent(local(p))`。
+- `src/infrastructure/svg/TransformParser.ts`：协调多态语法对象 TranslationSyntax / ScaleSyntax，不新增按名称分发表。
+- `SvgCodec`：从根到叶传递累计变换，只对叶子应用一次，防止递归重复缩放。
+- `Shape` / `Text`：多态处理导入变换对线宽和字号的影响。CLI scale 仍严格只缩放几何属性，二者语义分开。
+
+支持 `translate(tx[,ty])`、`scale(s)`、`scale(s,s)`、浮点与科学计数法、空格或逗号参数分隔、同节点组合及嵌套叠加。比例必须为正且有限。组合顺序遵循 SVG，例如 translate 后写 scale 时，先缩放局部坐标再平移。
+
+### 验证与结果
+
+先增加 20 项增强测试，确认基础版本的 9 项有效变换测试失败；实现后 20 项全部通过，原有基础测试继续通过。累计 **71 项测试**，严格类型检查和生产构建通过。覆盖率为行 **99.42%**、分支 **87.80%**、函数 **100%**（不包括入口装配文件）。
+
+测试覆盖背景示例、变换顺序、继承线宽/字号、根节点变换、错误参数、普通编辑、精确撤销重做及保存读回。
+
+背景示例原图和归一化结果通过同一本地渲染器比较：400×200 像素、320000 个 RGBA 通道值中，44 个有差异，最大通道差 2/255，平均绝对差 0.000140625/255。存在微小光栅化差异，因此不宣称逐像素完全一致。
+
+数据：[transform-render-check.json](transform-render-check.json)。
+
+原始文件：[transform-original.svg](../examples/transform-original.svg)；归一化文件：[transform-normalized.svg](../examples/transform-normalized.svg)。
+
+![transform 归一化预览](../examples/transform-normalized.png)
+
+复现操作：`npm run cli < examples/transform.cli`。
+
+### 最终一致性补充
+
+增加的类仍归属 Domain 和 Infrastructure，模块依赖方向不变。完整架构检查包含这些新文件，仍无循环、无 switch 分派且一类一文件。没有扩展 CLI set 白名单，也没有提前实现 box 插件。

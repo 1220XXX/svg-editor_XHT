@@ -37,7 +37,7 @@ describe('SVG persistence', () => {
     ['<svg><rect></svg>', 'malformed XML'],
     [svg('<g id="x"/><circle id="x"/>'), 'id already exists: x'],
     [svg('<path id="x"/>'), 'unknown shape type: path'],
-    [svg('<g transform="translate(1,2)"/>'), 'unsupported SVG attribute: transform'],
+    [svg('<g transform="rotate(30)"/>'), 'unsupported or invalid SVG transform'],
     [svg('<text><tspan>A</tspan></text>'), 'unsupported child element'],
     ['<!DOCTYPE svg><svg/>', 'DOCTYPE'],
     ['<svg width="20" height="20" viewBox="0 0 40 40"/>', 'viewBox'],

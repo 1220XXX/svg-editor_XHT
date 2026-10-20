@@ -1,3 +1,4 @@
+import { Numeric } from '../Numeric.js';
 import { GeometryShape } from './GeometryShape.js';
 
 export class Text extends GeometryShape {
@@ -9,6 +10,12 @@ export class Text extends GeometryShape {
   override set(attribute: string, value: string): void {
     if (attribute === 'text') { this.text = value; return; }
     super.set(attribute, value);
+  }
+  override normalizePresentationScale(factor: number, inherited: Readonly<Record<string, string>>): void {
+    super.normalizePresentationScale(factor, inherited);
+    if (factor === 1) return;
+    const fontSize = Numeric.length(inherited['font-size'] ?? '16', 'font-size');
+    this.importPresentation('font-size', Numeric.format(Numeric.finite(fontSize * factor)));
   }
   override clone(): Text {
     const copy = new Text(this.id, this.value('x'), this.value('y'), this.text);
