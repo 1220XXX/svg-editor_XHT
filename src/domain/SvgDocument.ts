@@ -18,6 +18,10 @@ export class SvgDocument {
     Numeric.positive(width, 'canvas width'); Numeric.positive(height, 'canvas height');
     this.canvasWidth = width; this.canvasHeight = height;
   }
+  get presentation(): Readonly<Record<string, string>> {
+    const { id: _id, ...attributes } = this.root.attributes; return attributes;
+  }
+  importPresentation(name: string, value: string): void { this.root.importPresentation(name, value); }
   clone(): SvgDocument {
     const copy = new SvgDocument(this.width, this.height); copy.root = this.root.clone(); return copy;
   }
