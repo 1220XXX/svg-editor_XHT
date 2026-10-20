@@ -1,17 +1,84 @@
 # SVG 编辑器 · Lab1 Phase 1
 
-TypeScript 面向对象 CLI，使用 Command、Composite 和 Memento。
+使用 TypeScript 面向对象实现的 SVG 命令行编辑器，采用 **Command + Composite + Memento**。提供六种图形、分组、绘制顺序、撤销重做和 SVG 文件读写。
 
-开发正在按阶段推进。正式架构、过程记录、自查与质量报告见 [doc/README.md](doc/README.md)，原始要求见 [任务书](doc/phase_cli_1.md)。
+正式提交报告：**[doc/README.md](doc/README.md)** · [原始任务书](doc/phase_cli_1.md) · [架构图](doc/architecture.svg)
 
-## 运行
+## 安装与运行
 
-需要 Node.js 22 或以上。
+需要 Node.js 22 或以上，建议使用 Node.js 24。依赖版本已锁定。
 
 ```sh
 npm ci
 npm run cli
-npm run check
 ```
 
-最终版本将提供全部命令、可回放示例和 transform 增强。
+交互提示符为 `svg>`。使用 Ctrl+D 结束；整行 `#` 注释可以放入脚本。无需浏览器或图形界面即可编辑。
+
+```text
+init 800 600
+create g scene
+create rect r1 10 20 100 50 #4a90d9 in scene
+create text title 20 50 "Hello SVG" in scene
+move scene 30 10
+undo
+redo
+tree
+save demo.svg
+```
+
+`demo.svg` 可以直接拖入浏览器查看。相对文件路径以启动命令时的工作目录为基准。
+
+## 脚本与生产构建
+
+从项目根目录执行：
+
+```sh
+npm run cli < examples/flowchart.cli
+npm run build
+npm start < examples/flowchart.cli
+```
+
+脚本模式按顺序执行，在 EOF 退出，不输出提示符。单条命令失败输出一行 `error:`，随后继续下一条命令。
+
+示例产物：[flowchart.svg](examples/flowchart.svg)
+
+![两节点流程图](examples/flowchart.png)
+
+## 命令
+
+| 类别 | 命令 |
+|---|---|
+| 文档 | `init [w] [h]`、`read <file.svg>`、`save [file.svg]`、`canvas [w] [h]` |
+| 编辑 | `create`、`delete`、`move`、`scale`、`set` |
+| 树结构 | `group`、`ungroup`、`addto`、`front`、`back` |
+| 显示 | `tree [id]`、`show <id>`、`help` |
+| 历史 | `undo`、`redo` |
+
+图形创建语法：
+
+```text
+create rect <id> <x> <y> <w> <h> [fill] [in <gid>]
+create circle <id> <cx> <cy> <r> [fill] [in <gid>]
+create ellipse <id> <cx> <cy> <rx> <ry> [fill] [in <gid>]
+create line <id> <x1> <y1> <x2> <y2> [stroke] [in <gid>]
+create text <id> <x> <y> "content" [in <gid>]
+create g <id> [in <gid>]
+```
+
+执行 `help` 查看全部命令参数。id 大小写敏感、全文档唯一。带空格参数使用双引号，文字内的双引号和反斜杠分别写为 `\"` 和 `\\`。
+
+`set` 仅允许公共 `fill` / `stroke` / `stroke-width`、当前图形自身的几何属性以及文字的 `text`；不能用 `set` 修改 id。
+
+编辑按一条命令撤销；成功执行 init/read/save 或修改画布尺寸后清空并禁用历史，直到下一次成功编辑。只读 canvas 不影响历史。根级 g 按任务书规定不能 ungroup。
+
+## 验证
+
+```sh
+npm run check
+npm run test:coverage
+```
+
+`check` 包含严格类型检查、自动化测试和生产构建，测试同时约束模块依赖方向、一类一文件与无循环依赖。GitHub Actions 会在 push 和 pull request 时执行相同检查。
+
+支持范围、设计取舍、真实迭代过程和验收结果均记录在 [正式报告](doc/README.md) 中。

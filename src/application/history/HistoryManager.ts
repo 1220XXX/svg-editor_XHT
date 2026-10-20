@@ -1,12 +1,12 @@
 import { EditorError } from '../../domain/errors/EditorError.js';
 import type { SvgDocument } from '../../domain/SvgDocument.js';
-import type { EditingCommand } from '../commands/EditingCommand.js';
+import type { ReversibleEdit } from '../ports/ReversibleEdit.js';
 
 export class HistoryManager {
-  private readonly past: EditingCommand[] = [];
-  private readonly future: EditingCommand[] = [];
+  private readonly past: ReversibleEdit[] = [];
+  private readonly future: ReversibleEdit[] = [];
   private blocked = false;
-  record(command: EditingCommand): void {
+  record(command: ReversibleEdit): void {
     this.past.push(command); this.future.length = 0; this.blocked = false;
   }
   barrier(): void { this.past.length = 0; this.future.length = 0; this.blocked = true; }

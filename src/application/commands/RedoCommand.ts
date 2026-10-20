@@ -1,9 +1,9 @@
-import type { EditorSession } from '../EditorSession.js';
+import type { CommandContext } from '../ports/CommandContext.js';
 import { Command } from './Command.js';
 
 export class RedoCommand extends Command {
   
-  override async execute(session: EditorSession): Promise<readonly string[]> {
+  override async execute(session: CommandContext): Promise<readonly string[]> {
     this.args.expect(0); return [session.redo()];
   }
 }

@@ -1,9 +1,9 @@
-import type { EditorSession } from '../EditorSession.js';
+import type { CommandContext } from '../ports/CommandContext.js';
 import type { TreeNode } from '../TreeNode.js';
 import { Command } from './Command.js';
 
 export class TreeCommand extends Command {
-  override async execute(session: EditorSession): Promise<readonly string[]> {
+  override async execute(session: CommandContext): Promise<readonly string[]> {
     this.args.expect(0, 1);
     const root = session.tree(this.args.length ? this.args.value(0) : undefined);
     const lines = [root.summary];

@@ -3,14 +3,15 @@ import { EditorError } from '../domain/errors/EditorError.js';
 import { ShapeFactory } from '../domain/factories/ShapeFactory.js';
 import type { Shape } from '../domain/shapes/Shape.js';
 import type { Command } from './commands/Command.js';
-import type { EditingCommand } from './commands/EditingCommand.js';
+import type { ReversibleEdit } from './ports/ReversibleEdit.js';
+import type { CommandContext } from './ports/CommandContext.js';
 import { HistoryManager } from './history/HistoryManager.js';
 import { DocumentMemento } from './history/DocumentMemento.js';
 import type { TextStorage } from './ports/TextStorage.js';
 import type { DocumentCodec } from './ports/DocumentCodec.js';
 import type { TreeNode } from './TreeNode.js';
 
-export class EditorSession {
+export class EditorSession implements CommandContext {
   private document: SvgDocument | undefined;
   private filePath: string | undefined;
   private readonly history = new HistoryManager();
@@ -29,7 +30,7 @@ export class EditorSession {
     const document = this.current().clone(); document.resize(width, height);
     this.document = document; this.history.barrier(); return `canvas resized to ${width}x${height}`;
   }
-  edit(command: EditingCommand): string {
+  edit(command: ReversibleEdit): string {
     const before = new DocumentMemento(this.current());
     const working = before.restore();
     const result = command.apply(working);

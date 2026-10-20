@@ -18,6 +18,8 @@
 | `src/infrastructure/svg` | XML 解析及 SVG 序列化 |
 | `src/bootstrap` | 实例化、注入依赖、入口 |
 
+![PlantUML 组件图](architecture.svg)
+
 组件图源码：[architecture.puml](architecture.puml)。
 
 ### 设计模式
@@ -72,11 +74,36 @@
 
 ## 一致性自查
 
-实施完成后填写实际目录、模块依赖检查及方案修订；当前不宣称已通过。
+基础版本实际目录与规划一致。应用层追加 `Argument`、`TreeNode` 展示边界和 `CommandContext` / `ReversibleEdit` 接口，属于原模块内部细化。
+
+依赖检查覆盖所有 src 文件的本地导入，包含 type import：
+
+- Domain 仅依赖 Domain，无外部库或 Node API。
+- Application 仅依赖 Application / Domain。
+- CLI 依赖 Application；仅 REPL 使用终端 IO。
+- Infrastructure 实现应用端口，并使用 Domain。
+- Bootstrap 装配所有层，没有被反向导入。
+- 无导入循环、无 switch 分派；导出类与文件名一致。
+
+抽样：MoveCommand → SvgDocument；SvgCodec → DocumentCodec / ShapeFactory；LocalTextStorage → TextStorage；CliController → EditorSession / CommandFactory。`tests/architecture.test.ts` 将这些规则固化为自动检查。
 
 ## 质量保证手段
 
-随功能加入自动化测试，最终运行类型检查、测试、构建、CLI 脚本、SVG 往返及浏览器预览。结果在实际执行后记录。
+基础版本验收已执行 `npm run check`：严格类型检查、51 项测试和生产构建通过；`npm run test:coverage` 通过，行覆盖率 99.37%，分支覆盖率 86.62%。覆盖率排除纯装配入口，子进程 CLI 测试的执行不计入父进程覆盖率。
+
+| 要求 | 验证位置 |
+|---|---|
+| 六种图形、几何行为、字段封装 | `tests/domain.test.ts` |
+| 引号、颜色、注释、显示与无文档错误 | `tests/cli.test.ts` |
+| 撤销重做、历史屏障、失败原子性 | `tests/history.test.ts` |
+| 分组、解组、顺序、循环防护 | `tests/topology.test.ts` |
+| SVG 往返、缺 id、重复 id、失败 IO | `tests/persistence.test.ts` |
+| 任务书完整会话、两节点流程图、指定错误和真实 CLI | `tests/acceptance.test.ts` |
+| 模块依赖、一类一文件、循环依赖 | `tests/architecture.test.ts` |
+
+任务书的典型会话及 6.1 流程图均回放成功，保存的文件有 8 个图形元素。示例位于 `examples/`。
+
+浏览器工具因本地 file 协议策略拒绝预览，未绕过该限制；改用本地 SVG 渲染器生成 PNG 并检查。浏览器人工预览可由用户将 SVG 拖入浏览器完成。
 
 截止时间尚未提供，不能证明标签早于课程截止时间；最终记录真实标签时间与提交。
 
@@ -110,3 +137,24 @@
 - 保存写入同目录临时文件后替换，失败清理临时文件，不改变当前路径或历史。
 - 初次检查发现 DOM 类型允许 localName 为 null，改为使用合法标签名回退，随后严格类型检查通过。
 - `npm run check` 通过，累计 34 项测试，涵盖往返、补 id、重名、坏 XML、失败 IO 和真实文件写入。
+
+
+### 基础版本验收与架构修订
+
+- 新增架构检查后，发现 EditorSession 与命令类之间存在 type import 循环。虽然不形成运行时调用循环，仍违反方案的无循环规则。
+- 将命令所需接收者能力抽为 CommandContext，将历史条目能力抽为 ReversibleEdit；命令和历史面向接口，循环检查通过。这是一次由自动化证据驱动的 AI 方案修正。
+- 实际回放发现 tsx CLI 在受限环境创建 IPC 通道失败，改用 `node --import tsx`，保持 npm run cli 的用户入口不变，回放成功。
+- 领域模型的查找采用封装的树遍历，没有维护第二份可变 id 索引；对 Lab 规模优先减少一致性风险，后续性能需要时再增加索引。
+- 新增 GitHub Actions 配置，推送时运行相同检查。
+
+## 当前支持边界（基础版）
+
+- 支持 rect/circle/ellipse/line/text/g，纯文字 text，不支持 path、tspan、defs、CSS style 或完整 SVG 标准。
+- 几何长度支持纯数字及导入的 px；不支持百分比和相对单位。
+- viewBox 仅支持与画布一致的 `0 0 width height`，避免静默改变坐标。
+- 可保留 font-size、text-anchor、font-family、font-weight、opacity、fill-opacity、stroke-opacity 和 data-*；set 仍使用任务书白名单。
+- 本阶段没有 box 插件，复合图形专属 ungroup 错误没有可触发对象；带 data-kind 的 g 作为普通 g 处理，符合未安装插件时的降级语义。
+- 完整快照需要 O(文档大小 × 历史条数) 内存；本阶段不设历史上限。
+- transform 增强在基础版本验收提交后另行实现，最终报告将更新支持范围。
+
+- 补充交互 EOF 测试时发现输入已关闭后仍输出提示符会抛错；增加 close 状态检查，51 项测试全部通过。

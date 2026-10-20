@@ -1,4 +1,6 @@
 @startuml
+!pragma layout smetana
+skinparam backgroundColor #FFFFFF
 title SVG CLI — module dependencies
 component "CLI\nREPL / tokenizer / output" as CLI
 component "Application\nCommands / history / ports" as APP

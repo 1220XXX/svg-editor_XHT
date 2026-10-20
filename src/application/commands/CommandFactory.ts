@@ -48,7 +48,7 @@ export class CommandFactory {
       ['show', { syntax: 'show <id>', create: args => new ShowCommand(args) }],
       ['undo', { syntax: 'undo', create: args => new UndoCommand(args) }],
       ['redo', { syntax: 'redo', create: args => new RedoCommand(args) }],
-      ['help', { syntax: 'help', create: args => new HelpCommand(args, [...this.commands.values()].map(entry => entry.syntax)) }],
+      ['help', { syntax: 'help', create: args => new HelpCommand(args, [...this.commands.values()].map(entry => entry.syntax).concat(factory.help())) }],
     ]);
   }
   create(tokens: readonly Argument[]): Command {

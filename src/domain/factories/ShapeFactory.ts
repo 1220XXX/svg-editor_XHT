@@ -25,6 +25,10 @@ export class ShapeFactory {
     ['text', { keys: ['x', 'y'], text: true, create: (id, v, text) => new Text(id, v[0]!, v[1]!, text) }],
     ['g', { keys: [], create: id => new Group(id) }],
   ]);
+  help(): readonly string[] {
+    return [...this.definitions].map(([type, definition]) =>
+      `create ${type} <id>${definition.keys.map(key => ` <${key}>`).join('')}${definition.text ? ' "content"' : ''}${definition.paint ? ` [${definition.paint}]` : ''} [in <containerId>]`);
+  }
   create(type: string, id: string, args: readonly string[]): Shape {
     const definition = this.definition(type);
     const count = definition.keys.length + (definition.text ? 1 : 0);
