@@ -1,10 +1,12 @@
 import { EditorError } from '../errors/EditorError.js';
+import { SvgValue } from '../SvgValue.js';
 import { Numeric } from '../Numeric.js';
 
 export abstract class Shape {
   private readonly styles = new Map<string, string>();
   private readonly metadata = new Map<string, string>();
   protected constructor(private readonly shapeId: string) {
+    SvgValue.validate(shapeId, 'id');
     if (!shapeId || /[\s"'<>/=]/.test(shapeId)) throw new EditorError(`invalid id: ${shapeId}`);
   }
   get id(): string { return this.shapeId; }
@@ -26,6 +28,7 @@ export abstract class Shape {
     this.importPresentation(attribute, value);
   }
   importPresentation(attribute: string, value: string): void {
+    SvgValue.validate(value, attribute);
     const allowed = ['fill', 'stroke', 'stroke-width', 'font-size', 'text-anchor',
       'font-family', 'font-weight', 'opacity', 'fill-opacity', 'stroke-opacity'];
     if (!allowed.includes(attribute)) throw new EditorError(`unsupported SVG attribute: ${attribute}`);
@@ -43,6 +46,7 @@ export abstract class Shape {
     this.importPresentation('stroke-width', Numeric.format(Numeric.finite(width * factor)));
   }
   importMetadata(attribute: string, value: string): void {
+    SvgValue.validate(value, attribute);
     if (!attribute.startsWith('data-')) throw new EditorError(`unsupported SVG attribute: ${attribute}`);
     this.metadata.set(attribute, value);
   }

@@ -1,14 +1,16 @@
+import { SvgValue } from '../SvgValue.js';
 import { Numeric } from '../Numeric.js';
 import { GeometryShape } from './GeometryShape.js';
 
 export class Text extends GeometryShape {
   constructor(id: string, x: number, y: number, private text: string) {
     super(id, { x, y }, ['x'], ['y']);
+    this.text = SvgValue.validate(text, 'text');
   }
   override get type(): string { return 'text'; }
   override get content(): string { return this.text; }
   override set(attribute: string, value: string): void {
-    if (attribute === 'text') { this.text = value; return; }
+    if (attribute === 'text') { this.text = SvgValue.validate(value, 'text'); return; }
     super.set(attribute, value);
   }
   override normalizePresentationScale(factor: number, inherited: Readonly<Record<string, string>>): void {

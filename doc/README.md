@@ -1,198 +1,191 @@
-# Lab1 Phase 1：架构与开发报告
+# Lab1 Phase 1：SVG 编辑器架构与开发报告
+
+任务书：[phase_cli_1.md](phase_cli_1.md)；运行入口：[工程 README](../README.md)。本项目使用 TypeScript 面向对象实现，源代码一类一文件、字段封装、行为通过多态执行。
 
 ## 架构方案
 
 ### 模块划分
 
-| 目录 | 职责 |
+| 目录 | 职责与代表类 |
 |---|---|
-| `src/cli/parsing` | 识别引号和参数，整行注释，不截断十六进制颜色 |
-| `src/cli/formatting` | 输出应用层提供的展示数据 |
-| `src/application/commands` | 命令对象、业务用例与执行分类 |
-| `src/application/history` | 编辑事务、文档快照、undo/redo |
-| `src/application/ports` | 存储和 SVG 编解码端口 |
-| `src/domain/shapes` | 封装几何行为的图形与容器类 |
-| `src/domain/factories` | 唯一的图形类型分发位置 |
-| `src/domain/errors` | 领域错误 |
-| `src/infrastructure/filesystem` | 本地文件读写 |
-| `src/infrastructure/svg` | XML 解析及 SVG 序列化 |
-| `src/bootstrap` | 实例化、注入依赖、入口 |
+| `src/cli` | CliController 协调输入与应用服务；Repl 管理提示符、逐行执行和 EOF |
+| `src/cli/parsing` | Tokenizer 识别引号、转义、整行注释，不截断颜色中的 # |
+| `src/cli/formatting` | OutputFormatter 统一单行 error 前缀 |
+| `src/application` | EditorSession 管理当前文档、路径和用例；Argument / TreeNode 定义输入展示边界 |
+| `src/application/commands` | Command 及每条命令的具体类，封装参数和行为 |
+| `src/application/history` | HistoryManager 管理历史，DocumentMemento 封装文档快照 |
+| `src/application/ports` | CommandContext / ReversibleEdit 解耦接收者与历史；TextStorage / DocumentCodec 隔离 IO |
+| `src/domain` | SvgDocument 维护树和约束；Numeric / SvgValue 校验值；UniformTransform 封装变换组合 |
+| `src/domain/shapes` | Shape / GeometryShape 和 Rect、Circle、Ellipse、Line、Text、Group |
+| `src/domain/factories` | ShapeFactory 集中创建图形，CLI 和 SVG 导入复用 |
+| `src/domain/errors` | EditorError 表达领域及用例错误 |
+| `src/infrastructure/filesystem` | LocalTextStorage 读写文件，临时文件加替换保证保存完整性 |
+| `src/infrastructure/svg` | SvgCodec 进行 XML 转换；TransformParser 和多态语法对象解析变换 |
+| `src/bootstrap` | Main 装配实例和依赖，不包含图形业务 |
 
 ![PlantUML 组件图](architecture.svg)
 
-组件图源码：[architecture.puml](architecture.puml)。
+可编辑的 PlantUML 源文件：[architecture.puml](architecture.puml)。
 
-### 设计模式
+### 设计模式的选择及落地
 
-- **Command（必需）**：每条命令由命令类执行，编辑行为通过应用服务进入事务和历史。
-- **Composite**：`Shape` 统一行为，六种内置图形实现多态，`Group` 递归操作孩子。
-- **Memento**：编辑在文档副本中执行，成功后提交。命令保存前后状态，撤销与重做恢复完整树，避免逆运算误差。
-- **Factory**：集中处理类型到构造行为的映射，CLI 和 SVG 导入复用。
+**Command（任务书强制）**：每条命令有独立类。EditingCommand 定义 execute / apply / undo / redo，MoveCommand、GroupCommand 等实现具体用例。EditorSession 调用命令，HistoryManager 通过 ReversibleEdit 接口维护历史。CLI 不直接修改图形字段。
 
-按名称分发仅允许两处：命令注册表和图形工厂。它们是后续插件阶段的待重构点；本阶段不散布 `switch(tag)`，不实现动态插件系统。`box` 必须报未知类型。
+**Composite**：Shape 为统一抽象，Group 持有 Shape 子节点。move / scale 经由多态在叶子修改几何数据，在容器递归操作孩子。set 使用统一接口，g 允许公共样式，具体图形允许自身几何属性，Text 额外允许 text。删除容器删除整棵子树。
+
+**Memento**：每次编辑在文档工作副本中执行；校验和修改全部成功才提交。命令保存前后快照，撤销、重做恢复完整状态。因此分组、跨父节点移动、删除子树和绘制顺序都可以一次准确恢复，也避免以浮点逆运算实现撤销的误差。快照不包含历史管理器自身。
+
+代价是历史占用 O(文档大小 × 历史条数) 内存。对本 Lab 优先保证正确性，当前不设置历史上限；大文档场景再换差量记录。
+
+**Factory**：ShapeFactory 是唯一的图形类型名分发点。几何与样式行为由图形对象实现，导入和命令代码不各写一套类型判断。
+
+按名称分发只保留两处：`CommandFactory` 的命令注册表与 `ShapeFactory` 的图形定义表。**两处均标注为后续插件化阶段的待重构项**。其他代码不使用 switch 分派图形，transform 解析使用多态语法对象匹配，没有增加第三张名称到实现的分发表。
+
+本阶段不实现 ShapeProvider 动态插件，也不实现 box。`create box` 必须报未知类型。带 `data-kind="box"` 的外部 g 作为普通容器读入并保留标记，符合未安装插件时的降级语义；因此本阶段不存在需要触发“不能解组插件复合图形”错误的对象。
 
 ### 依赖方向规则
 
-1. Domain 不依赖其他业务模块、Node IO 或 XML 库。
-2. Application 依赖 Domain，通过自身端口访问存储和编解码。
-3. CLI 仅依赖 Application，不直接修改图形内部字段。
-4. Infrastructure 依赖端口和 Domain，不能反向依赖 CLI。
-5. Bootstrap 负责装配，可以依赖所有层；其他层不能依赖 Bootstrap。
-6. 禁止循环依赖。一类一文件、字段封装、TypeScript 严格类型检查。
+1. Domain 只能依赖 Domain，不依赖应用层、CLI、Node IO 或第三方 XML 库。
+2. Application 可以依赖 Application / Domain，持久化通过自身接口表达。
+3. CLI 可以依赖 CLI / Application，不直接访问领域内部状态；终端 IO 只在 REPL 边界发生。
+4. Infrastructure 可以依赖 Infrastructure / Application / Domain，用于实现端口和数据转换，不能依赖 CLI。
+5. Bootstrap 可以依赖所有层；其他层不得依赖 Bootstrap。
+6. 包含 type import 在内禁止循环依赖。一类一文件，导出类名与文件名一致。
 
-### 变化点假设与取舍
+这些规则使编辑用例能够复用于 GUI / agent 输入，XML 库和存储方式能够独立替换。接口与领域对象之间仅在边界使用只读展示数据，不以公共数据袋代替领域行为。
 
-| 变化点 | 本阶段准备 / 不做的原因 |
+### 变化点假设
+
+| 可能变化 | 留下的结构 / 当前取舍 |
 |---|---|
-| 新命令 | 命令对象与集中注册 |
-| 新图形 | 多态图形和工厂；后续再引入 ShapeProvider |
-| GUI / agent 输入 | 复用应用接口，不依赖终端 |
-| 更换存储 | 注入存储端口 |
-| 大文档历史 | 未来替换为差量记录；当前完整快照换取正确性 |
-| SVG 变换 | 必做功能完成后单独实现 translate、正等比 scale 及嵌套组合 |
+| 新增命令 | 命令对象和集中注册，后续引入注册接口 |
+| 新增图形及 box | 统一图形抽象与工厂；后续建立 ShapeProvider，不提前实现插件加载器 |
+| GUI / agent 输入 | 复用 CommandContext 和应用层，不绑定终端 |
+| 更换存储或 XML 库 | 通过 TextStorage / DocumentCodec 隔离 |
+| 大文档 | 当前封装树遍历查找，避免维护第二份可变 id 索引；需要时再增加索引和差量历史 |
+| 更广泛 SVG | 独立转换层；当前不建设完整 SVG/CSS 渲染引擎 |
 
-### 语义补充
+### 对任务书未明确处的补充决策
 
-- 同父分组占据最早选中位置；跨父分组放在根层最早受影响分支的位置，孩子按编辑前的先序遍历排序。
-- 失败命令不改变文档、历史和文件路径。成功文档操作清空历史并禁用 undo/redo，直到下一条成功编辑。
-- `canvas` 只读查询不影响历史。`front` 对应同级最后绘制，`back` 对应最先绘制。
-- `scale` 只缩放位置与尺寸，不修改 stroke-width 或字号；文本仅缩放 x/y。
-- 几何坐标有限，画布尺寸为正，尺寸、半径、线宽非负，factor 为正。
-- 基础版曾明确拒绝非空 transform；优化版支持 translate 和正等比 scale，导入时归一化，见后文。
-- 导入只承诺约定子集，不静默丢弃不支持的绘制元素；导入时先收集显式 id，再补 id。
+- 同父分组占据最早被选节点的位置；跨父分组放在根层最早受影响顶层分支的位置。孩子保持编辑前全树先序遍历顺序，不按命令参数顺序重排。
+- `addto` 将节点作为目标容器最后一个孩子；禁止自包含和祖先移入后代。
+- `front` 为同级最后绘制，`back` 为最先绘制。严格禁止解组根级 g。
+- `set g fill` 等设置 g 自身属性，效果遵循 SVG 样式继承；不强行覆盖孩子已有的显式样式。
+- CLI `scale` 只乘位置与尺寸，不改变线宽或字号；text 的几何属性仅 x/y。
+- 数值必须有限；画布尺寸为正；图形尺寸、半径、线宽非负；缩放因子为正。
+- init 的默认尺寸为 800×600；只给宽度时高度使用 600。
+- 首次保存新建文档必须给路径，成功保存后记住该路径；init 清空原路径。
+- 成功 init/read/save 或 canvas 修改尺寸后清空历史并设置禁用标记；下一条成功编辑解禁。失败命令不改变文档、路径、历史和禁用状态。只读 canvas 不影响历史。
+- 缺 id 时先保留全部显式 id，再按标签序号补全；整次导入成功后才输出警告。显式重名导致整次读取失败。
+
+### SVG 支持范围与 transform 优化方案
+
+支持六种图形及约定的几何与样式。纯文字 text，不支持 path、tspan、defs、CSS style、百分比或相对长度。几何长度可导入纯数字及 px。viewBox 仅接受与画布一致的 `0 0 width height`。对不支持的结构明确报错，避免静默丢图。
+
+除任务书属性外，导入保留 font-size、text-anchor、font-family、font-weight、opacity、fill-opacity、stroke-opacity 和 data-*；CLI set 仍使用原任务书白名单。XML 由 `@xmldom/xmldom` 解析和转义，使用严格错误回调，拒绝 DOCTYPE。[官方 API 依据](https://github.com/xmldom/xmldom)。
+
+transform 在基础功能验收后独立增强，支持：
+
+- `translate(tx[,ty])`；`scale(s)` 和 `scale(s,s)`，比例必须为正且有限。
+- 浮点、科学计数法、空格或逗号分隔、同节点组合、父子嵌套。
+- 不支持 rotate、skew、非等比 scale 或任意 matrix。
+
+选择**导入时归一化**：UniformTransform 以 `parent(local(p))` 合成变换，SvgCodec 从根向叶传递累计值，只对叶子应用一次。归一化同时处理继承线宽和文字字号，保存为普通 SVG 并保留分组。
+
+这样现有 move / scale / group / addto 可以继续使用统一几何坐标，无需每条命令计算逆矩阵。代价是保存不能保留原始 transform 写法，可能增加显式线宽和字号。CLI scale 与导入变换的排版缩放使用独立方法，避免改变任务书命令语义。
 
 ## 过程记录
 
-### 2026-10-20：设计确认与工程建立
+以下记录均来自本次真实讨论、实现和验证，没有虚构人工审查或测试结果。
 
-- 用户强调架构、恰当的设计模式、GitHub 分步推送、最终 `final` 标签和 Markdown 文档。
-- 完整阅读任务书，确认 TypeScript OO、Command 为强制要求；`box` 为后续阶段内容。
-- 讨论发现 transform 仅出现在背景示例，未列为本阶段明确必做项。用户同意先完成基本验收，再以独立功能提交实现增强。
-- 当前远程仓库为空，先建立工程与报告，再按领域模型、基础命令、历史、树结构、文件读写、验收、变换优化逐步提交。
-- 本机默认没有 Node.js，采用现有运行环境完成开发；项目本身使用标准 npm 命令与锁文件。
-- Git 作者使用已认证 GitHub 资料及 GitHub noreply 地址，只设置在本仓库，不改动全局配置。
+| 阶段 / 提交 | 讨论、实现与证据 |
+|---|---|
+| 设计 `8a4f6e8` | 完整阅读任务书，用户确认技术路线。区分背景 transform 与明确必做命令；用户批准完成基础版本后再独立增强。建立工程、文档、锁文件并推送空仓库。 |
+| 领域 `b66caf8` | 封装六种图形和文档树，验证嵌套移动、复制独立性、唯一 id、白名单及尺寸约束，8 项测试通过。 |
+| 命令与历史 `4d40a03` | CLI 和事务历史一并接入，避免建立绕过事务的临时编辑路径。测试溢出失败、历史屏障及 redo 清空，累计 15 项。 |
+| 树操作 `a136a93` | 接入分组、解组、重新归属和绘制顺序，验证父容器及节点顺序精确恢复，累计 21 项。 |
+| 文件 `bc8db78` | 接入存储和编解码端口，验证读写往返、补 id、重复 id、坏 XML、失败 IO，累计 34 项。DOM localName 的可空类型问题由类型检查发现并修复。 |
+| 基础验收 `1e72db5` | 任务书会话和流程图回放、架构检查、生产构建、报告和架构图完成，51 项测试通过。 |
+| 优化 `6ea667a` | 先增加 transform 用例，基础版 9 项有效变换用例失败，确认限制；实现后全部通过，累计 71 项。该功能使用独立提交并推送。 |
+| 最终修复 | 审查发现非法 XML 字符可使保存文件无法读回，新增测试复现，再通过 SvgValue 校验修复。补充合法中文及 supplementary Unicode 往返测试，累计 76 项通过。 |
+
+关键修订依据：
+
+1. **依赖循环修正**：架构测试发现 EditorSession 和命令之间存在 type import 循环。即使没有运行时循环，也违反设计规则，因此抽出 CommandContext / ReversibleEdit，重新检查通过。
+2. **启动方式修正**：实际回放发现 tsx 启动器在受限环境建立 IPC 失败，改为 `node --import tsx`，保持 `npm run cli` 不变。随后脚本回放成功。
+3. **交互 EOF 修正**：终端测试发现输入关闭后仍请求提示符会抛错，增加 close 状态检查，保留已读命令的串行执行。
+4. **变换重复处理防护**：累计变换只作用于叶子，避免 Group.scale 递归与导入递归叠加造成重复缩放；专项测试覆盖抵消缩放和样式继承。
+5. **预览方式修订**：浏览器工具禁止 file 协议，未绕过；使用本地 SVG 渲染器生成 PNG 并视觉检查，报告不声称已完成浏览器人工预览。
+
+本机默认无 Node.js，开发时使用已有运行环境和标准 npm。Git 作者使用已认证 GitHub 资料与 noreply 地址，仅设置在本仓库；代理也只设置在本仓库，未修改全局设置。
 
 ## 一致性自查
 
-基础版本实际目录与规划一致。应用层追加 `Argument`、`TreeNode` 展示边界和 `CommandContext` / `ReversibleEdit` 接口，属于原模块内部细化。
+**模块划分是否一致？** 一致。Argument、TreeNode、命令接收者接口和 transform 语法对象是原模块内部细化；领域层增加 UniformTransform / SvgValue。没有新增未说明的业务层或将 IO 放进领域模型。命令与历史合并为一个开发阶段的理由已记入过程记录。
 
-依赖检查覆盖所有 src 文件的本地导入，包含 type import：
+**依赖规则是否违反？** 最终检查未发现违反。`tests/architecture.test.ts` 遍历全部源文件的本地导入，包括类型导入，验证允许的模块方向、外部依赖隔离、一类一文件、无循环依赖和无 switch 分派。
 
-- Domain 仅依赖 Domain，无外部库或 Node API。
-- Application 仅依赖 Application / Domain。
-- CLI 依赖 Application；仅 REPL 使用终端 IO。
-- Infrastructure 实现应用端口，并使用 Domain。
-- Bootstrap 装配所有层，没有被反向导入。
-- 无导入循环、无 switch 分派；导出类与文件名一致。
+抽样关系：
 
-抽样：MoveCommand → SvgDocument；SvgCodec → DocumentCodec / ShapeFactory；LocalTextStorage → TextStorage；CliController → EditorSession / CommandFactory。`tests/architecture.test.ts` 将这些规则固化为自动检查。
+- MoveCommand → SvgDocument / EditingCommand / CommandContext。
+- HistoryManager → ReversibleEdit → DocumentMemento → SvgDocument。
+- SvgCodec → DocumentCodec / ShapeFactory / UniformTransform。
+- LocalTextStorage → TextStorage，文件系统只在其实现中访问。
+- CliController → EditorSession / CommandFactory，无 Domain 导入。
+- Main 装配各层，没有被其他模块引用。
+
+代码内按名称分发仍只有命令工厂和图形工厂两处。没有公共几何数据袋，没有散落的图形类型 switch。当前没有待处理的依赖违规。
 
 ## 质量保证手段
 
-基础版本验收已执行 `npm run check`：严格类型检查、51 项测试和生产构建通过；`npm run test:coverage` 通过，行覆盖率 99.37%，分支覆盖率 86.62%。覆盖率排除纯装配入口，子进程 CLI 测试的执行不计入父进程覆盖率。
+### 需求与验证对应
 
 | 要求 | 验证位置 |
 |---|---|
-| 六种图形、几何行为、字段封装 | `tests/domain.test.ts` |
-| 引号、颜色、注释、显示与无文档错误 | `tests/cli.test.ts` |
-| 撤销重做、历史屏障、失败原子性 | `tests/history.test.ts` |
-| 分组、解组、顺序、循环防护 | `tests/topology.test.ts` |
-| SVG 往返、缺 id、重复 id、失败 IO | `tests/persistence.test.ts` |
-| 任务书完整会话、两节点流程图、指定错误和真实 CLI | `tests/acceptance.test.ts` |
-| 模块依赖、一类一文件、循环依赖 | `tests/architecture.test.ts` |
+| 六种图形、多态几何行为、封装 | `tests/domain.test.ts` |
+| 引号、颜色、注释、显示、无文档错误 | `tests/cli.test.ts` |
+| 撤销重做、屏障、失败原子性 | `tests/history.test.ts` |
+| 分组、解组、顺序、循环防护、子树删除 | `tests/topology.test.ts` |
+| SVG 往返、补 id、重名、失败 IO、真实文件替换 | `tests/persistence.test.ts` |
+| 任务书完整会话、两节点流程图、指定错误、真实 CLI | `tests/acceptance.test.ts` |
+| 交互提示符、EOF、串行输入、转义 | `tests/repl.test.ts` |
+| 模块边界、类文件名、循环依赖 | `tests/architecture.test.ts` |
+| 背景变换、顺序、排版、编辑、往返、非法变换 | `tests/transform.test.ts` |
+| 非法 XML 字符拒绝、合法 Unicode 往返 | `tests/xml-values.test.ts` |
 
-任务书的典型会话及 6.1 流程图均回放成功，保存的文件有 8 个图形元素。示例位于 `examples/`。
+### 最终执行结果
 
-浏览器工具因本地 file 协议策略拒绝预览，未绕过该限制；改用本地 SVG 渲染器生成 PNG 并检查。浏览器人工预览可由用户将 SVG 拖入浏览器完成。
+2026-10-20（Asia/Shanghai）完成：
 
-截止时间尚未提供，不能证明标签早于课程截止时间；最终记录真实标签时间与提交。
+- 从锁文件重新执行 `npm ci`，安装成功，依赖审计 0 漏洞。
+- `npm run check` 通过：严格类型检查、**10 个测试文件 / 76 项测试**、生产构建。
+- `npm run test:coverage` 通过：行 **99.43%**、分支 **88.20%**、函数 **100%**。覆盖率排除纯装配入口，子进程执行不计入父进程统计。
+- `npm run cli` 与构建后的 `npm start` 均完成流程图和 transform 脚本回放。
+- 任务书流程图保存为 8 个元素；背景变换图保存为 6 个元素，补 id 警告正确。
+- Git diff 空白检查通过。GitHub Actions 已配置 push / pull_request 时运行同一套检查；本报告的通过结论依据本地实际运行，不冒充远程工作流结果。
 
-### 领域模型阶段
+### 图形检查
 
-- 建立 Shape / GeometryShape / 六种内置类型和 SvgDocument，字段封装，样式快照和子节点数组均不暴露可变集合。
-- 领域层预先实现树操作约束；对应命令和拓扑测试在后续阶段接入。
-- 基础图形、嵌套移动、快照独立性、唯一 id、白名单和非法尺寸共 8 个测试通过，严格类型检查通过。
-- XML 库最终选择 `@xmldom/xmldom`，在基础设施层使用 DOM API，依据官方项目文档：https://github.com/xmldom/xmldom。
+示例：[flowchart.svg](../examples/flowchart.svg)、[transform-original.svg](../examples/transform-original.svg)、[transform-normalized.svg](../examples/transform-normalized.svg)。
 
-### CLI 与历史阶段
+![两节点流程图](../examples/flowchart.png)
 
-- 接入引号词法分析、命令工厂、REPL、基础编辑和 tree/show/help。
-- Command 与历史在本阶段一并接入：EditingCommand 的 execute/apply/undo/redo 与前后 Memento 相互配合，避免先实现一条绕过事务的临时编辑路径。
-- 失败编辑在独立文档副本中丢弃；测试覆盖递归缩放溢出、redo 保留/清空以及文档操作后的历史屏障。
-- `npm run check` 通过：15 项测试、严格类型检查、生产构建。
-- 文件端口已定义，实际 SVG IO 在后续阶段注入；基础版暂不配置持久化。
+![变换归一化预览](../examples/transform-normalized.png)
 
-### 树结构命令阶段
+背景原图与归一化图使用同一本地渲染器比较：400×200 像素、320000 个 RGBA 通道值中，44 个不同，最大差 2/255，平均绝对差 0.000140625/255。存在微小光栅化差异，不宣称逐像素完全一致。[原始比较数据](transform-render-check.json)。
 
-- 接入 group / ungroup / addto / front / back，原有领域约束由各命令复用。
-- 测试确认 group 采用文档原顺序而非参数顺序；跨父分组和解组均能一次撤销恢复父容器及节点位置。
-- 验证禁止祖先与后代同时分组、自包含及循环归属、根级解组；删除子树后 id 不可寻址，撤销后恢复。
-- `npm run check` 通过，累计 21 项测试。
+用户可将 SVG 直接拖入浏览器进一步检查，无需安装编辑器插件。
 
-### SVG 文件阶段
+### GitHub 交付
 
-- 通过 DocumentCodec / TextStorage 端口接入真实 SVG 和文件系统，不让应用层依赖 XML 或文件 API。
-- 导入先保留所有显式 id，再以标签序号补 id；警告只在整次导入成功后输出。XML 使用严格错误回调，文本交给 DOM API 转义。
-- 扩展导入样式以保留背景示例中的字号、字体和文字对齐；命令 set 仍严格使用任务书白名单。未知 data-* 作为元数据保留，data-kind="box" 降级为普通 g。
-- 保存写入同目录临时文件后替换，失败清理临时文件，不改变当前路径或历史。
-- 初次检查发现 DOM 类型允许 localName 为 null，改为使用合法标签名回退，随后严格类型检查通过。
-- `npm run check` 通过，累计 34 项测试，涵盖往返、补 id、重名、坏 XML、失败 IO 和真实文件写入。
+代码按上述阶段真实提交并推送至用户指定的私有仓库。transform 优化是基础验收后的独立变更。最终代码和报告提交后，在最终提交创建附注标签 **`final`**，随后推送并核验远程 main 与标签指向。
 
+最终提交与标签的真实时间可通过以下命令查验：
 
-### 基础版本验收与架构修订
+```sh
+git log --oneline --decorate
+git show --no-patch final
+git ls-remote origin refs/heads/main refs/tags/final 'refs/tags/final^{}'
+```
 
-- 新增架构检查后，发现 EditorSession 与命令类之间存在 type import 循环。虽然不形成运行时调用循环，仍违反方案的无循环规则。
-- 将命令所需接收者能力抽为 CommandContext，将历史条目能力抽为 ReversibleEdit；命令和历史面向接口，循环检查通过。这是一次由自动化证据驱动的 AI 方案修正。
-- 实际回放发现 tsx CLI 在受限环境创建 IPC 通道失败，改用 `node --import tsx`，保持 npm run cli 的用户入口不变，回放成功。
-- 领域模型的查找采用封装的树遍历，没有维护第二份可变 id 索引；对 Lab 规模优先减少一致性风险，后续性能需要时再增加索引。
-- 新增 GitHub Actions 配置，推送时运行相同检查。
-
-## 最终支持边界
-
-- 支持 rect/circle/ellipse/line/text/g，纯文字 text，不支持 path、tspan、defs、CSS style 或完整 SVG 标准。
-- 几何长度支持纯数字及导入的 px；不支持百分比和相对单位。
-- viewBox 仅支持与画布一致的 `0 0 width height`，避免静默改变坐标。
-- 可保留 font-size、text-anchor、font-family、font-weight、opacity、fill-opacity、stroke-opacity 和 data-*；set 仍使用任务书白名单。
-- 本阶段没有 box 插件，复合图形专属 ungroup 错误没有可触发对象；带 data-kind 的 g 作为普通 g 处理，符合未安装插件时的降级语义。
-- 完整快照需要 O(文档大小 × 历史条数) 内存；本阶段不设历史上限。
-- transform 已支持 translate、正等比 scale 及嵌套组合；不支持旋转、倾斜、非等比缩放和任意 matrix。
-
-- 补充交互 EOF 测试时发现输入已关闭后仍输出提示符会抛错；增加 close 状态检查，51 项测试全部通过。
-
-
-## transform 优化版本
-
-### 方案与落地
-
-基础版本验收提交为 `1e72db5`。其后单独增加 transform 支持，保留基础版本与优化版本的真实差异。
-
-选择**导入时归一化**：将父子变换合成为不可变 UniformTransform，再对叶子图形执行几何换算。保存为不含 transform 的普通 SVG，保留分组结构。
-
-采用此策略的原因是现有 move / scale 以文档几何坐标操作，归一化后无需在每条编辑命令中引入局部坐标与逆矩阵，跨容器移动也不会因坐标系改变而跳位。代价是保存时不能保留原始 transform 写法，归一化时可能增加显式字号和线宽。
-
-- `src/domain/UniformTransform.ts`：封装正等比缩放与平移，组合公式为 `parent(local(p))`。
-- `src/infrastructure/svg/TransformParser.ts`：协调多态语法对象 TranslationSyntax / ScaleSyntax，不新增按名称分发表。
-- `SvgCodec`：从根到叶传递累计变换，只对叶子应用一次，防止递归重复缩放。
-- `Shape` / `Text`：多态处理导入变换对线宽和字号的影响。CLI scale 仍严格只缩放几何属性，二者语义分开。
-
-支持 `translate(tx[,ty])`、`scale(s)`、`scale(s,s)`、浮点与科学计数法、空格或逗号参数分隔、同节点组合及嵌套叠加。比例必须为正且有限。组合顺序遵循 SVG，例如 translate 后写 scale 时，先缩放局部坐标再平移。
-
-### 验证与结果
-
-先增加 20 项增强测试，确认基础版本的 9 项有效变换测试失败；实现后 20 项全部通过，原有基础测试继续通过。累计 **71 项测试**，严格类型检查和生产构建通过。覆盖率为行 **99.42%**、分支 **87.80%**、函数 **100%**（不包括入口装配文件）。
-
-测试覆盖背景示例、变换顺序、继承线宽/字号、根节点变换、错误参数、普通编辑、精确撤销重做及保存读回。
-
-背景示例原图和归一化结果通过同一本地渲染器比较：400×200 像素、320000 个 RGBA 通道值中，44 个有差异，最大通道差 2/255，平均绝对差 0.000140625/255。存在微小光栅化差异，因此不宣称逐像素完全一致。
-
-数据：[transform-render-check.json](transform-render-check.json)。
-
-原始文件：[transform-original.svg](../examples/transform-original.svg)；归一化文件：[transform-normalized.svg](../examples/transform-normalized.svg)。
-
-![transform 归一化预览](../examples/transform-normalized.png)
-
-复现操作：`npm run cli < examples/transform.cli`。
-
-### 最终一致性补充
-
-增加的类仍归属 Domain 和 Infrastructure，模块依赖方向不变。完整架构检查包含这些新文件，仍无循环、无 switch 分派且一类一文件。没有扩展 CLI set 白名单，也没有提前实现 box 插件。
+**用户尚未提供课程截止时间，因此不能证明 final 早于课程截止时间。** 标签记录真实创建时间，不回填或修改时间。

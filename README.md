@@ -95,3 +95,5 @@ npm run cli < examples/transform.cli
 ![背景示例归一化效果](examples/transform-normalized.png)
 
 不支持 rotate / skew / 非等比 scale / 任意 matrix。遇到超出范围的结构会报错，保持当前文档不变。完整范围和验证数据见正式报告。
+
+最终验收：76 项自动化测试、严格类型检查、生产构建及两个示例的源码/构建版回放通过。`final` 标签对应交付版本；过程与限制详见正式报告。
