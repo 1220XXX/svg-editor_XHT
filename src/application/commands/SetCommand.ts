@@ -7,4 +7,9 @@ export class SetCommand extends EditingCommand {
     shape.set(this.args.value(1), this.args.value(2));
     return `${shape.label} updated: ${this.args.value(1)}=${JSON.stringify(this.args.value(2))}`;
   }
+  protected override undoMessage(document: SvgDocument): string {
+    const shape = document.find(this.args.value(0)), attribute = this.args.value(1);
+    const value = attribute === 'text' ? shape.content : shape.attributes[attribute];
+    return `${shape.label} updated: ${attribute}=${value === undefined ? '<unset>' : JSON.stringify(value)}`;
+  }
 }

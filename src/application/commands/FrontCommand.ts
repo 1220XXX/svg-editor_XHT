@@ -6,4 +6,8 @@ export class FrontCommand extends EditingCommand {
     this.args.expect(1); const id = this.args.value(0);
     document.reorder(id, true); return `${document.find(id).label} brought to front`;
   }
+  protected override undoMessage(document: SvgDocument): string {
+    const id = this.args.value(0);
+    return `${document.find(id).label} draw order restored in ${document.parentLabel(id)}`;
+  }
 }

@@ -9,16 +9,18 @@ export abstract class EditingCommand extends Command {
   private after: DocumentMemento | undefined;
   private result = '';
   abstract apply(document: SvgDocument): string;
+  protected abstract undoMessage(document: SvgDocument): string;
   override async execute(session: CommandContext): Promise<readonly string[]> { return [session.edit(this)]; }
   remember(before: DocumentMemento, after: DocumentMemento, result: string): void {
     this.before = before; this.after = after; this.result = result;
   }
   undo(): { document: SvgDocument; message: string } {
     if (!this.before) throw new EditorError('command was not executed');
-    return { document: this.before.restore(), message: `undone: ${this.result}` };
+    const document = this.before.restore();
+    return { document, message: this.undoMessage(document) };
   }
   redo(): { document: SvgDocument; message: string } {
     if (!this.after) throw new EditorError('command was not executed');
-    return { document: this.after.restore(), message: `redone: ${this.result}` };
+    return { document: this.after.restore(), message: this.result };
   }
 }

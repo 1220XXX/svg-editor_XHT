@@ -250,9 +250,9 @@ text#title created in g#scene
 svg> move scene 30 20
 g#scene moved by (30,20)
 svg> undo
-undone: g#scene moved by (30,20)
+g#scene moved back by (-30,-20)
 svg> redo
-redone: g#scene moved by (30,20)
+g#scene moved by (30,20)
 svg> tree
 svg (400x220)
 └── g#scene
@@ -402,7 +402,7 @@ svg (400x300)
 svg> save "my diagram.svg"
 saved to my diagram.svg (7 elements)
 svg> move c1 10 0
-circle#c1 moved by (10,0)
+circle#c1 moved to (60,50)
 svg> save
 saved to examples/other.svg (7 elements)
 svg> init
@@ -496,7 +496,7 @@ canvas 800x600 created
 svg> create rect r1 10 20 100 50 red
 rect#r1 created
 svg> move r1 30 -5
-rect#r1 moved by (30,-5)
+rect#r1 moved to (40,15)
 svg> show r1
 rect#r1  parent=svg
   x=40 y=15 width=100 height=50
@@ -513,7 +513,7 @@ text#label  parent=g#node
   text="开始"
 ```
 
-r1 从 `(10,20)` 移到 `(40,15)`；文字 label 随 node 从 `(50,60)` 移到 `(45,70)`。要查看移动后的具体位置，使用 show 或 tree。
+r1 从 `(10,20)` 移到 `(40,15)`；文字 label 随 node 从 `(50,60)` 移到 `(45,70)`。叶图元回显 moved to 最终坐标：rect/text 使用 x/y，circle/ellipse 使用 cx/cy，line 使用起点 x1/y1（两个端点都会移动）。组回显 moved by 平移增量；孩子的具体位置可通过 show 或 tree 查看。
 
 ### 8.2 scale：以画布原点为基准等比缩放
 
@@ -647,7 +647,7 @@ g#node deleted
 svg> show r1
 error: no such shape: r1
 svg> undo
-undone: g#node deleted
+g#node restored into svg
 svg> tree
 svg (800x600)
 └── g#node
@@ -691,9 +691,9 @@ svg (800x600)
     │   └── circle#b  cx=200 cy=100 r=20 fill=blue
     └── text#title  (10,150) "Title"
 svg> undo
-undone: g#pair created with 2 children
+g#pair ungrouped (2 children restored)
 svg> redo
-redone: g#pair created with 2 children
+g#pair created with 2 children
 svg> tree pair
 g#pair
 ├── rect#a  x=10 y=20 w=100 h=50 fill=red
@@ -731,7 +731,7 @@ svg (800x600)
     ├── rect#a  x=10 y=20 w=100 h=50 fill=red
     └── text#title  (20,40) "Title"
 svg> undo
-undone: g#pair ungrouped (2 children promoted)
+g#pair restored with 2 children
 svg> tree
 svg (800x600)
 └── g#scene
@@ -885,7 +885,7 @@ error: undo not allowed after io command
 svg> create rect r1 10 20 100 50 red
 rect#r1 created
 svg> move r1 20 0
-rect#r1 moved by (20,0)
+rect#r1 moved to (30,20)
 svg> tree
 svg (800x600)
 └── rect#r1  x=30 y=20 w=100 h=50 fill=red
@@ -896,15 +896,15 @@ rect#r1  parent=svg
 svg> canvas
 canvas 800x600
 svg> undo
-undone: rect#r1 moved by (20,0)
+rect#r1 moved back to (10,20)
 svg> show r1
 rect#r1  parent=svg
   x=10 y=20 width=100 height=50
   fill=red
 svg> redo
-redone: rect#r1 moved by (20,0)
+rect#r1 moved to (30,20)
 svg> undo
-undone: rect#r1 moved by (20,0)
+rect#r1 moved back to (10,20)
 svg> set r1 fill blue
 rect#r1 updated: fill="blue"
 svg> redo
@@ -914,9 +914,9 @@ saved to history.svg (1 elements)
 svg> undo
 error: undo not allowed after io command
 svg> move r1 1 0
-rect#r1 moved by (1,0)
+rect#r1 moved to (11,20)
 svg> undo
-undone: rect#r1 moved by (1,0)
+rect#r1 moved back to (10,20)
 ```
 
 关键规则：
@@ -930,7 +930,7 @@ undone: rect#r1 moved by (1,0)
 7. 下一次成功编辑会解禁；之后只能撤销这个新阶段的编辑，不能跨越前面的保存或读取恢复旧历史。
 8. 没有可撤销或可重做项时，分别为 `nothing to undo` / `nothing to redo`。
 
-回显中的 `undone:` / `redone:` 表示撤销或重做冒号后所描述的原编辑。需要确认最终数值时查看 show/tree。
+撤销反馈描述恢复后的状态：叶图元移动显示 moved back to 原坐标，组移动显示 moved back by 反向增量；set 显示恢复值，原来省略的样式显示 `<unset>`；删除撤销显示 restored into 原父容器。其他编辑分别描述恢复的分组、归属、绘制顺序或缩放状态。redo 直接输出该编辑原先的成功摘要。状态由快照精确恢复，浮点移动或缩放不会通过反向计算来撤销；完整属性可通过 show/tree 查询。
 
 ## 11. SVG 导入与 transform 增强
 
@@ -1019,7 +1019,7 @@ text#text1  parent=g#nodeB
 svg> move nodeB 10 20
 g#nodeB moved by (10,20)
 svg> undo
-undone: g#nodeB moved by (10,20)
+g#nodeB moved back by (-10,-20)
 svg> save transform-normalized.svg
 saved to transform-normalized.svg (6 elements)
 ```
@@ -1069,7 +1069,7 @@ line#arrow1 created in g#flowchart
 svg> move node2 0 100
 g#node2 moved by (0,100)
 svg> undo
-undone: g#node2 moved by (0,100)
+g#node2 moved back by (0,-100)
 svg> set process-label text "处理数据 v2"
 text#process-label updated: text="处理数据 v2"
 svg> tree
@@ -1189,7 +1189,7 @@ npm start < examples/flowchart.cli
 | `npm start` | 运行已构建程序 |
 | `npm run check` | 依次类型检查、自动化测试、生产构建 |
 
-当前交付的功能测试有 11 个测试文件、98 项测试。这个数字来自已执行的验收，不表示任何任意 SVG 都受到支持。
+当前交付的功能测试有 12 个测试文件、107 项测试。这个数字来自已执行的验收，不表示任何任意 SVG 都受到支持。
 
 本手册的 18 组示例会话另行回放核验，共 156 条输入，覆盖当前全部 19 个 CLI 命令。文档验证未修改业务代码，也未把用户生成的 demo.svg 当作示例覆盖。
 

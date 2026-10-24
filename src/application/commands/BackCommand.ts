@@ -6,4 +6,8 @@ export class BackCommand extends EditingCommand {
     this.args.expect(1); const id = this.args.value(0);
     document.reorder(id, false); return `${document.find(id).label} sent to back`;
   }
+  protected override undoMessage(document: SvgDocument): string {
+    const id = this.args.value(0);
+    return `${document.find(id).label} draw order restored in ${document.parentLabel(id)}`;
+  }
 }

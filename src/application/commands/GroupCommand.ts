@@ -7,4 +7,7 @@ export class GroupCommand extends EditingCommand {
     const group = document.group(this.args.value(0), this.args.values(1));
     return `${group.label} created with ${group.children.length} children`;
   }
+  protected override undoMessage(): string {
+    return `g#${this.args.value(0)} ungrouped (${this.args.length - 1} children restored)`;
+  }
 }

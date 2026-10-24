@@ -15,6 +15,7 @@ export abstract class Shape {
   get children(): readonly Shape[] { return []; }
   get content(): string | undefined { return undefined; }
   get geometryAttributes(): Readonly<Record<string, string>> { return {}; }
+  get position(): readonly [number, number] | undefined { return undefined; }
   abstract move(dx: number, dy: number): void;
   abstract scale(factor: number): void;
   abstract clone(): Shape;
