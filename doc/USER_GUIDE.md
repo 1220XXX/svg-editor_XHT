@@ -1329,7 +1329,7 @@ npm start < examples/flowchart.cli
 |---|---|
 | `zsh: command not found: nvm` | 安装尚未完成或当前终端没加载 nvm；按 2.4 加载 |
 | `zsh: command not found: node` / npm | 当前终端未选择可用运行时；先加载 nvm，再 nvm install / nvm use |
-| `nvm use` 提示没有 .nvmrc | 检查当前目录是否是项目根目录；原 final 标签版本没有后续新增的 .nvmrc |
+| `nvm use` 提示没有 .nvmrc | 检查当前目录是否是项目根目录；2026-10-24 更新后的 final 已包含 .nvmrc，较早的 ef90a19 不包含 |
 | nvm 提示指定版本尚未安装 | 在项目根目录执行 nvm install，再 nvm use |
 | npm 提示找不到 package.json | 用 cd 进入 svg-editor，不能只停在父目录“高级软件开发” |
 | 找不到 tsx 或其他依赖 | 在项目根目录执行 npm ci |
@@ -1403,7 +1403,7 @@ npm start < examples/flowchart.cli
 - undo 历史保存在内存中，无容量上限，大文档和长期编辑可能占用较多资源。
 - 目前没有承诺超大文件或极深嵌套的性能指标。
 - 所有错误也以文本输出；批处理不能只凭退出码判断全部命令成功。
-- 本手册所在 main 含后续环境和文档变更，原 final 标签保留在课程原交付提交，不自动随 main 移动。
+- 2026-10-24 用户确认 Phase 1 完成后，final 更新到本阶段最终验收提交，包含本手册与环境配置；后续 box 和动态插件阶段另行开发，不自动移动此标签。
 
 ## 16. 日常使用清单
 
