@@ -256,7 +256,7 @@ g#scene moved by (30,20)
 svg> tree
 svg (400x220)
 └── g#scene
-    ├── rect#r1  x=60 y=70 w=140 h=60 fill=#4a90d9
+    ├── rect#r1     x=60 y=70 w=140 h=60 fill=#4a90d9
     └── text#title  (80,105) "Hello SVG"
 svg> save tutorial.svg
 saved to tutorial.svg (3 elements)
@@ -392,13 +392,13 @@ warning: assigned id rect1 to unnamed <rect>
 read examples/other.svg (7 elements)
 svg> tree
 svg (400x300)
-├── rect#rect1  x=0 y=0 w=400 h=300 fill=#ffffff
-├── text#t1  (10,290) "imported"
-├── circle#c1  cx=50 cy=50 r=10
+├── rect#rect1     x=0 y=0 w=400 h=300 fill=#ffffff
+├── text#t1        (10,290) "imported"
+├── circle#c1      cx=50 cy=50 r=10
 ├── g#g1
-│   ├── rect#r2  x=0 y=0 w=10 h=10
+│   ├── rect#r2    x=0 y=0 w=10 h=10
 │   └── circle#c2  cx=5 cy=5 r=2
-└── ellipse#e1  cx=1 cy=2 rx=3 ry=4
+└── ellipse#e1     cx=1 cy=2 rx=3 ry=4
 svg> save "my diagram.svg"
 saved to my diagram.svg (7 elements)
 svg> move c1 10 0
@@ -469,11 +469,11 @@ svg> create rect child 10 10 40 20 orange in scene
 rect#child created in g#scene
 svg> tree
 svg (800x600)
-├── rect#r1  x=10 y=20 w=100 h=50 fill=#4a90d9
-├── circle#c1  cx=200 cy=100 r=30 fill=red
-├── ellipse#e1  cx=300 cy=100 rx=50 ry=25 fill=green
-├── line#l1  (10,200) -> (300,200) stroke=black
-├── text#t1  (20,250) "Hello SVG"
+├── rect#r1         x=10 y=20 w=100 h=50 fill=#4a90d9
+├── circle#c1       cx=200 cy=100 r=30 fill=red
+├── ellipse#e1      cx=300 cy=100 rx=50 ry=25 fill=green
+├── line#l1         (10,200) -> (300,200) stroke=black
+├── text#t1         (20,250) "Hello SVG"
 └── g#scene
     └── rect#child  x=10 y=10 w=40 h=20 fill=orange
 ```
@@ -562,7 +562,7 @@ g#node scaled by 0.5
 svg> tree node
 g#node
 ├── circle#c1  cx=50 cy=40 r=10 fill=blue
-└── text#t1  (50,40) "Label"
+└── text#t1    (50,40) "Label"
 svg> scale r1 0
 error: scale factor must be positive
 ```
@@ -687,16 +687,16 @@ svg> tree
 svg (800x600)
 └── g#scene
     ├── g#pair
-    │   ├── rect#a  x=10 y=20 w=100 h=50 fill=red
+    │   ├── rect#a    x=10 y=20 w=100 h=50 fill=red
     │   └── circle#b  cx=200 cy=100 r=20 fill=blue
-    └── text#title  (10,150) "Title"
+    └── text#title    (10,150) "Title"
 svg> undo
 g#pair ungrouped (2 children restored)
 svg> redo
 g#pair created with 2 children
 svg> tree pair
 g#pair
-├── rect#a  x=10 y=20 w=100 h=50 fill=red
+├── rect#a    x=10 y=20 w=100 h=50 fill=red
 └── circle#b  cx=200 cy=100 r=20 fill=blue
 ```
 
@@ -728,7 +728,7 @@ g#pair ungrouped (2 children promoted)
 svg> tree
 svg (800x600)
 └── g#scene
-    ├── rect#a  x=10 y=20 w=100 h=50 fill=red
+    ├── rect#a      x=10 y=20 w=100 h=50 fill=red
     └── text#title  (20,40) "Title"
 svg> undo
 g#pair restored with 2 children
@@ -736,7 +736,7 @@ svg> tree
 svg (800x600)
 └── g#scene
     └── g#pair
-        ├── rect#a  x=10 y=20 w=100 h=50 fill=red
+        ├── rect#a      x=10 y=20 w=100 h=50 fill=red
         └── text#title  (20,40) "Title"
 svg> ungroup scene
 error: cannot ungroup top-level container: scene
@@ -797,19 +797,19 @@ svg> create rect orange 80 60 140 100 orange
 rect#orange created
 svg> tree
 svg (300x200)
-├── rect#blue  x=30 y=30 w=140 h=100 fill=blue
+├── rect#blue    x=30 y=30 w=140 h=100 fill=blue
 └── rect#orange  x=80 y=60 w=140 h=100 fill=orange
 svg> front blue
 rect#blue brought to front
 svg> tree
 svg (300x200)
 ├── rect#orange  x=80 y=60 w=140 h=100 fill=orange
-└── rect#blue  x=30 y=30 w=140 h=100 fill=blue
+└── rect#blue    x=30 y=30 w=140 h=100 fill=blue
 svg> back blue
 rect#blue sent to back
 svg> tree
 svg (300x200)
-├── rect#blue  x=30 y=30 w=140 h=100 fill=blue
+├── rect#blue    x=30 y=30 w=140 h=100 fill=blue
 └── rect#orange  x=80 y=60 w=140 h=100 fill=orange
 ```
 
@@ -841,13 +841,14 @@ tree node1
 ```text
 svg (800x600)
 └── g#node1
-    ├── rect#r1  x=10 y=20 w=100 h=50 fill=red
+    ├── rect#r1     x=10 y=20 w=100 h=50 fill=red
     └── text#title  (20,40) "Title"
 ```
 
 - `g#node1` 表示类型是 g、id 为 node1。
 - 树中的 w/h 是 width/height 的简写。
 - 出现的颜色是显式样式；没有显示 fill 不代表浏览器一定不填充，还可能使用继承或默认值。
+- 当前树或子树内的属性按同一显示列对齐，标签与属性之间至少两个空格；长 id 和层级缩进会自动扩大列宽，中文及 emoji 按常见终端显示宽度处理。没有属性的组不补尾部空格。
 - 节点顺序反映同级绘制顺序。
 
 ### 10.2 show：显示单个对象明细
@@ -1076,12 +1077,12 @@ svg> tree
 svg (800x600)
 └── g#flowchart
     ├── g#node1
-    │   ├── rect#start  x=120 y=100 w=160 h=60 fill=#4a90d9
-    │   └── text#start-label  (155,135) "开始"
+    │   ├── rect#start          x=120 y=100 w=160 h=60 fill=#4a90d9
+    │   └── text#start-label    (155,135) "开始"
     ├── g#node2
-    │   ├── rect#process  x=520 y=100 w=160 h=60 fill=#f5a623
+    │   ├── rect#process        x=520 y=100 w=160 h=60 fill=#f5a623
     │   └── text#process-label  (545,135) "处理数据 v2"
-    └── line#arrow1  (280,130) -> (520,130) stroke=black
+    └── line#arrow1             (280,130) -> (520,130) stroke=black
 svg> save examples/flowchart.svg
 saved to examples/flowchart.svg (8 elements)
 ```
@@ -1189,7 +1190,7 @@ npm start < examples/flowchart.cli
 | `npm start` | 运行已构建程序 |
 | `npm run check` | 依次类型检查、自动化测试、生产构建 |
 
-当前交付的功能测试有 12 个测试文件、107 项测试。这个数字来自已执行的验收，不表示任何任意 SVG 都受到支持。
+当前交付的功能测试有 13 个测试文件、112 项测试。这个数字来自已执行的验收，不表示任何任意 SVG 都受到支持。
 
 本手册的 18 组示例会话另行回放核验，共 156 条输入，覆盖当前全部 19 个 CLI 命令。文档验证未修改业务代码，也未把用户生成的 demo.svg 当作示例覆盖。
 

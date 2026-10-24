@@ -1,4 +1,5 @@
 export interface TreeNode {
-  readonly summary: string;
+  readonly label: string;
+  readonly details: string;
   readonly children: readonly TreeNode[];
 }

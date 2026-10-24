@@ -172,6 +172,13 @@ transform 在基础功能验收后独立增强，支持：
 - 验证：类型检查、107 项测试、构建通过；生产 CLI 通过任务书 33 条命令、transform 往返及手册 17 组会话 155 条输入的逐行输出比较。
 - 本批独立提交，保留原 `final` 标签和用户的 `demo.svg`。
 
+### 2026-10-24：T06 tree 列对齐与六批回归完成
+
+- TreeNode 区分标签和属性摘要，TreeCommand 按包含层级前缀的最大显示宽度对齐属性列；保留树枝、绘制顺序、关键几何和样式，空组无尾部空格。
+- 新增 5 项测试，先复现原布局差异；覆盖任务书树形输出逐字比较、跨层级长 id、带样式的子树根、空树、中文 / 组合字符 / emoji、查询不影响撤销和删除后重新计算列宽。
+- 同步手册真实会话和根 README 的当前验收信息。类型检查、112 项测试、构建全部通过；生产 CLI 通过任务书 33 条命令、transform 往返及手册 17 组会话 155 条输入的逐行输出比较。
+- T01～T06 分别验证、提交并推送；原 `final` 标签及用户 `demo.svg` 保持原样。
+
 ## 一致性自查
 
 **模块划分是否一致？** 一致。Argument、TreeNode、命令接收者接口和 transform 语法对象是原模块内部细化；领域层增加 UniformTransform / SvgValue。没有新增未说明的业务层或将 IO 放进领域模型。命令与历史合并为一个开发阶段的理由已记入过程记录。
@@ -205,6 +212,9 @@ transform 在基础功能验收后独立增强，支持：
 | 模块边界、类文件名、循环依赖 | `tests/architecture.test.ts` |
 | 背景变换、顺序、排版、编辑、往返、非法变换 | `tests/transform.test.ts` |
 | 非法 XML 字符拒绝、合法 Unicode 往返 | `tests/xml-values.test.ts` |
+| show 几何与样式分行、组与文本布局 | `tests/show-format.test.ts` |
+| 编辑结果、撤销恢复状态、重做成功摘要 | `tests/feedback.test.ts` |
+| tree 对齐、层级、子树、Unicode 显示宽度 | `tests/tree-format.test.ts` |
 
 ### 最终执行结果
 

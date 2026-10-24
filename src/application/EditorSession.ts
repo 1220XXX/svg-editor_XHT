@@ -42,9 +42,15 @@ export class EditorSession implements CommandContext {
   undo(): string { const result = this.history.undo(); this.document = result.document; return result.message; }
   redo(): string { const result = this.history.redo(); this.document = result.document; return result.message; }
   tree(id?: string): TreeNode {
-    const node = (shape: Shape): TreeNode => ({ summary: shape.summary(), children: shape.children.map(node) });
+    const node = (shape: Shape): TreeNode => ({
+      label: shape.label,
+      details: shape.summary().slice(shape.label.length).trimStart(),
+      children: shape.children.map(node),
+    });
     const document = this.current();
-    return id === undefined ? { summary: `svg (${document.width}x${document.height})`, children: document.children.map(node) } : node(document.find(id));
+    return id === undefined ? {
+      label: `svg (${document.width}x${document.height})`, details: '', children: document.children.map(node),
+    } : node(document.find(id));
   }
   show(id: string): readonly string[] {
     const document = this.current(); const shape = document.find(id);
