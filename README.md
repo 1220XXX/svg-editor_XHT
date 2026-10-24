@@ -89,6 +89,16 @@ create g <id> [in <gid>]
 
 编辑按一条命令撤销；成功执行 init/read/save 或修改画布尺寸后清空并禁用历史，直到下一次成功编辑。只读 canvas 不影响历史。根级 g 按任务书规定不能 ungroup。
 
+## 可选基础样式保留
+
+```sh
+npm run cli -- --preserve-style
+```
+
+构建后也可执行 `npm start -- --preserve-style`。开启后，group / ungroup / addto 在必要时补写 fill、stroke、stroke-width，保留结构调整前的基础属性有效值；原有命令语法不变。普通启动继续按新父级继承样式。
+
+首批支持命名色、transparent、none 与十六进制颜色；无法解析的原颜色、字体等额外继承值变化或组透明度上下文变化会明确报错，保持文档和历史不变。该模式不保证任意场景像素完全一致。效果、代价和完整示例见 [使用手册](doc/USER_GUIDE.md#96-可选基础样式保留模式)。
+
 ## 验证
 
 ```sh

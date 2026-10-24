@@ -40,6 +40,8 @@
 
 **Factory**：ShapeFactory 是唯一的图形类型名分发点。几何与样式行为由图形对象实现，导入和命令代码不各写一套类型判断。
 
+**Strategy（可选增强）**：ReparentingStylePolicy 抽象结构操作的样式处理。FollowParentStyles 保留普通启动行为，PreserveBasicStyles 在开启 --preserve-style 时准备最小必要补写；由 Bootstrap 选择并经 CommandFactory 注入三条命令。StyleResolver 解析受支持的继承值，BasicPaint 校验可保留的直接颜色。全部补写计划校验成功后才应用，结构与样式由原有 Command/Memento 统一提交或恢复。
+
 按名称分发只保留两处：`CommandFactory` 的命令注册表与 `ShapeFactory` 的图形定义表。**两处均标注为后续插件化阶段的待重构项**。其他代码不使用 switch 分派图形，transform 解析使用多态语法对象匹配，没有增加第三张名称到实现的分发表。
 
 本阶段不实现 ShapeProvider 动态插件，也不实现 box。`create box` 必须报未知类型。带 `data-kind="box"` 的外部 g 作为普通容器读入并保留标记，符合未安装插件时的降级语义；因此本阶段不存在需要触发“不能解组插件复合图形”错误的对象。
@@ -65,6 +67,18 @@
 | 更换存储或 XML 库 | 通过 TextStorage / DocumentCodec 隔离 |
 | 大文档 | 当前封装树遍历查找，避免维护第二份可变 id 索引；需要时再增加索引和差量历史 |
 | 更广泛 SVG | 独立转换层；当前不建设完整 SVG/CSS 渲染引擎 |
+
+### 后续阶段的扩展路线（设计建议，尚未实现）
+
+| 板块 | 后续建议及验收重点 |
+|---|---|
+| 图形 Provider | 在原 ShapeFactory 注册点引入 ShapeProvider，统一封装创建 schema、读取、序列化标记和类型行为；保留命令工厂与图形工厂两个按名称分派点，其他层通过接口消费 |
+| box 插件 | 由独立插件提供容器子树、派生 id 和 fill/label 传播行为；多态实现 move/scale/set/delete、clone 与快照恢复，保证整棵子树唯一 id 和一个撤销单元 |
+| 插件读写 | 保存为普通 g + rect + text 并保留 data-kind；有插件恢复语义类型，无插件降级为普通 g。结构操作规则通过接口/多态表达，不在命令中添加 box 类型名称判断 |
+| 动态加载 | 在独立的后续阶段版本中设计显式插件注册和加载入口，定义重复注册、加载失败与版本兼容行为；用独立测试证明未装插件时的降级能力 |
+| 更广 SVG/CSS | 根据明确需求逐项扩展标签、样式来源和选择器支持，先写支持矩阵与失败策略；不把完整 SVG/CSS 引擎视作本阶段或后续阶段自动必做项 |
+
+当前 Phase 1 的普通模式与基础样式保留模式都只内置六种图形，create box 仍返回 unknown shape type；本轮只记录后续路线，不提前加入 box 或动态加载器。新增扩展应在后续阶段单独验收。
 
 ### 对任务书未明确处的补充决策
 
@@ -197,9 +211,16 @@ transform 在基础功能验收后独立增强，支持：
 - 新增 31 项测试；完整类型检查、165 项测试、构建通过。默认模式通过任务书 33 条命令、手册 155 条输入、752 条补充审核、根 id 检查及 transform 往返；增强模式另通过 59 条生产 CLI 输入与真实 SVG 文件核验。
 - 本功能板块独立提交推送；下一板块补充详细手册和后续插件路线。final 标签、用户 demo.svg 保持原样。
 
+### 2026-10-24：基础样式保留——文档与后续路线板块
+
+- 功能板块 70d4ba1 推送后，补充普通/增强模式的启动方式、18 条正向与 8 条拒绝场景的完整会话、属性固化代价、颜色子集、额外继承值及组透明度保护条件。
+- 在正式方案中说明 Strategy 的落地，并记录后续 Provider、box、动态加载及 SVG/CSS 的扩展路线；明确这些是后续设计，当前六类型和未知类型错误约定不变。
+- 再次运行完整类型检查、165 项测试与构建；生产 CLI 逐行比较普通模式 17 组 / 155 条输入及增强模式 2 组 / 26 条输入，另验证 help。任务书、752 条补充审核、根 id、transform 往返和增强模式 59 条生产输入再次通过。
+- 本板块只修改现有文档，独立提交推送；final 标签与用户 demo.svg 保持原样。
+
 ## 一致性自查
 
-**模块划分是否一致？** 一致。Argument、TreeNode、命令接收者接口和 transform 语法对象是原模块内部细化；领域层增加 UniformTransform / SvgValue / SvgId。SvgId 的校验复用和根 id 兼容修复已记入过程记录。没有新增未说明的业务层或将 IO 放进领域模型。命令与历史合并为一个开发阶段的理由已记入过程记录。
+**模块划分是否一致？** 一致。Argument、TreeNode、命令接收者接口和 transform 语法对象是原模块内部细化；领域层增加 UniformTransform / SvgValue / SvgId，styles 子目录封装样式策略与解析。对应根 id 和样式增强均已记入模块表及过程记录。没有新增未说明的业务层或将 IO 放进领域模型。命令与历史合并为一个开发阶段的理由已记入过程记录。
 
 **依赖规则是否违反？** 最终检查未发现违反。`tests/architecture.test.ts` 遍历全部源文件的本地导入，包括类型导入，验证允许的模块方向、外部依赖隔离、一类一文件、无循环依赖和无 switch 分派。
 
@@ -226,6 +247,7 @@ transform 在基础功能验收后独立增强，支持：
 | 分组、解组、顺序、循环防护、子树删除 | `tests/topology.test.ts` |
 | SVG 往返、补 id、重名、失败 IO、真实文件替换 | `tests/persistence.test.ts` |
 | 根 id 往返、全局唯一性、自动避让、快照、初始化与失败读取 | `tests/root-id.test.ts` |
+| 双启动模式、结构样式保留、原子拒绝、透明度边界、真实 CLI | `tests/preserve-style.test.ts` |
 | 任务书完整会话、两节点流程图、指定错误、真实 CLI | `tests/acceptance.test.ts` |
 | 交互提示符、EOF、串行输入、转义 | `tests/repl.test.ts` |
 | 模块边界、类文件名、循环依赖 | `tests/architecture.test.ts` |

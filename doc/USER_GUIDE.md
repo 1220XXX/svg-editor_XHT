@@ -830,6 +830,113 @@ svg (300x200)
 
 也可使用 `npm run cli -- --preserve-style` 开启可选的基础样式保留模式，作用于 group / ungroup / addto，覆盖 fill、stroke、stroke-width。复杂颜色、额外继承属性变化和组透明度上下文变化可能被明确拒绝；普通启动的原有行为保持不变。
 
+### 9.6 可选基础样式保留模式
+
+在普通终端启动增强模式：
+
+```sh
+npm run cli -- --preserve-style
+```
+
+已经构建时，也可执行 `npm start -- --preserve-style`。开关属于启动参数，不是在 svg> 中输入的新命令；每次启动重新选择模式。init 和 read 不会取消当前进程的模式。
+
+| 操作 | 增强模式的效果 |
+|---|---|
+| ungroup | 孩子离开旧容器时，在必要处补写原先的基础样式 |
+| addto | 保留被移动对象及子树原先的基础属性有效值 |
+| group | 跨父级收编时分别保留每个成员的基础样式，继续保持原相对顺序 |
+| undo / redo | 结构和补写的样式同属一个撤销单元，撤销也恢复属性原先是否省略 |
+| save / read | 补写值作为普通 SVG 属性保存；以后使用普通模式也能读回 |
+
+仅当属性有效值将改变时补写；原有显式颜色保留，创建图形时仍不主动写入省略的 fill/stroke。paint 值中的 inherit、unset、initial 会按当前模型的继承与默认值解析。新父级样式相同时不增加多余属性。
+
+以下是增强模式的完整示例。解组前 r 没有显式 fill；解组后得到 fill=red。undo 恢复其省略状态，redo 再补回。随后移入蓝色组仍保持红色，而原先使用默认填充的 plain 得到显式 black。
+
+<!-- cli-mode: preserve-style -->
+```text
+svg> init 200 100
+canvas 200x100 created
+svg> create g outer
+g#outer created
+svg> create g inner in outer
+g#inner created in g#outer
+svg> set inner fill red
+g#inner updated: fill="red"
+svg> create rect r 10 20 30 40 in inner
+rect#r created in g#inner
+svg> show r
+rect#r  parent=g#inner
+  x=10 y=20 width=30 height=40
+svg> ungroup inner
+g#inner ungrouped (1 children promoted)
+svg> show r
+rect#r  parent=g#outer
+  x=10 y=20 width=30 height=40
+  fill=red
+svg> undo
+g#inner restored with 1 children
+svg> show r
+rect#r  parent=g#inner
+  x=10 y=20 width=30 height=40
+svg> redo
+g#inner ungrouped (1 children promoted)
+svg> create g target
+g#target created
+svg> set target fill blue
+g#target updated: fill="blue"
+svg> addto target r
+rect#r moved into g#target
+svg> show r
+rect#r  parent=g#target
+  x=10 y=20 width=30 height=40
+  fill=red
+svg> create rect plain 60 20 30 40
+rect#plain created
+svg> addto target plain
+rect#plain moved into g#target
+svg> show plain
+rect#plain  parent=g#target
+  x=60 y=20 width=30 height=40
+  fill=black
+```
+
+补写的属性会固定下来：例如 r 已有 fill=red，之后设置 target 的 fill 不会覆盖 r 的显式红色。若希望它重新跟随父级，fill/stroke 可通过 set 设置为 inherit；这不扩大其他属性的 set 白名单。
+
+增强模式只承诺受支持的基础属性有效值，不承诺整张图像像素不变。层级与绘制顺序仍按任务书调整，尤其是跨父分组可能改变与未选对象的遮挡关系。
+
+| 范围 | 当前处理 |
+|---|---|
+| fill / stroke 的可解析值 | CSS 命名色、transparent、none、3/4/6/8 位十六进制颜色 |
+| stroke-width | 当前模型支持的有限、非负数值 |
+| 原有效 paint 为 currentColor、url(...)、var(...)、RGB/HSL 函数等 | 增强模式暂不解析，明确拒绝受影响的结构操作；普通模式行为不变 |
+| font-size / font-family / font-weight / text-anchor / fill-opacity / stroke-opacity | 有效值不变可继续；有效值将改变则明确拒绝 |
+| 祖先组的非 1 opacity 上下文发生变化 | 明确拒绝；即使旧、新祖先数值相同，也不直接视作等价 |
+| 在同一透明度上下文内移动，或子树自身 opacity 原样保留 | 可继续，仍检查其他样式条件 |
+
+这些拒绝都发生在提交修改前，不改变当前文档、默认保存路径或历史。下面示例中的 addto 被拒绝，但之前保留的 redo 仍然有效：
+
+<!-- cli-mode: preserve-style -->
+```text
+svg> init
+canvas 800x600 created
+svg> create g target
+g#target created
+svg> create rect r 1 2 3 4 currentColor
+rect#r created
+svg> move r 10 0
+rect#r moved to (11,2)
+svg> undo
+rect#r moved back to (1,2)
+svg> addto target r
+error: cannot preserve style: unsupported fill paint on rect#r
+svg> redo
+rect#r moved to (11,2)
+svg> show r
+rect#r  parent=svg
+  x=11 y=2 width=3 height=4
+  fill=currentColor
+```
+
 ## 10. 查看结构与撤销重做
 
 ### 10.1 tree：显示层级和关键属性
@@ -1198,7 +1305,7 @@ npm start < examples/flowchart.cli
 
 当前交付的功能测试有 15 个测试文件、165 项测试。这个数字来自已执行的验收，不表示任何任意 SVG 都受到支持。
 
-本手册的 18 组示例会话另行回放核验，共 156 条输入，覆盖当前全部 19 个 CLI 命令。文档验证未修改业务代码，也未把用户生成的 demo.svg 当作示例覆盖。
+本手册的 20 组示例会话另行回放核验，共 182 条输入：原有普通模式会话加 help 共 18 组 / 156 条输入，新增增强模式会话 2 组 / 26 条输入，覆盖当前全部 19 个 CLI 命令。回放使用临时文件，不覆盖用户生成的 demo.svg。
 
 ### 14.2 VS Code 断点调试
 
@@ -1253,6 +1360,9 @@ npm start < examples/flowchart.cli
 | `error: scale factor must be positive` | factor 必须大于 0 |
 | `error: cannot group a container into its own descendant: …` | group 同时选中了祖先与后代 |
 | `error: duplicate group member` | group 中同一 id 出现多次 |
+| `error: cannot preserve style: unsupported … paint on …` | 增强模式无法解析受影响对象的原有效颜色，见 9.6 |
+| `error: cannot preserve style: inherited … would change on …` | 增强模式暂不固化该项额外继承属性 |
+| `error: cannot preserve style: group opacity context would change` | 祖先组透明度上下文变化，不能按普通继承属性复制 |
 | `error: cannot move a container into its own descendant: …` | addto 构成自包含或循环 |
 | `error: cannot ungroup top-level container: scene` | 根级 g 按任务书不能解组，参见 9.2 |
 | `error: undo not allowed after io command` | 最近成功文档操作禁用了历史；新编辑后才能撤销新编辑 |
@@ -1281,7 +1391,7 @@ npm start < examples/flowchart.cli
 | 命名为 arrow 的 line 没有箭头 | id 不决定外观，当前 line 不提供 marker 箭头功能 |
 | scale 后位置也变了 | 按原点缩放全部几何属性，属于当前定义 |
 | scale 后字号或线宽没变 | CLI scale 只作用于几何，见 8.2 |
-| 解组后颜色变化 | 原来继承父级样式，重新归属后继承来源改变，见 9.5 |
+| 解组后颜色变化 | 普通模式的继承来源改变；可选择基础样式保留模式，见 9.5、9.6 |
 | 导入后 transform 不见了 | 已归一化到坐标，属于增强功能的保存方式 |
 
 ### 15.4 当前版本边界
