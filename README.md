@@ -6,12 +6,27 @@
 
 ## 安装与运行
 
-需要 Node.js 22 或以上，建议使用 Node.js 24。依赖版本已锁定。
+运行兼容范围为 Node.js 22 或以上；开发环境通过根目录的 `.nvmrc` 固定为 **Node.js v24.22.1**。依赖版本由 `package-lock.json` 锁定。
+
+已安装 nvm 时，从项目根目录首次配置：
 
 ```sh
+nvm install
+nvm use
 npm ci
 npm run cli
 ```
+
+`nvm install` 和 `nvm use` 不带版本号时会读取 `.nvmrc`，分别安装、选择指定版本。该文件是版本声明，不包含运行时；进入目录不会自动切换版本。
+
+以后在新终端进入项目后执行：
+
+```sh
+nvm use
+npm run cli
+```
+
+依赖没有变化且 `node_modules` 完整时，无需重复执行 `npm ci`。尚未安装 nvm 的用户可参考 [nvm 官方安装说明](https://github.com/nvm-sh/nvm#installing-and-updating)。
 
 交互提示符为 `svg>`。使用 Ctrl+D 结束；整行 `#` 注释可以放入脚本。无需浏览器或图形界面即可编辑。
 
@@ -96,4 +111,4 @@ npm run cli < examples/transform.cli
 
 不支持 rotate / skew / 非等比 scale / 任意 matrix。遇到超出范围的结构会报错，保持当前文档不变。完整范围和验证数据见正式报告。
 
-最终验收：76 项自动化测试、严格类型检查、生产构建及两个示例的源码/构建版回放通过。`final` 标签对应交付版本；过程与限制详见正式报告。
+最终验收：76 项自动化测试、严格类型检查、生产构建及两个示例的源码/构建版回放通过。`final` 标签保留在 2026-10-20 的原交付版本；后续 Node.js 环境配置以独立提交加入 `main`，不移动该标签。过程与限制详见正式报告。
