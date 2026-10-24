@@ -29,3 +29,29 @@ describe('CLI parsing, display and basic commands', () => {
     expect(await e.run('show t')).toContain('say');
   });
 });
+
+describe('create requires an id independent of the in clause', () => {
+  it.each(['create g in scene', 'create g in missing'])('rejects missing id: %s', async command => {
+    const editor = new TestEditor();
+    await editor.setup('init', 'create g scene');
+    const before = await editor.run('tree');
+    expect(await editor.run(command)).toBe("error: missing id before 'in' clause");
+    expect(await editor.run('tree')).toBe(before);
+  });
+  it('retains redo when malformed creation is rejected', async () => {
+    const editor = new TestEditor();
+    await editor.setup('init', 'create g scene', 'create rect r 1 2 3 4', 'undo');
+    expect(await editor.run('create g in scene')).toMatch(/^error:/);
+    await editor.setup('redo');
+    expect(await editor.run('show r')).toContain('rect#r');
+  });
+  it.each([
+    ['g', ''], ['rect', '1 2 3 4'], ['circle', '1 2 3'],
+    ['ellipse', '1 2 3 4'], ['line', '1 2 3 4'], ['text', '1 2 "in"'],
+  ])('accepts in as an explicit id for %s', async (type, parameters) => {
+    const editor = new TestEditor();
+    await editor.setup('init', 'create g scene');
+    await editor.setup(`create ${type} in ${parameters} in scene`);
+    expect(await editor.run('show in')).toContain('parent=g#scene');
+  });
+});

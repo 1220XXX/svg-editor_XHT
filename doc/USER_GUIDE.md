@@ -192,6 +192,7 @@ svg>
 - `<id1> <id2>…` 表示可以提供多个参数。
 - 命令和类型名使用示例中的小写拼写；id 大小写敏感，`r1` 与 `R1` 是不同对象。
 - 所有图形和 g 必须有全文档唯一的 id。创建时手工指定，导入缺失时自动补全。
+- `in` 归属子句不能代替 id。例如 `create g in scene` 会报缺少 id；合法写法是 `create g child in scene`。若确实希望 id 为 in，可写 `create g in` 或 `create g in in scene`。
 - 推荐使用 `node1`、`start-label` 等不含空格的 id；不要使用引号、尖括号、斜杠或等号作为 id 字符。
 
 ### 3.3 坐标和数值
@@ -1217,7 +1218,7 @@ npm start < examples/flowchart.cli
 | `npm start` | 运行已构建程序 |
 | `npm run check` | 依次类型检查、自动化测试、生产构建 |
 
-当前交付的功能测试有 10 个测试文件、76 项测试。这个数字来自已执行的验收，不表示任何任意 SVG 都受到支持。
+当前交付的功能测试有 10 个测试文件、85 项测试。这个数字来自已执行的验收，不表示任何任意 SVG 都受到支持。
 
 本手册的 18 组示例会话另行回放核验，共 156 条输入，覆盖当前全部 19 个 CLI 命令。文档验证未修改业务代码，也未把用户生成的 demo.svg 当作示例覆盖。
 
@@ -1259,6 +1260,7 @@ npm start < examples/flowchart.cli
 | `error: unknown command: …` | 检查命令名和输入位置；help 查看支持的语法 |
 | `error: invalid arguments. use help for syntax` | 参数个数错误；例如 canvas 只能无参数或两个参数 |
 | `error: invalid arguments for create rect` | 该类型参数不足或过多，按 7.1 检查 |
+| `error: missing id before 'in' clause` | in 子句前缺少独立 id，例如 create g in scene；应补上孩子 id |
 | `error: unterminated double quote` | 双引号未闭合；使用英文双引号 |
 | `error: id already exists: r1` | 换新 id；文档内同名对象不能重复 |
 | `error: invalid id: …` | id 为空或含不支持字符，使用 node1/start-label 等 |
