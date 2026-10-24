@@ -11,8 +11,11 @@ export abstract class GeometryShape extends Shape {
     for (const [name, value] of this.geometry) this.validate(name, value);
   }
   protected value(name: string): number { return this.geometry.get(name)!; }
+  override get geometryAttributes(): Readonly<Record<string, string>> {
+    return Object.fromEntries([...this.geometry].map(([key, value]) => [key, Numeric.format(value)]));
+  }
   override get attributes(): Readonly<Record<string, string>> {
-    return { ...super.attributes, ...Object.fromEntries([...this.geometry].map(([k, v]) => [k, Numeric.format(v)])) };
+    return { ...super.attributes, ...this.geometryAttributes };
   }
   override move(dx: number, dy: number): void {
     Numeric.finite(dx, 'dx'); Numeric.finite(dy, 'dy');

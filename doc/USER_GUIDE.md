@@ -222,15 +222,13 @@ svg> create text title 20 40 "say \"hi\" at C:\\tmp"
 text#title created
 svg> show title
 text#title  parent=svg
-  x=20
-  y=40
+  x=20 y=40
   text="say \"hi\" at C:\\tmp"
 svg> set title text ""
 text#title updated: text=""
 svg> show title
 text#title  parent=svg
-  x=20
-  y=40
+  x=20 y=40
   text=""
 ```
 
@@ -352,11 +350,8 @@ svg> canvas 200 150
 canvas resized to 200x150
 svg> show r1
 rect#r1  parent=svg
+  x=150 y=100 width=100 height=50
   fill=red
-  x=150
-  y=100
-  width=100
-  height=50
 svg> undo
 error: undo not allowed after io command
 ```
@@ -504,11 +499,8 @@ svg> move r1 30 -5
 rect#r1 moved by (30,-5)
 svg> show r1
 rect#r1  parent=svg
+  x=40 y=15 width=100 height=50
   fill=red
-  x=40
-  y=15
-  width=100
-  height=50
 svg> create g node
 g#node created
 svg> create text label 50 60 "开始" in node
@@ -517,8 +509,7 @@ svg> move node -5 10
 g#node moved by (-5,10)
 svg> show label
 text#label  parent=g#node
-  x=45
-  y=70
+  x=45 y=70
   text="开始"
 ```
 
@@ -556,13 +547,10 @@ svg> scale r1 2
 rect#r1 scaled by 2
 svg> show r1
 rect#r1  parent=svg
+  x=20 y=40 width=200 height=100
   fill=red
   stroke=black
   stroke-width=2
-  x=20
-  y=40
-  width=200
-  height=100
 svg> create g node
 g#node created
 svg> create circle c1 100 80 20 blue in node
@@ -620,18 +608,14 @@ svg> set r1 width 160
 rect#r1 updated: width="160"
 svg> show r1
 rect#r1  parent=svg
+  x=10 y=20 width=160 height=50
   fill=red
-  x=10
-  y=20
-  width=160
-  height=50
 svg> show title
 text#title  parent=svg
+  x=20 y=40
   fill=white
   stroke=black
   stroke-width=1
-  x=20
-  y=40
   text="开始 处理"
 svg> set title font-size 20
 error: unknown attribute: font-size
@@ -872,7 +856,7 @@ svg (800x600)
 show r1
 ```
 
-显示对象标签、父级，以及已存储的属性。parent=svg 表示直接位于根下，parent=g#scene 表示位于 scene 中。
+显示对象标签、父级，以及已存储的属性。几何属性集中在下一行，随后逐行显示样式属性，文本内容放在最后；组没有几何属性，不输出空白几何行。parent=svg 表示直接位于根下，parent=g#scene 表示位于 scene 中。
 
 show 不展开孩子，也不计算浏览器最终继承后的完整样式。text 另有 text 行展示内容。原点、移动和分组示例中的 show 输出均为实际回显。
 
@@ -907,22 +891,16 @@ svg (800x600)
 └── rect#r1  x=30 y=20 w=100 h=50 fill=red
 svg> show r1
 rect#r1  parent=svg
+  x=30 y=20 width=100 height=50
   fill=red
-  x=30
-  y=20
-  width=100
-  height=50
 svg> canvas
 canvas 800x600
 svg> undo
 undone: rect#r1 moved by (20,0)
 svg> show r1
 rect#r1  parent=svg
+  x=10 y=20 width=100 height=50
   fill=red
-  x=10
-  y=20
-  width=100
-  height=50
 svg> redo
 redone: rect#r1 moved by (20,0)
 svg> undo
@@ -1023,27 +1001,20 @@ warning: assigned id text1 to unnamed <text>
 read examples/transform-original.svg (6 elements)
 svg> show a
 rect#a  parent=g#diagram
+  x=60 y=40 width=120 height=60
   fill=#4a90d9
-  x=60
-  y=40
-  width=120
-  height=60
 svg> show rect1
 rect#rect1  parent=g#nodeB
+  x=260 y=40 width=96 height=48
   fill=#f5a623
   stroke-width=0.8
-  x=260
-  y=40
-  width=96
-  height=48
 svg> show text1
 text#text1  parent=g#nodeB
+  x=308 y=70.4
   text-anchor=middle
   font-size=12.8
   fill=white
   stroke-width=0.8
-  x=308
-  y=70.4
   text="End"
 svg> move nodeB 10 20
 g#nodeB moved by (10,20)
@@ -1218,7 +1189,7 @@ npm start < examples/flowchart.cli
 | `npm start` | 运行已构建程序 |
 | `npm run check` | 依次类型检查、自动化测试、生产构建 |
 
-当前交付的功能测试有 10 个测试文件、85 项测试。这个数字来自已执行的验收，不表示任何任意 SVG 都受到支持。
+当前交付的功能测试有 11 个测试文件、91 项测试。这个数字来自已执行的验收，不表示任何任意 SVG 都受到支持。
 
 本手册的 18 组示例会话另行回放核验，共 156 条输入，覆盖当前全部 19 个 CLI 命令。文档验证未修改业务代码，也未把用户生成的 demo.svg 当作示例覆盖。
 

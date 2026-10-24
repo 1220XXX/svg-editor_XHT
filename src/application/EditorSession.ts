@@ -48,7 +48,14 @@ export class EditorSession implements CommandContext {
   show(id: string): readonly string[] {
     const document = this.current(); const shape = document.find(id);
     const { id: _id, ...attributes } = shape.attributes;
-    const entries = Object.entries(attributes).map(([name, value]) => `  ${name}=${value}`);
+    const geometry = shape.geometryAttributes;
+    const entries: string[] = [];
+    if (Object.keys(geometry).length) {
+      entries.push(`  ${Object.entries(geometry).map(([name, value]) => `${name}=${value}`).join(' ')}`);
+    }
+    entries.push(...Object.entries(attributes)
+      .filter(([name]) => !Object.hasOwn(geometry, name))
+      .map(([name, value]) => `  ${name}=${value}`));
     if (shape.content !== undefined) entries.push(`  text=${JSON.stringify(shape.content)}`);
     return [`${shape.label}  parent=${document.parentLabel(id)}`, ...entries];
   }

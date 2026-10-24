@@ -14,6 +14,7 @@ export abstract class Shape {
   get label(): string { return `${this.type}#${this.id}`; }
   get children(): readonly Shape[] { return []; }
   get content(): string | undefined { return undefined; }
+  get geometryAttributes(): Readonly<Record<string, string>> { return {}; }
   abstract move(dx: number, dy: number): void;
   abstract scale(factor: number): void;
   abstract clone(): Shape;
