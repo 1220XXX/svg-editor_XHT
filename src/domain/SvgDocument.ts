@@ -3,6 +3,8 @@ import { Numeric } from './Numeric.js';
 import { SvgId } from './SvgId.js';
 import { Group } from './shapes/Group.js';
 import { Shape } from './shapes/Shape.js';
+import type { ReparentingStylePolicy, StylePatch } from './styles/ReparentingStylePolicy.js';
+import { FollowParentStyles } from './styles/FollowParentStyles.js';
 
 type Location = { shape: Shape; parent: Group; index: number };
 
@@ -49,7 +51,7 @@ export class SvgDocument {
   delete(id: string): string {
     const { shape, parent } = this.location(id); parent.remove(shape); return shape.label;
   }
-  group(newId: string, ids: readonly string[]): Group {
+  group(newId: string, ids: readonly string[], styles: ReparentingStylePolicy = new FollowParentStyles()): Group {
     if (this.usedIds().has(newId)) throw new EditorError(`id already exists: ${newId}`);
     if (ids.length < 2) throw new EditorError('group requires at least two shapes');
     if (new Set(ids).size !== ids.length) throw new EditorError('duplicate group member');
@@ -66,29 +68,41 @@ export class SvgDocument {
     const branchIndex = this.root.children.findIndex(branch => branch === first.shape || this.descendants(branch).includes(first.shape));
     const index = sameParent ? first.index : branchIndex;
     const group = new Group(newId);
+    const patches = selected.flatMap(item => styles.prepare(item.shape, this.ancestry(item.parent), [...this.ancestry(parent), group]));
+    this.applyStyles(patches);
     for (const item of selected) { item.parent.remove(item.shape); group.insert(item.shape); }
     parent.insert(group, index); return group;
   }
-  ungroup(id: string): number {
+  ungroup(id: string, styles: ReparentingStylePolicy = new FollowParentStyles()): number {
     const { shape, parent, index } = this.location(id);
     if (!(shape instanceof Group)) throw new EditorError(`not a container: ${id}`);
     if (parent === this.root) throw new EditorError(`cannot ungroup top-level container: ${id}`);
     const children = shape.children;
+    const ancestors = this.ancestry(parent);
+    const patches = children.flatMap(child => styles.prepare(child, [...ancestors, shape], ancestors));
+    this.applyStyles(patches);
     parent.remove(shape);
     children.forEach((child, offset) => { shape.remove(child); parent.insert(child, index + offset); });
     return children.length;
   }
-  addTo(groupId: string, id: string): void {
+  addTo(groupId: string, id: string, styles: ReparentingStylePolicy = new FollowParentStyles()): void {
     const target = this.container(groupId);
     const source = this.location(id);
     if (source.shape === target || this.descendants(source.shape).includes(target)) {
       throw new EditorError(`cannot move a container into its own descendant: ${id}`);
     }
+    this.applyStyles(styles.prepare(source.shape, this.ancestry(source.parent), this.ancestry(target)));
     source.parent.remove(source.shape); target.insert(source.shape);
   }
   reorder(id: string, front: boolean): void {
     const { shape, parent } = this.location(id); parent.remove(shape);
     parent.insert(shape, front ? parent.children.length : 0);
+  }
+  private ancestry(group: Group): readonly Shape[] {
+    return group === this.root ? [this.root] : [...this.ancestry(this.location(group.id).parent), group];
+  }
+  private applyStyles(patches: readonly StylePatch[]): void {
+    for (const { shape, attribute, value } of patches) shape.set(attribute, value);
   }
   private usedIds(): Set<string> {
     const ids = new Set(this.all().map(node => node.id));

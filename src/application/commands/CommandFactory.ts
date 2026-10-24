@@ -22,13 +22,15 @@ import { UngroupCommand } from './UngroupCommand.js';
 import { AddToCommand } from './AddToCommand.js';
 import { FrontCommand } from './FrontCommand.js';
 import { BackCommand } from './BackCommand.js';
+import type { ReparentingStylePolicy } from '../../domain/styles/ReparentingStylePolicy.js';
+import { FollowParentStyles } from '../../domain/styles/FollowParentStyles.js';
 
 type Registration = { readonly syntax: string; readonly create: (args: readonly Argument[]) => Command };
 
 export class CommandFactory {
   // The only command-name dispatch point; future registration API belongs here.
   private readonly commands: Map<string, Registration>;
-  constructor(factory: ShapeFactory) {
+  constructor(factory: ShapeFactory, styles: ReparentingStylePolicy = new FollowParentStyles()) {
     this.commands = new Map([
       ['init', { syntax: 'init [w] [h]', create: args => new InitCommand(args) }],
       ['read', { syntax: 'read <file.svg>', create: args => new ReadCommand(args) }],
@@ -39,9 +41,9 @@ export class CommandFactory {
       ['move', { syntax: 'move <id> <dx> <dy>', create: args => new MoveCommand(args) }],
       ['scale', { syntax: 'scale <id> <factor>', create: args => new ScaleCommand(args) }],
       ['set', { syntax: 'set <id> <attr> <value>', create: args => new SetCommand(args) }],
-      ['group', { syntax: 'group <newGid> <id1> <id2>...', create: args => new GroupCommand(args) }],
-      ['ungroup', { syntax: 'ungroup <gid>', create: args => new UngroupCommand(args) }],
-      ['addto', { syntax: 'addto <gid> <id>', create: args => new AddToCommand(args) }],
+      ['group', { syntax: 'group <newGid> <id1> <id2>...', create: args => new GroupCommand(args, styles) }],
+      ['ungroup', { syntax: 'ungroup <gid>', create: args => new UngroupCommand(args, styles) }],
+      ['addto', { syntax: 'addto <gid> <id>', create: args => new AddToCommand(args, styles) }],
       ['front', { syntax: 'front <id>', create: args => new FrontCommand(args) }],
       ['back', { syntax: 'back <id>', create: args => new BackCommand(args) }],
       ['tree', { syntax: 'tree [id]', create: args => new TreeCommand(args) }],

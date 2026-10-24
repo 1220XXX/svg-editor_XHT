@@ -17,6 +17,7 @@
 | `src/application/ports` | CommandContext / ReversibleEdit 解耦接收者与历史；TextStorage / DocumentCodec 隔离 IO |
 | `src/domain` | SvgDocument 维护树、根节点 id 和约束；Numeric / SvgValue / SvgId 校验值；UniformTransform 封装变换组合 |
 | `src/domain/shapes` | Shape / GeometryShape 和 Rect、Circle、Ellipse、Line、Text、Group |
+| `src/domain/styles` | 结构操作样式策略、继承值解析及受限的基础颜色校验 |
 | `src/domain/factories` | ShapeFactory 集中创建图形，CLI 和 SVG 导入复用 |
 | `src/domain/errors` | EditorError 表达领域及用例错误 |
 | `src/infrastructure/filesystem` | LocalTextStorage 读写文件，临时文件加替换保证保存完整性 |
@@ -187,6 +188,14 @@ transform 在基础功能验收后独立增强，支持：
 - 将图形已有的 id 校验提取为同一领域模块中的 SvgId，供根与图形复用；六类图形、CLI 白名单、树标题、元素计数和按名称分派位置保持原有约定。同步手册的范围说明、补 id 示例和工程 README。
 - 类型检查、134 项测试和构建通过；真实构建版 CLI 验证根 id 读写、冲突拒绝、失败原子性、undo/redo 和 init 清理，并重新回放任务书会话、手册 155 条输入、752 条补充审核输入及 transform 往返。
 - 用户本次批准功能修复和独立提交推送，明确要求等待最终稿确认后再处理 final；因此本次不创建或移动任何标签，也不纳入用户 demo.svg。
+
+### 2026-10-24：可选基础样式保留——功能板块
+
+- 实际复现了解组和重新归属后继承颜色改变的问题；按用户确认的方案保留普通启动行为，并提供 --preserve-style 启动选项。
+- FollowParentStyles / PreserveBasicStyles 实现统一策略接口，由装配入口注入命令工厂和三条结构命令；StyleResolver 处理根与祖先继承。仅在基础属性有效值改变时补写，所有补写计划校验完毕后才修改文档。
+- 首批覆盖 fill / stroke / stroke-width；直接颜色支持命名色、transparent、none 和 3/4/6/8 位十六进制。旧有效颜色无法解析、额外继承属性变化或组 opacity 上下文变化时明确拒绝，使用原有事务和快照保证失败原子性与一个撤销单元。
+- 新增 31 项测试；完整类型检查、165 项测试、构建通过。默认模式通过任务书 33 条命令、手册 155 条输入、752 条补充审核、根 id 检查及 transform 往返；增强模式另通过 59 条生产 CLI 输入与真实 SVG 文件核验。
+- 本功能板块独立提交推送；下一板块补充详细手册和后续插件路线。final 标签、用户 demo.svg 保持原样。
 
 ## 一致性自查
 

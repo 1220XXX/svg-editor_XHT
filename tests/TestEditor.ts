@@ -4,12 +4,13 @@ import { CommandFactory } from '../src/application/commands/CommandFactory.js';
 import { CliController } from '../src/cli/CliController.js';
 import type { TextStorage } from '../src/application/ports/TextStorage.js';
 import type { DocumentCodec } from '../src/application/ports/DocumentCodec.js';
+import type { ReparentingStylePolicy } from '../src/domain/styles/ReparentingStylePolicy.js';
 
 export class TestEditor {
   private readonly cli: CliController;
-  constructor(storage?: TextStorage, codec?: DocumentCodec) {
+  constructor(storage?: TextStorage, codec?: DocumentCodec, styles?: ReparentingStylePolicy) {
     const factory = new ShapeFactory();
-    this.cli = new CliController(new EditorSession(factory, storage, codec), new CommandFactory(factory));
+    this.cli = new CliController(new EditorSession(factory, storage, codec), new CommandFactory(factory, styles));
   }
   async run(line: string): Promise<string> { return (await this.cli.runLine(line)).join('\n'); }
   async setup(...lines: string[]): Promise<void> {
