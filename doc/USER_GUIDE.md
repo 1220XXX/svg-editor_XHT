@@ -380,7 +380,7 @@ save "my diagram.svg"
 save
 ```
 
-第一次保存 init 创建的文档必须给路径。成功按新路径保存后，该路径成为当前保存目标；之后无参数 save 使用它。
+对于 read 读入的文档，无参数 save 始终使用最近一次成功读入的路径；另存副本不会改变这个默认目标。对于 init 创建的文档，第一次保存必须给路径，此后无参数 save 使用最近一次成功指定的保存路径。再次 init 会清除这些关联。
 
 save 不会自动新建父文件夹。如果准备保存 `output/result.svg`，应在普通终端先执行 `mkdir -p output`，或先在 VS Code 中创建目录。
 
@@ -404,14 +404,14 @@ saved to my diagram.svg (7 elements)
 svg> move c1 10 0
 circle#c1 moved by (10,0)
 svg> save
-saved to my diagram.svg (7 elements)
+saved to examples/other.svg (7 elements)
 svg> init
 canvas 800x600 created
 svg> save
 error: no file path. use save <file.svg>
 ```
 
-效果：other.svg 缺 id 的矩形得到 rect1；另存到 `my diagram.svg` 后，c1 被移动，后续无参数 save 更新这个新文件。再次 init 清除了关联路径，所以最后的 save 要求指定文件名。
+效果：other.svg 缺 id 的矩形得到 rect1；另存到 `my diagram.svg` 后，c1 被移动，后续无参数 save 更新读入时的 other.svg，副本保留移动前状态。再次 init 清除了关联路径，所以最后的 save 要求指定文件名。
 
 保存文件后可将 SVG 拖入浏览器查看；VS Code 默认也能打开 XML 源码。浏览器不会随命令自动刷新，需要保存并手动刷新。
 
@@ -1189,7 +1189,7 @@ npm start < examples/flowchart.cli
 | `npm start` | 运行已构建程序 |
 | `npm run check` | 依次类型检查、自动化测试、生产构建 |
 
-当前交付的功能测试有 11 个测试文件、91 项测试。这个数字来自已执行的验收，不表示任何任意 SVG 都受到支持。
+当前交付的功能测试有 11 个测试文件、94 项测试。这个数字来自已执行的验收，不表示任何任意 SVG 都受到支持。
 
 本手册的 18 组示例会话另行回放核验，共 156 条输入，覆盖当前全部 19 个 CLI 命令。文档验证未修改业务代码，也未把用户生成的 demo.svg 当作示例覆盖。
 

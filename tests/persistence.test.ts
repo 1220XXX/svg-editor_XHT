@@ -12,6 +12,37 @@ const codec = new SvgCodec(new ShapeFactory());
 const svg = (body: string) => `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">${body}</svg>`;
 
 describe('SVG persistence', () => {
+  it('keeps the read path as the default after saving an explicit copy', async () => {
+    const storage = new MemoryStorage(); const e = new TestEditor(storage, codec);
+    const original = svg('<rect id="r" x="1" y="2" width="3" height="4"/>');
+    storage.put('source.svg', original);
+    await e.setup('read source.svg', 'save copy.svg', 'move r 10 0');
+    expect(await e.run('save')).toBe('saved to source.svg (1 elements)');
+    expect(codec.decode(await storage.read('source.svg')).document.find('r').attributes.x).toBe('11');
+    expect(codec.decode(await storage.read('copy.svg')).document.find('r').attributes.x).toBe('1');
+    expect(await e.run('undo')).toBe('error: undo not allowed after io command');
+  });
+  it('replaces the default only after a successful read and clears it on init', async () => {
+    const storage = new MemoryStorage(); const e = new TestEditor(storage, codec);
+    storage.put('first.svg', svg('<g id="first"/>'));
+    storage.put('second.svg', svg('<g id="second"/>'));
+    await e.setup('read first.svg', 'save copy.svg', 'read second.svg');
+    expect(await e.run('read missing.svg')).toBe('error: cannot read file: missing.svg');
+    expect(await e.run('save')).toBe('saved to second.svg (1 elements)');
+    await e.setup('init');
+    expect(await e.run('save')).toBe('error: no file path. use save <file.svg>');
+    await e.setup('save new.svg', 'save newer.svg');
+    expect(await e.run('save')).toBe('saved to newer.svg (0 elements)');
+  });
+  it('retains the read path and redo after a failed explicit save', async () => {
+    const storage = new MemoryStorage(); const e = new TestEditor(storage, codec);
+    storage.put('source.svg', svg('<rect id="r" x="1" y="2" width="3" height="4"/>'));
+    await e.setup('read source.svg', 'save copy.svg', 'move r 10 0', 'undo');
+    storage.denyWrites();
+    expect(await e.run('save failed.svg')).toBe('error: cannot write file: failed.svg');
+    expect(await e.run('save')).toBe('error: cannot write file: source.svg');
+    await e.setup('redo'); expect(await e.run('show r')).toContain('x=11');
+  });
   it('round trips every shape, hierarchy, paint omission and escaped text', async () => {
     const storage = new MemoryStorage(); const e = new TestEditor(storage, codec);
     await e.setup('init 400 300','create g g','create rect r 1 2 3 4 in g','create circle c 1 2 3 red in g',

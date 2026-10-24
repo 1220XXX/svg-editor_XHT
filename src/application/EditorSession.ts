@@ -14,6 +14,7 @@ import type { TreeNode } from './TreeNode.js';
 export class EditorSession implements CommandContext {
   private document: SvgDocument | undefined;
   private filePath: string | undefined;
+  private readPath: string | undefined;
   private readonly history = new HistoryManager();
   constructor(readonly factory = new ShapeFactory(), private readonly storage?: TextStorage, private readonly codec?: DocumentCodec) {}
   async execute(command: Command): Promise<readonly string[]> {
@@ -22,7 +23,7 @@ export class EditorSession implements CommandContext {
   }
   init(width: number, height: number): string {
     const document = new SvgDocument(width, height);
-    this.document = document; this.filePath = undefined; this.history.barrier();
+    this.document = document; this.filePath = undefined; this.readPath = undefined; this.history.barrier();
     return `canvas ${width}x${height} created`;
   }
   canvas(width?: number, height?: number): string {
@@ -63,11 +64,11 @@ export class EditorSession implements CommandContext {
     if (!this.storage || !this.codec) throw new EditorError('SVG IO is not configured');
     const content = await this.storage.read(path);
     const { document, warnings } = this.codec.decode(content);
-    this.document = document; this.filePath = path; this.history.barrier();
+    this.document = document; this.filePath = path; this.readPath = path; this.history.barrier();
     return [...warnings, `read ${path} (${document.size} elements)`];
   }
   async save(path?: string): Promise<string> {
-    const document = this.current(); const target = path ?? this.filePath;
+    const document = this.current(); const target = path ?? this.readPath ?? this.filePath;
     if (!target) throw new EditorError('no file path. use save <file.svg>');
     if (!this.storage || !this.codec) throw new EditorError('SVG IO is not configured');
     const content = this.codec.encode(document);
