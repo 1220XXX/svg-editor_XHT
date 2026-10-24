@@ -4,6 +4,8 @@
 
 正式提交报告：**[doc/README.md](doc/README.md)** · [原始任务书](doc/phase_cli_1.md) · [架构图](doc/architecture.svg)
 
+**详细使用手册：[doc/USER_GUIDE.md](doc/USER_GUIDE.md)**，在一个文件中集中说明环境准备、全部命令、参数、操作回显、图形效果、脚本及常见问题。
+
 ## 安装与运行
 
 运行兼容范围为 Node.js 22 或以上；开发环境通过根目录的 `.nvmrc` 固定为 **Node.js v24.22.1**。依赖版本由 `package-lock.json` 锁定。
