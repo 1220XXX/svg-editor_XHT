@@ -664,7 +664,7 @@ svg (800x600)
 group <newGid> <id1> <id2>…
 ```
 
-- newGid 必须是全新 id，当前实现至少需要一个成员。
+- newGid 必须是全新 id，必须提供至少两个不同成员；零个或一个成员会报错，不改变图形和历史。若只需空容器，可使用 create g。
 - 成员从各自原父容器摘出，进入新容器。
 - 子节点保持编辑前全树先序遍历的相对顺序，不按参数顺序重新排序。
 - 同父成员的新容器放在最早被选节点位置；跨父成员的新容器放到画布根下、最早受影响顶层分支的位置。
@@ -1189,7 +1189,7 @@ npm start < examples/flowchart.cli
 | `npm start` | 运行已构建程序 |
 | `npm run check` | 依次类型检查、自动化测试、生产构建 |
 
-当前交付的功能测试有 11 个测试文件、94 项测试。这个数字来自已执行的验收，不表示任何任意 SVG 都受到支持。
+当前交付的功能测试有 11 个测试文件、98 项测试。这个数字来自已执行的验收，不表示任何任意 SVG 都受到支持。
 
 本手册的 18 组示例会话另行回放核验，共 156 条输入，覆盖当前全部 19 个 CLI 命令。文档验证未修改业务代码，也未把用户生成的 demo.svg 当作示例覆盖。
 
@@ -1230,6 +1230,7 @@ npm start < examples/flowchart.cli
 | `error: no document. use 'init' or 'read' first` | 先 init 或 read；help 可以直接使用 |
 | `error: unknown command: …` | 检查命令名和输入位置；help 查看支持的语法 |
 | `error: invalid arguments. use help for syntax` | 参数个数错误；例如 canvas 只能无参数或两个参数 |
+| `error: group requires at least two shapes` | group 需要至少两个不同成员；只有一个成员时不会创建组 |
 | `error: invalid arguments for create rect` | 该类型参数不足或过多，按 7.1 检查 |
 | `error: missing id before 'in' clause` | in 子句前缺少独立 id，例如 create g in scene；应补上孩子 id |
 | `error: unterminated double quote` | 双引号未闭合；使用英文双引号 |

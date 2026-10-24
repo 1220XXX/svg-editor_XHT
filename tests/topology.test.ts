@@ -2,6 +2,16 @@ import { describe, expect, it } from 'vitest';
 import { TestEditor } from './TestEditor.js';
 
 describe('tree operations are atomic history units', () => {
+  it.each(['group pair', 'group pair a'])('rejects fewer than two members atomically: %s', async command => {
+    const e = new TestEditor();
+    await e.setup('init', 'create rect a 1 2 3 4', 'move a 10 0', 'undo');
+    const before = await e.run('tree');
+    expect(await e.run(command)).toBe('error: group requires at least two shapes');
+    expect(await e.run('tree')).toBe(before);
+    await e.setup('redo'); expect(await e.run('show a')).toContain('x=11');
+    await e.setup('create circle b 0 0 1', 'group pair b a');
+    expect(await e.run('show pair')).toContain('parent=svg');
+  });
   it('groups in original order, undo restores all parents and indices', async () => {
     const e = new TestEditor();
     await e.setup('init','create g parent','create rect a 0 0 1 1 in parent','create circle b 2 2 1 in parent','create text c 0 0 "C" in parent');

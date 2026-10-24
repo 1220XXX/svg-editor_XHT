@@ -5,6 +5,11 @@ import { Group } from '../src/domain/shapes/Group.js';
 
 const factory = new ShapeFactory();
 describe('polymorphic shapes and document invariants', () => {
+  it.each([{ ids: [] }, { ids: ['a'] }])('enforces the group member minimum in the domain ($ids)', ({ ids }) => {
+    const doc = new SvgDocument(); doc.add(factory.create('rect', 'a', ['1','2','3','4']));
+    expect(() => doc.group('pair', ids)).toThrow('group requires at least two shapes');
+    expect(doc.size).toBe(1); expect(doc.parentLabel('a')).toBe('svg');
+  });
   it.each([
     ['rect', ['1','2','3','4'], 'x', 'y'],
     ['circle', ['1','2','3'], 'cx', 'cy'],

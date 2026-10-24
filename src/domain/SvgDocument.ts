@@ -48,7 +48,7 @@ export class SvgDocument {
   }
   group(newId: string, ids: readonly string[]): Group {
     if (this.all().some(node => node.id === newId)) throw new EditorError(`id already exists: ${newId}`);
-    if (!ids.length) throw new EditorError('group requires at least one shape');
+    if (ids.length < 2) throw new EditorError('group requires at least two shapes');
     if (new Set(ids).size !== ids.length) throw new EditorError('duplicate group member');
     const selected = ids.map(id => this.location(id));
     const selectedIds = new Set(ids);
