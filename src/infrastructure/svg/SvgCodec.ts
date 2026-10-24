@@ -26,12 +26,12 @@ export class SvgCodec implements DocumentCodec {
     this.checkNamespace(root);
     const width = Numeric.length(root.getAttribute('width') ?? '800', 'canvas width');
     const height = Numeric.length(root.getAttribute('height') ?? '600', 'canvas height');
-    const document = new SvgDocument(width, height);
+    const document = new SvgDocument(width, height, root.getAttribute('id') ?? undefined);
     const rootAttributes = this.attributes(root);
     const rootTransform = this.transforms.parse(rootAttributes.transform ?? '');
     delete rootAttributes.transform;
     for (const [name, value] of Object.entries(rootAttributes)) {
-      if (['width', 'height', 'viewBox'].includes(name)) continue;
+      if (['id', 'width', 'height', 'viewBox'].includes(name)) continue;
       document.importPresentation(name, value);
     }
     if (root.hasAttribute('viewBox')) {
@@ -41,6 +41,7 @@ export class SvgCodec implements DocumentCodec {
       }
     }
     const used = new Set<string>();
+    if (document.rootId !== undefined) used.add(document.rootId);
     const collect = (element: Element): void => {
       this.checkNamespace(element);
       const id = element.getAttribute('id');
@@ -88,6 +89,7 @@ export class SvgCodec implements DocumentCodec {
     const xml = new DOMImplementation().createDocument(this.namespace, 'svg', null);
     const root = xml.documentElement!;
     root.setAttribute('xmlns', this.namespace);
+    if (document.rootId !== undefined) root.setAttribute('id', document.rootId);
     root.setAttribute('width', String(document.width)); root.setAttribute('height', String(document.height));
     root.setAttribute('viewBox', `0 0 ${document.width} ${document.height}`);
     for (const [name, value] of Object.entries(document.presentation)) root.setAttribute(name, value);

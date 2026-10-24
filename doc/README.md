@@ -15,7 +15,7 @@
 | `src/application/commands` | Command 及每条命令的具体类，封装参数和行为 |
 | `src/application/history` | HistoryManager 管理历史，DocumentMemento 封装文档快照 |
 | `src/application/ports` | CommandContext / ReversibleEdit 解耦接收者与历史；TextStorage / DocumentCodec 隔离 IO |
-| `src/domain` | SvgDocument 维护树和约束；Numeric / SvgValue 校验值；UniformTransform 封装变换组合 |
+| `src/domain` | SvgDocument 维护树、根节点 id 和约束；Numeric / SvgValue / SvgId 校验值；UniformTransform 封装变换组合 |
 | `src/domain/shapes` | Shape / GeometryShape 和 Rect、Circle、Ellipse、Line、Text、Group |
 | `src/domain/factories` | ShapeFactory 集中创建图形，CLI 和 SVG 导入复用 |
 | `src/domain/errors` | EditorError 表达领域及用例错误 |
@@ -77,6 +77,7 @@
 - 首次保存新建文档必须给路径，成功保存后记住该路径；init 清空原路径。
 - 成功 init/read/save 或 canvas 修改尺寸后清空历史并设置禁用标记；下一条成功编辑解禁。失败命令不改变文档、路径、历史和禁用状态。只读 canvas 不影响历史。
 - 缺 id 时先保留全部显式 id，再按标签序号补全；整次导入成功后才输出警告。显式重名导致整次读取失败。
+- SVG 根节点 id 作为可选的文档信息保存，使用 SvgId 与图形共用原有校验规则；与全部图形共同检查唯一性。缺失时不为文档根自动补 id，根不计入图形数量、不作为普通图形编辑目标；init 清除旧根 id。
 
 ### SVG 支持范围与 transform 优化方案
 
@@ -179,9 +180,17 @@ transform 在基础功能验收后独立增强，支持：
 - 同步手册真实会话和根 README 的当前验收信息。类型检查、112 项测试、构建全部通过；生产 CLI 通过任务书 33 条命令、transform 往返及手册 17 组会话 155 条输入的逐行输出比较。
 - T01～T06 分别验证、提交并推送；原 `final` 标签及用户 `demo.svg` 保持原样。
 
+### 2026-10-24：根节点 id 兼容性修复
+
+- 审核实际复现：有效的 svg 根节点带 id 时被当作样式并拒绝。先新增 22 项回归，其中 21 项在旧实现上失败，确认覆盖了缺口。
+- SvgDocument 封装可选的只读根 id，克隆和快照携带该信息；SvgCodec 独立读写根 id，预留全部显式 id 时包含根，避免自动补 id 冲突。添加图形、整棵子树和分组时也检查根 id 重名。
+- 将图形已有的 id 校验提取为同一领域模块中的 SvgId，供根与图形复用；六类图形、CLI 白名单、树标题、元素计数和按名称分派位置保持原有约定。同步手册的范围说明、补 id 示例和工程 README。
+- 类型检查、134 项测试和构建通过；真实构建版 CLI 验证根 id 读写、冲突拒绝、失败原子性、undo/redo 和 init 清理，并重新回放任务书会话、手册 155 条输入、752 条补充审核输入及 transform 往返。
+- 用户本次批准功能修复和独立提交推送，明确要求等待最终稿确认后再处理 final；因此本次不创建或移动任何标签，也不纳入用户 demo.svg。
+
 ## 一致性自查
 
-**模块划分是否一致？** 一致。Argument、TreeNode、命令接收者接口和 transform 语法对象是原模块内部细化；领域层增加 UniformTransform / SvgValue。没有新增未说明的业务层或将 IO 放进领域模型。命令与历史合并为一个开发阶段的理由已记入过程记录。
+**模块划分是否一致？** 一致。Argument、TreeNode、命令接收者接口和 transform 语法对象是原模块内部细化；领域层增加 UniformTransform / SvgValue / SvgId。SvgId 的校验复用和根 id 兼容修复已记入过程记录。没有新增未说明的业务层或将 IO 放进领域模型。命令与历史合并为一个开发阶段的理由已记入过程记录。
 
 **依赖规则是否违反？** 最终检查未发现违反。`tests/architecture.test.ts` 遍历全部源文件的本地导入，包括类型导入，验证允许的模块方向、外部依赖隔离、一类一文件、无循环依赖和无 switch 分派。
 
@@ -207,6 +216,7 @@ transform 在基础功能验收后独立增强，支持：
 | 撤销重做、屏障、失败原子性 | `tests/history.test.ts` |
 | 分组、解组、顺序、循环防护、子树删除 | `tests/topology.test.ts` |
 | SVG 往返、补 id、重名、失败 IO、真实文件替换 | `tests/persistence.test.ts` |
+| 根 id 往返、全局唯一性、自动避让、快照、初始化与失败读取 | `tests/root-id.test.ts` |
 | 任务书完整会话、两节点流程图、指定错误、真实 CLI | `tests/acceptance.test.ts` |
 | 交互提示符、EOF、串行输入、转义 | `tests/repl.test.ts` |
 | 模块边界、类文件名、循环依赖 | `tests/architecture.test.ts` |

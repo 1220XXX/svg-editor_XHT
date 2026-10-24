@@ -370,6 +370,7 @@ read "/Users/xht/Desktop/my diagram.svg"
 - CLI 内的 `~` 不经过 Shell 展开，建议使用完整绝对路径或项目相对路径。
 - 成功读取替换当前文档，并记住读取路径；此后可以直接 `save`。
 - 外部图形缺 id 时补上标签名和序号，打印 warning；显式 id 重复会拒绝整次读取。
+- svg 根节点的可选 id 会保留并写回文件，与全部子图形共同遵守唯一性规则。自动补图形 id 时也会避开根节点 id；空根 id 或不符合现有 id 校验规则的值会报错。
 - 读取失败保留当前图形和历史；成功读取不能撤销回原文档。
 
 ### 6.4 save：保存和另存
@@ -941,7 +942,8 @@ rect#r1 moved back to (10,20)
 |---|---|
 | rect/circle/ellipse/line/text/g | 可以导入和保存 |
 | 唯一、大小写敏感 id | 保留；重复则拒绝 |
-| 缺 id | 自动按标签名加序号补全，先避开全部显式 id |
+| svg 根节点的可选 id | 保留并写回；不计入图形数量，未提供时不自动补 id |
+| 缺 id 的图形 | 自动按标签名加序号补全，先避开根节点及全部显式图形 id |
 | fill/stroke/stroke-width | 保留 |
 | font-size/text-anchor/font-family/font-weight | 可导入保留；不加入 CLI set 白名单 |
 | opacity/fill-opacity/stroke-opacity | 可导入，数值范围 0～1 |
@@ -953,21 +955,23 @@ rect#r1 moved back to (10,20)
 
 导入不是通用 SVG 清洗或完整 SVG 标准实现。遇到其他设计软件导出的复杂文件，可能需要先简化到上述子集。
 
+根节点 id 属于文档信息，tree 的画布标题仍为 svg (宽x高)，parent=svg 的显示不变。move / scale / set / delete / show / tree <id> 等按 id 操作的目标仍为六种图形；根节点不作为普通图形操作，也不能作为 create 的 in 目标。init 创建新文档时清除原根节点 id。
+
 ### 11.2 自动补 id 的效果
 
 例如外部文件包含：
 
 ```xml
-<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+<svg xmlns="http://www.w3.org/2000/svg" id="rect1" width="100" height="100" viewBox="0 0 100 100">
   <rect x="0" y="0" width="50" height="20"/>
-  <rect id="rect1" x="60" y="0" width="20" height="20"/>
+  <rect id="rect2" x="60" y="0" width="20" height="20"/>
 </svg>
 ```
 
-第一个矩形会得到 rect2，而不是占用后面已存在的 rect1。警告格式为：
+第一个矩形会得到 rect3，同时避开根节点的 rect1 和后面矩形的 rect2。警告格式为：
 
 ```text
-warning: assigned id rect2 to unnamed <rect>
+warning: assigned id rect3 to unnamed <rect>
 ```
 
 补 id 警告不表示读取失败；之后可以按新 id 继续操作。若整次读取失败，当前文档保持原状。
@@ -1190,7 +1194,7 @@ npm start < examples/flowchart.cli
 | `npm start` | 运行已构建程序 |
 | `npm run check` | 依次类型检查、自动化测试、生产构建 |
 
-当前交付的功能测试有 13 个测试文件、112 项测试。这个数字来自已执行的验收，不表示任何任意 SVG 都受到支持。
+当前交付的功能测试有 14 个测试文件、134 项测试。这个数字来自已执行的验收，不表示任何任意 SVG 都受到支持。
 
 本手册的 18 组示例会话另行回放核验，共 156 条输入，覆盖当前全部 19 个 CLI 命令。文档验证未修改业务代码，也未把用户生成的 demo.svg 当作示例覆盖。
 

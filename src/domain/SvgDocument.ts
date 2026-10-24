@@ -1,5 +1,6 @@
 import { EditorError } from './errors/EditorError.js';
 import { Numeric } from './Numeric.js';
+import { SvgId } from './SvgId.js';
 import { Group } from './shapes/Group.js';
 import { Shape } from './shapes/Shape.js';
 
@@ -7,9 +8,11 @@ type Location = { shape: Shape; parent: Group; index: number };
 
 export class SvgDocument {
   private root = new Group('__document_root__');
-  constructor(private canvasWidth = 800, private canvasHeight = 600) {
+  constructor(private canvasWidth = 800, private canvasHeight = 600, private readonly documentId?: string) {
+    if (documentId !== undefined) SvgId.validate(documentId);
     this.resize(canvasWidth, canvasHeight);
   }
+  get rootId(): string | undefined { return this.documentId; }
   get width(): number { return this.canvasWidth; }
   get height(): number { return this.canvasHeight; }
   get children(): readonly Shape[] { return this.root.children; }
@@ -23,7 +26,7 @@ export class SvgDocument {
   }
   importPresentation(name: string, value: string): void { this.root.importPresentation(name, value); }
   clone(): SvgDocument {
-    const copy = new SvgDocument(this.width, this.height); copy.root = this.root.clone(); return copy;
+    const copy = new SvgDocument(this.width, this.height, this.rootId); copy.root = this.root.clone(); return copy;
   }
   all(): readonly Shape[] {
     const nodes: Shape[] = [];
@@ -36,7 +39,7 @@ export class SvgDocument {
   }
   add(shape: Shape, parentId?: string): void {
     const parent = parentId === undefined ? this.root : this.container(parentId);
-    const seen = new Set(this.all().map(node => node.id));
+    const seen = this.usedIds();
     const check = (node: Shape): void => {
       if (seen.has(node.id)) throw new EditorError(`id already exists: ${node.id}`);
       seen.add(node.id); node.children.forEach(check);
@@ -47,7 +50,7 @@ export class SvgDocument {
     const { shape, parent } = this.location(id); parent.remove(shape); return shape.label;
   }
   group(newId: string, ids: readonly string[]): Group {
-    if (this.all().some(node => node.id === newId)) throw new EditorError(`id already exists: ${newId}`);
+    if (this.usedIds().has(newId)) throw new EditorError(`id already exists: ${newId}`);
     if (ids.length < 2) throw new EditorError('group requires at least two shapes');
     if (new Set(ids).size !== ids.length) throw new EditorError('duplicate group member');
     const selected = ids.map(id => this.location(id));
@@ -86,6 +89,11 @@ export class SvgDocument {
   reorder(id: string, front: boolean): void {
     const { shape, parent } = this.location(id); parent.remove(shape);
     parent.insert(shape, front ? parent.children.length : 0);
+  }
+  private usedIds(): Set<string> {
+    const ids = new Set(this.all().map(node => node.id));
+    if (this.rootId !== undefined) ids.add(this.rootId);
+    return ids;
   }
   private container(id: string): Group {
     const shape = this.all().find(node => node.id === id);

@@ -1,13 +1,13 @@
 import { EditorError } from '../errors/EditorError.js';
 import { SvgValue } from '../SvgValue.js';
+import { SvgId } from '../SvgId.js';
 import { Numeric } from '../Numeric.js';
 
 export abstract class Shape {
   private readonly styles = new Map<string, string>();
   private readonly metadata = new Map<string, string>();
   protected constructor(private readonly shapeId: string) {
-    SvgValue.validate(shapeId, 'id');
-    if (!shapeId || /[\s"'<>/=]/.test(shapeId)) throw new EditorError(`invalid id: ${shapeId}`);
+    SvgId.validate(shapeId);
   }
   get id(): string { return this.shapeId; }
   abstract get type(): string;
