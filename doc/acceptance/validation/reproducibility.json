@@ -1,0 +1,31 @@
+{
+  "baselineCodeCommit": "2f5ef475a2e9d24bd2ece7944b63fc07ac036749",
+  "finalTagObjectBefore": "ebe8e0a32fd0784034a6d04bbf61110fe5e21f5a",
+  "finalTagObjectAfter": "ebe8e0a32fd0784034a6d04bbf61110fe5e21f5a",
+  "cleanCopyHasPersonalDemo": false,
+  "cleanCopyStartedWithout": [
+    "node_modules",
+    "dist",
+    "coverage"
+  ],
+  "overlays": [
+    "README.md",
+    "doc/README.md",
+    "package.json",
+    "scripts/acceptance",
+    "doc/acceptance"
+  ],
+  "execution": {
+    "clean-npm-ci": 0,
+    "clean-default-acceptance": 0
+  },
+  "committedEvidenceFileCount": 439,
+  "defaultEvidenceUnchanged": true,
+  "evidenceManifestSha256Before": "536ec28283dddccdc310a33f71c7a38b7780d5e56635c555a5a95f2bf624a8ea",
+  "evidenceManifestSha256After": "536ec28283dddccdc310a33f71c7a38b7780d5e56635c555a5a95f2bf624a8ea",
+  "originalSourceTestsExamplesConfigsPersonalFileAndArtifactsUnchanged": true,
+  "finalUnchanged": true,
+  "passed": true,
+  "runnerSha256": "bafa21351edb89ae5d9364511608979b9e7ec01bfc9422f32374f5af8f15b1c6",
+  "casesSha256": "3d35cbf994900cc2c1404c0df65543289d62450dad10ecf15b93ac2e9ab1561e"
+}

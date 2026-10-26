@@ -1,0 +1,38 @@
+# scenario: no-document
+init [w] [h]
+read <file.svg>
+save [file.svg]
+canvas [w] [h]
+create <rect|circle|ellipse|line|text|g> <id> [params...] [in <gid>]
+delete <id>
+move <id> <dx> <dy>
+scale <id> <factor>
+set <id> <attr> <value>
+group <newGid> <id1> <id2>...
+ungroup <gid>
+addto <gid> <id>
+front <id>
+back <id>
+tree [id]
+show <id>
+undo
+redo
+help
+create rect <id> <x> <y> <width> <height> [fill] [in <containerId>]
+create circle <id> <cx> <cy> <r> [fill] [in <containerId>]
+create ellipse <id> <cx> <cy> <rx> <ry> [fill] [in <containerId>]
+create line <id> <x1> <y1> <x2> <y2> [stroke] [in <containerId>]
+create text <id> <x> <y> "content" [in <containerId>]
+create g <id> [in <containerId>]
+error: no document. use 'init' or 'read' first
+error: no document. use 'init' or 'read' first
+error: no document. use 'init' or 'read' first
+error: no document. use 'init' or 'read' first
+error: no document. use 'init' or 'read' first
+error: no document. use 'init' or 'read' first
+error: no document. use 'init' or 'read' first
+error: no document. use 'init' or 'read' first
+canvas 800x600 created
+error: unknown shape type: box (is the plugin loaded?)
+error: unknown shape type: hexagon (is the plugin loaded?)
+svg (800x600)

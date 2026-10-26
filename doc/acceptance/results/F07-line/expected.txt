@@ -1,0 +1,10 @@
+# scenario: create
+canvas 800x600 created
+g#p created
+line#plain created
+line#painted created in g#p
+line#plain  parent=svg
+  x1=10 y1=20 x2=30 y2=40
+line#painted  parent=g#p
+  x1=10 y1=20 x2=30 y2=40
+  stroke=black

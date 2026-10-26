@@ -1,0 +1,74 @@
+{
+  "case": "F34-io-failure",
+  "entry": "source",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 11,
+  "assertions": [
+    {
+      "name": "failed-io:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "failed-io:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "failed-io:stdout-exact",
+      "passed": true,
+      "expected": "read source.svg (1 elements)\nrect#r moved to (10,2)\nrect#r moved back to (1,2)\nerror: cannot read file: missing.svg\nerror: invalid SVG: malformed XML\nerror: cannot write file: destination\nrect#r  parent=svg\n  x=1 y=2 width=3 height=4\nrect#r moved to (10,2)\nrect#r moved back to (1,2)\nrect#r moved to (10,2)\nsaved to source.svg (1 elements)\n",
+      "actual": "read source.svg (1 elements)\nrect#r moved to (10,2)\nrect#r moved back to (1,2)\nerror: cannot read file: missing.svg\nerror: invalid SVG: malformed XML\nerror: cannot write file: destination\nrect#r  parent=svg\n  x=1 y=2 width=3 height=4\nrect#r moved to (10,2)\nrect#r moved back to (1,2)\nrect#r moved to (10,2)\nsaved to source.svg (1 elements)\n"
+    },
+    {
+      "name": "failed-io:source.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "failed-io:source.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "failed-io:source.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "failed-io:source.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "failed-io:source.svg:0:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "failed-io:source.svg:0:node:r:attribute:x",
+      "passed": true,
+      "expected": "10",
+      "actual": "10"
+    },
+    {
+      "name": "failed-io:destination:not-a-file",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "files/source.svg"
+  ]
+}

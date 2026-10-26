@@ -1,0 +1,41 @@
+# scenario: whitelist
+init
+create rect r 1 2 3 4
+set r x "10"
+set r y "11"
+set r width "12"
+set r height "13"
+show r
+set r arbitrary 1
+create circle c 1 2 3
+set c cx "10"
+set c cy "11"
+set c r "12"
+show c
+set c arbitrary 1
+create ellipse e 1 2 3 4
+set e cx "10"
+set e cy "11"
+set e rx "12"
+set e ry "13"
+show e
+set e arbitrary 1
+create line l 1 2 3 4
+set l x1 "10"
+set l y1 "11"
+set l x2 "12"
+set l y2 "13"
+show l
+set l arbitrary 1
+create text t 1 2 "文"
+set t x "10"
+set t y "11"
+show t
+set t arbitrary 1
+set r id other
+set r transform x
+set t font-size 12
+set r width -1
+show r
+create g p
+set p x 1

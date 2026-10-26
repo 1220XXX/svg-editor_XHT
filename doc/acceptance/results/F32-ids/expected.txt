@@ -1,0 +1,18 @@
+# scenario: identity
+warning: assigned id rect3 to unnamed <rect>
+warning: assigned id g1 to unnamed <g>
+read ids.svg (3 elements)
+rect#rect3  parent=svg
+  x=1 y=2 width=3 height=4
+error: id already exists: rect1
+error: id already exists: rect1
+g#A created
+g#a created
+error: id already exists: A
+error: no such shape: rect1
+error: no such container: rect1
+error: id already exists: x
+g#A  parent=svg
+saved to after.svg (5 elements)
+canvas 800x600 created
+saved to reset.svg (0 elements)

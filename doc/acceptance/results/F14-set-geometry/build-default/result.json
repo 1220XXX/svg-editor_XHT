@@ -1,0 +1,31 @@
+{
+  "case": "F14-set-geometry",
+  "entry": "build",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 40,
+  "assertions": [
+    {
+      "name": "whitelist:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "whitelist:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "whitelist:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\nrect#r created\nrect#r updated: x=\"10\"\nrect#r updated: y=\"11\"\nrect#r updated: width=\"12\"\nrect#r updated: height=\"13\"\nrect#r  parent=svg\n  x=10 y=11 width=12 height=13\nerror: unknown attribute: arbitrary\ncircle#c created\ncircle#c updated: cx=\"10\"\ncircle#c updated: cy=\"11\"\ncircle#c updated: r=\"12\"\ncircle#c  parent=svg\n  cx=10 cy=11 r=12\nerror: unknown attribute: arbitrary\nellipse#e created\nellipse#e updated: cx=\"10\"\nellipse#e updated: cy=\"11\"\nellipse#e updated: rx=\"12\"\nellipse#e updated: ry=\"13\"\nellipse#e  parent=svg\n  cx=10 cy=11 rx=12 ry=13\nerror: unknown attribute: arbitrary\nline#l created\nline#l updated: x1=\"10\"\nline#l updated: y1=\"11\"\nline#l updated: x2=\"12\"\nline#l updated: y2=\"13\"\nline#l  parent=svg\n  x1=10 y1=11 x2=12 y2=13\nerror: unknown attribute: arbitrary\ntext#t created\ntext#t updated: x=\"10\"\ntext#t updated: y=\"11\"\ntext#t  parent=svg\n  x=10 y=11\n  text=\"文\"\nerror: unknown attribute: arbitrary\nerror: unknown attribute: id\nerror: unknown attribute: transform\nerror: unknown attribute: font-size\nerror: width must be nonnegative\nrect#r  parent=svg\n  x=10 y=11 width=12 height=13\ng#p created\nerror: unknown attribute: x\n",
+      "actual": "canvas 800x600 created\nrect#r created\nrect#r updated: x=\"10\"\nrect#r updated: y=\"11\"\nrect#r updated: width=\"12\"\nrect#r updated: height=\"13\"\nrect#r  parent=svg\n  x=10 y=11 width=12 height=13\nerror: unknown attribute: arbitrary\ncircle#c created\ncircle#c updated: cx=\"10\"\ncircle#c updated: cy=\"11\"\ncircle#c updated: r=\"12\"\ncircle#c  parent=svg\n  cx=10 cy=11 r=12\nerror: unknown attribute: arbitrary\nellipse#e created\nellipse#e updated: cx=\"10\"\nellipse#e updated: cy=\"11\"\nellipse#e updated: rx=\"12\"\nellipse#e updated: ry=\"13\"\nellipse#e  parent=svg\n  cx=10 cy=11 rx=12 ry=13\nerror: unknown attribute: arbitrary\nline#l created\nline#l updated: x1=\"10\"\nline#l updated: y1=\"11\"\nline#l updated: x2=\"12\"\nline#l updated: y2=\"13\"\nline#l  parent=svg\n  x1=10 y1=11 x2=12 y2=13\nerror: unknown attribute: arbitrary\ntext#t created\ntext#t updated: x=\"10\"\ntext#t updated: y=\"11\"\ntext#t  parent=svg\n  x=10 y=11\n  text=\"文\"\nerror: unknown attribute: arbitrary\nerror: unknown attribute: id\nerror: unknown attribute: transform\nerror: unknown attribute: font-size\nerror: width must be nonnegative\nrect#r  parent=svg\n  x=10 y=11 width=12 height=13\ng#p created\nerror: unknown attribute: x\n"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt"
+  ]
+}

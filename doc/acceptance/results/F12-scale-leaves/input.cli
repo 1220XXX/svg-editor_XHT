@@ -1,0 +1,25 @@
+# scenario: geometry-only
+init
+create rect r 1 2 3 4
+set r stroke-width "3"
+scale r 2
+show r
+create circle c 1 2 3
+set c stroke-width "3"
+scale c 2
+show c
+create ellipse e 1 2 3 4
+set e stroke-width "3"
+scale e 2
+show e
+create line l 1 2 3 4
+set l stroke-width "3"
+scale l 2
+show l
+create text t 1 2 "文"
+set t stroke-width "3"
+scale t 2
+show t
+read font.svg
+scale label 2
+show label

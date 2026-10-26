@@ -1,0 +1,13 @@
+# scenario: replace
+canvas 800x600 created
+g#old created
+saved to old.svg (1 elements)
+canvas 320x600 created
+error: no such shape: old
+error: no file path. use save <file.svg>
+error: undo not allowed after io command
+error: undo not allowed after io command
+canvas 12.5x30.5 created
+canvas 12.5x30.5
+error: canvas width must be positive
+canvas 12.5x30.5

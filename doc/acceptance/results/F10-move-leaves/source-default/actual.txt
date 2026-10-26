@@ -1,0 +1,26 @@
+# scenario: five-shapes
+canvas 800x600 created
+rect#r created
+rect#r moved to (11,22)
+rect#r  parent=svg
+  x=11 y=22 width=3 height=4
+circle#c created
+circle#c moved to (11,22)
+circle#c  parent=svg
+  cx=11 cy=22 r=3
+ellipse#e created
+ellipse#e moved to (11,22)
+ellipse#e  parent=svg
+  cx=11 cy=22 rx=3 ry=4
+line#l created
+line#l moved to (11,22)
+line#l  parent=svg
+  x1=11 y1=22 x2=13 y2=24
+text#t created
+text#t moved to (11,22)
+text#t  parent=svg
+  x=11 y=22
+  text="文"
+rect#r moved to (10.5,20)
+rect#r  parent=svg
+  x=10.5 y=20 width=3 height=4

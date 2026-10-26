@@ -1,0 +1,34 @@
+# scenario: rejected-edits
+canvas 800x600 created
+g#p created
+rect#r created in g#p
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+error: id already exists: r
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+error: no such shape: missing
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+error: invalid dx: NaN
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+error: scale factor must be positive
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+error: group requires at least two shapes
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+error: duplicate group member
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+error: cannot group a container into its own descendant: p
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+error: width must be nonnegative
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4

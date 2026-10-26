@@ -1,0 +1,20 @@
+# scenario: recursive
+canvas 800x600 created
+g#p created
+g#q created in g#p
+rect#r created in g#q
+line#l created in g#q
+g#p scaled by 2
+rect#r  parent=g#q
+  x=2 y=4 width=6 height=8
+line#l  parent=g#q
+  x1=2 y1=4 x2=6 y2=8
+g#p scale restored
+error: scale factor must be positive
+error: scale factor must be positive
+error: invalid scale factor: NaN
+rect#r  parent=g#q
+  x=1 y=2 width=3 height=4
+g#p scaled by 2
+rect#r  parent=g#q
+  x=2 y=4 width=6 height=8

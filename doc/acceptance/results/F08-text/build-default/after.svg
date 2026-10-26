@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <g id="p">
+    <text id="t" x="10" y="20">中文 空格 "引号" C:\tmp &amp; &lt; &gt;</text>
+  </g>
+  <text id="empty" x="0" y="0"></text>
+</svg>

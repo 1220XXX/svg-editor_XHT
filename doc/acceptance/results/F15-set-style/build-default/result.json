@@ -1,0 +1,31 @@
+{
+  "case": "F15-set-style",
+  "entry": "build",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 33,
+  "assertions": [
+    {
+      "name": "all-types:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "all-types:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "all-types:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\nrect#r created\nrect#r updated: fill=\"#AbC\"\nrect#r updated: stroke=\"green\"\nrect#r updated: stroke-width=\"2.5\"\nrect#r  parent=svg\n  x=1 y=2 width=3 height=4\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5\ncircle#c created\ncircle#c updated: fill=\"#AbC\"\ncircle#c updated: stroke=\"green\"\ncircle#c updated: stroke-width=\"2.5\"\ncircle#c  parent=svg\n  cx=1 cy=2 r=3\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5\nellipse#e created\nellipse#e updated: fill=\"#AbC\"\nellipse#e updated: stroke=\"green\"\nellipse#e updated: stroke-width=\"2.5\"\nellipse#e  parent=svg\n  cx=1 cy=2 rx=3 ry=4\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5\nline#l created\nline#l updated: fill=\"#AbC\"\nline#l updated: stroke=\"green\"\nline#l updated: stroke-width=\"2.5\"\nline#l  parent=svg\n  x1=1 y1=2 x2=3 y2=4\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5\ntext#t created\ntext#t updated: fill=\"#AbC\"\ntext#t updated: stroke=\"green\"\ntext#t updated: stroke-width=\"2.5\"\ntext#t  parent=svg\n  x=1 y=2\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5\n  text=\"文\"\ng#p created\ng#p updated: fill=\"#AbC\"\ng#p updated: stroke=\"green\"\ng#p updated: stroke-width=\"2.5\"\ng#p  parent=svg\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5\nerror: stroke-width must be nonnegative\ng#p  parent=svg\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5\n",
+      "actual": "canvas 800x600 created\nrect#r created\nrect#r updated: fill=\"#AbC\"\nrect#r updated: stroke=\"green\"\nrect#r updated: stroke-width=\"2.5\"\nrect#r  parent=svg\n  x=1 y=2 width=3 height=4\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5\ncircle#c created\ncircle#c updated: fill=\"#AbC\"\ncircle#c updated: stroke=\"green\"\ncircle#c updated: stroke-width=\"2.5\"\ncircle#c  parent=svg\n  cx=1 cy=2 r=3\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5\nellipse#e created\nellipse#e updated: fill=\"#AbC\"\nellipse#e updated: stroke=\"green\"\nellipse#e updated: stroke-width=\"2.5\"\nellipse#e  parent=svg\n  cx=1 cy=2 rx=3 ry=4\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5\nline#l created\nline#l updated: fill=\"#AbC\"\nline#l updated: stroke=\"green\"\nline#l updated: stroke-width=\"2.5\"\nline#l  parent=svg\n  x1=1 y1=2 x2=3 y2=4\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5\ntext#t created\ntext#t updated: fill=\"#AbC\"\ntext#t updated: stroke=\"green\"\ntext#t updated: stroke-width=\"2.5\"\ntext#t  parent=svg\n  x=1 y=2\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5\n  text=\"文\"\ng#p created\ng#p updated: fill=\"#AbC\"\ng#p updated: stroke=\"green\"\ng#p updated: stroke-width=\"2.5\"\ng#p  parent=svg\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5\nerror: stroke-width must be nonnegative\ng#p  parent=svg\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5\n"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt"
+  ]
+}

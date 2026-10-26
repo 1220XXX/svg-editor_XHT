@@ -1,0 +1,61 @@
+# scenario: all-types
+canvas 800x600 created
+rect#r created
+rect#r updated: fill="#AbC"
+rect#r updated: stroke="green"
+rect#r updated: stroke-width="2.5"
+rect#r  parent=svg
+  x=1 y=2 width=3 height=4
+  fill=#AbC
+  stroke=green
+  stroke-width=2.5
+circle#c created
+circle#c updated: fill="#AbC"
+circle#c updated: stroke="green"
+circle#c updated: stroke-width="2.5"
+circle#c  parent=svg
+  cx=1 cy=2 r=3
+  fill=#AbC
+  stroke=green
+  stroke-width=2.5
+ellipse#e created
+ellipse#e updated: fill="#AbC"
+ellipse#e updated: stroke="green"
+ellipse#e updated: stroke-width="2.5"
+ellipse#e  parent=svg
+  cx=1 cy=2 rx=3 ry=4
+  fill=#AbC
+  stroke=green
+  stroke-width=2.5
+line#l created
+line#l updated: fill="#AbC"
+line#l updated: stroke="green"
+line#l updated: stroke-width="2.5"
+line#l  parent=svg
+  x1=1 y1=2 x2=3 y2=4
+  fill=#AbC
+  stroke=green
+  stroke-width=2.5
+text#t created
+text#t updated: fill="#AbC"
+text#t updated: stroke="green"
+text#t updated: stroke-width="2.5"
+text#t  parent=svg
+  x=1 y=2
+  fill=#AbC
+  stroke=green
+  stroke-width=2.5
+  text="文"
+g#p created
+g#p updated: fill="#AbC"
+g#p updated: stroke="green"
+g#p updated: stroke-width="2.5"
+g#p  parent=svg
+  fill=#AbC
+  stroke=green
+  stroke-width=2.5
+error: stroke-width must be nonnegative
+g#p  parent=svg
+  fill=#AbC
+  stroke=green
+  stroke-width=2.5

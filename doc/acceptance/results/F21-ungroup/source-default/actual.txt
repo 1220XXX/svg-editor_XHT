@@ -1,0 +1,28 @@
+# scenario: promote
+canvas 800x600 created
+g#p created
+g#a created in g#p
+g#inner created in g#p
+g#b created in g#inner
+g#c created in g#inner
+g#d created in g#p
+g#inner ungrouped (2 children promoted)
+svg (800x600)
+└── g#p
+    ├── g#a
+    ├── g#b
+    ├── g#c
+    └── g#d
+g#inner restored with 2 children
+g#b  parent=g#inner
+error: cannot ungroup top-level container: p
+g#inner ungrouped (2 children promoted)
+# scenario: default-inheritance
+canvas 800x600 created
+g#outer created
+g#inner created in g#outer
+g#inner updated: fill="red"
+rect#r created in g#inner
+g#inner ungrouped (1 children promoted)
+rect#r  parent=g#outer
+  x=1 y=2 width=3 height=4

@@ -1,0 +1,17 @@
+# scenario: recursive
+init
+create g p
+create g q in p
+create rect r 1 2 3 4 in q
+create circle c 1 2 3 in q
+create ellipse e 1 2 3 4 in q
+create line l 1 2 3 4 in q
+create text t 1 2 "文" in q
+move p 10 20
+show r
+show c
+show e
+show l
+show t
+undo
+show l

@@ -1,0 +1,129 @@
+{
+  "case": "F32-ids",
+  "entry": "build",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 14,
+  "assertions": [
+    {
+      "name": "identity:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "identity:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "identity:stdout-exact",
+      "passed": true,
+      "expected": "warning: assigned id rect3 to unnamed <rect>\nwarning: assigned id g1 to unnamed <g>\nread ids.svg (3 elements)\nrect#rect3  parent=svg\n  x=1 y=2 width=3 height=4\nerror: id already exists: rect1\nerror: id already exists: rect1\ng#A created\ng#a created\nerror: id already exists: A\nerror: no such shape: rect1\nerror: no such container: rect1\nerror: id already exists: x\ng#A  parent=svg\nsaved to after.svg (5 elements)\ncanvas 800x600 created\nsaved to reset.svg (0 elements)\n",
+      "actual": "warning: assigned id rect3 to unnamed <rect>\nwarning: assigned id g1 to unnamed <g>\nread ids.svg (3 elements)\nrect#rect3  parent=svg\n  x=1 y=2 width=3 height=4\nerror: id already exists: rect1\nerror: id already exists: rect1\ng#A created\ng#a created\nerror: id already exists: A\nerror: no such shape: rect1\nerror: no such container: rect1\nerror: id already exists: x\ng#A  parent=svg\nsaved to after.svg (5 elements)\ncanvas 800x600 created\nsaved to reset.svg (0 elements)\n"
+    },
+    {
+      "name": "identity:after.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "identity:after.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "identity:after.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "identity:after.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "identity:after.svg:0:root:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "identity:after.svg:0:root:attribute:id",
+      "passed": true,
+      "expected": "rect1",
+      "actual": "rect1"
+    },
+    {
+      "name": "identity:after.svg:1:node:rect3:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "identity:after.svg:2:node:A:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "identity:after.svg:3:node:a:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "identity:reset.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "identity:reset.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "identity:reset.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "identity:reset.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "identity:reset.svg:0:root:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "identity:reset.svg:0:root:omitted:id",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "identity:reset.svg:0:root:children",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "files/after.svg",
+    "files/reset.svg"
+  ]
+}

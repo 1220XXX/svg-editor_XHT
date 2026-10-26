@@ -1,0 +1,7 @@
+# scenario: create
+init
+create g p
+create ellipse plain 50 60 7 8
+create ellipse painted 50 60 7 8 blue in p
+show plain
+show painted

@@ -1,0 +1,191 @@
+{
+  "case": "F19-group-same",
+  "entry": "source",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 10,
+  "assertions": [
+    {
+      "name": "order:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "order:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "order:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#a created\ng#b created\ng#c created\ng#d created\ng#pair created with 2 children\nsvg (800x600)\n├── g#a\n├── g#pair\n│   ├── g#b\n│   └── g#d\n└── g#c\ng#pair ungrouped (2 children restored)\nsvg (800x600)\n├── g#a\n├── g#b\n├── g#c\n└── g#d\ng#pair created with 2 children\n",
+      "actual": "canvas 800x600 created\ng#a created\ng#b created\ng#c created\ng#d created\ng#pair created with 2 children\nsvg (800x600)\n├── g#a\n├── g#pair\n│   ├── g#b\n│   └── g#d\n└── g#c\ng#pair ungrouped (2 children restored)\nsvg (800x600)\n├── g#a\n├── g#b\n├── g#c\n└── g#d\ng#pair created with 2 children\n"
+    },
+    {
+      "name": "order:before.svg:replay-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "order:before.svg:replay-stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "order:before.svg:replay-prefix",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#a created\ng#b created\ng#c created\ng#d created\n",
+      "actual": "canvas 800x600 created\ng#a created\ng#b created\ng#c created\ng#d created\n"
+    },
+    {
+      "name": "order:before.svg:save-response",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "order:before.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "order:before.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "order:before.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "order:before.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "order:before.svg:0:root:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "order:before.svg:0:root:children",
+      "passed": true,
+      "expected": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "actual": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ]
+    },
+    {
+      "name": "order:after.svg:replay-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "order:after.svg:replay-stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "order:after.svg:replay-prefix",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#a created\ng#b created\ng#c created\ng#d created\ng#pair created with 2 children\nsvg (800x600)\n├── g#a\n├── g#pair\n│   ├── g#b\n│   └── g#d\n└── g#c\ng#pair ungrouped (2 children restored)\nsvg (800x600)\n├── g#a\n├── g#b\n├── g#c\n└── g#d\ng#pair created with 2 children\n",
+      "actual": "canvas 800x600 created\ng#a created\ng#b created\ng#c created\ng#d created\ng#pair created with 2 children\nsvg (800x600)\n├── g#a\n├── g#pair\n│   ├── g#b\n│   └── g#d\n└── g#c\ng#pair ungrouped (2 children restored)\nsvg (800x600)\n├── g#a\n├── g#b\n├── g#c\n└── g#d\ng#pair created with 2 children\n"
+    },
+    {
+      "name": "order:after.svg:save-response",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "order:after.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "order:after.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "order:after.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "order:after.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "order:after.svg:0:root:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "order:after.svg:0:root:children",
+      "passed": true,
+      "expected": [
+        "a",
+        "pair",
+        "c"
+      ],
+      "actual": [
+        "a",
+        "pair",
+        "c"
+      ]
+    },
+    {
+      "name": "order:after.svg:1:node:pair:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "order:after.svg:1:node:pair:children",
+      "passed": true,
+      "expected": [
+        "b",
+        "d"
+      ],
+      "actual": [
+        "b",
+        "d"
+      ]
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "before.svg",
+    "before.replay.cli",
+    "after.svg",
+    "after.replay.cli"
+  ]
+}

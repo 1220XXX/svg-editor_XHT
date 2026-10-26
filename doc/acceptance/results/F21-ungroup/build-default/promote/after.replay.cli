@@ -1,0 +1,14 @@
+init
+create g p
+create g a in p
+create g inner in p
+create g b in inner
+create g c in inner
+create g d in p
+ungroup inner
+tree
+undo
+show b
+ungroup p
+redo
+save acceptance-snapshot.svg

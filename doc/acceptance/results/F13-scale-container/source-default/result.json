@@ -1,0 +1,31 @@
+{
+  "case": "F13-scale-container",
+  "entry": "source",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 15,
+  "assertions": [
+    {
+      "name": "recursive:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "recursive:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "recursive:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ng#q created in g#p\nrect#r created in g#q\nline#l created in g#q\ng#p scaled by 2\nrect#r  parent=g#q\n  x=2 y=4 width=6 height=8\nline#l  parent=g#q\n  x1=2 y1=4 x2=6 y2=8\ng#p scale restored\nerror: scale factor must be positive\nerror: scale factor must be positive\nerror: invalid scale factor: NaN\nrect#r  parent=g#q\n  x=1 y=2 width=3 height=4\ng#p scaled by 2\nrect#r  parent=g#q\n  x=2 y=4 width=6 height=8\n",
+      "actual": "canvas 800x600 created\ng#p created\ng#q created in g#p\nrect#r created in g#q\nline#l created in g#q\ng#p scaled by 2\nrect#r  parent=g#q\n  x=2 y=4 width=6 height=8\nline#l  parent=g#q\n  x1=2 y1=4 x2=6 y2=8\ng#p scale restored\nerror: scale factor must be positive\nerror: scale factor must be positive\nerror: invalid scale factor: NaN\nrect#r  parent=g#q\n  x=1 y=2 width=3 height=4\ng#p scaled by 2\nrect#r  parent=g#q\n  x=2 y=4 width=6 height=8\n"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt"
+  ]
+}

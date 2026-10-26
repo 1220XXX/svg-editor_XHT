@@ -1,0 +1,13 @@
+# scenario: round-trip
+read input.svg (7 elements)
+g#p  parent=svg
+  fill=red
+  data-kind=box
+text#t  parent=g#q
+  x=12 y=13
+  font-size=18
+  text-anchor=middle
+  text="中 & 文"
+saved to first.svg (7 elements)
+read first.svg (7 elements)
+saved to second.svg (7 elements)

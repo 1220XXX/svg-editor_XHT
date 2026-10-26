@@ -1,0 +1,12 @@
+# scenario: failed-io
+read source.svg
+move r 9 0
+undo
+read missing.svg
+read bad.svg
+save destination
+show r
+redo
+undo
+redo
+save

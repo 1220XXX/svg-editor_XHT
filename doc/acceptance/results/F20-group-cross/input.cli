@@ -1,0 +1,13 @@
+# scenario: cross-parent
+init
+create g p
+create g q
+create g a in p
+create g b in p
+create g c in q
+create g d in q
+group pair d b
+tree
+undo
+tree
+redo

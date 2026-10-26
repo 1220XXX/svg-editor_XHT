@@ -1,0 +1,7 @@
+# scenario: create
+init
+create g p
+create rect plain 10 20 100 50
+create rect painted 10 20 100 50 #eee in p
+show plain
+show painted

@@ -1,0 +1,12 @@
+# scenario: normalize
+read transform.svg
+show r
+show t
+show s
+move p 1 2
+undo
+read rotate.svg
+redo
+save normalized.svg
+read normalized.svg
+save stable.svg

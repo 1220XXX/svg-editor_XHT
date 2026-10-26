@@ -1,0 +1,111 @@
+{
+  "case": "F08-text",
+  "entry": "source",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 6,
+  "assertions": [
+    {
+      "name": "create:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "create:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "create:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ntext#t created in g#p\ntext#empty created\ntext#t  parent=g#p\n  x=10 y=20\n  text=\"中文 空格 \\\"引号\\\" C:\\\\tmp & < >\"\ntext#empty  parent=svg\n  x=0 y=0\n  text=\"\"\n",
+      "actual": "canvas 800x600 created\ng#p created\ntext#t created in g#p\ntext#empty created\ntext#t  parent=g#p\n  x=10 y=20\n  text=\"中文 空格 \\\"引号\\\" C:\\\\tmp & < >\"\ntext#empty  parent=svg\n  x=0 y=0\n  text=\"\"\n"
+    },
+    {
+      "name": "create:after.svg:replay-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "create:after.svg:replay-stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "create:after.svg:replay-prefix",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ntext#t created in g#p\ntext#empty created\ntext#t  parent=g#p\n  x=10 y=20\n  text=\"中文 空格 \\\"引号\\\" C:\\\\tmp & < >\"\ntext#empty  parent=svg\n  x=0 y=0\n  text=\"\"\n",
+      "actual": "canvas 800x600 created\ng#p created\ntext#t created in g#p\ntext#empty created\ntext#t  parent=g#p\n  x=10 y=20\n  text=\"中文 空格 \\\"引号\\\" C:\\\\tmp & < >\"\ntext#empty  parent=svg\n  x=0 y=0\n  text=\"\"\n"
+    },
+    {
+      "name": "create:after.svg:save-response",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "create:after.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "create:after.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "create:after.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "create:after.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "create:after.svg:0:node:t:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "create:after.svg:0:node:t:parent",
+      "passed": true,
+      "expected": "p",
+      "actual": "p"
+    },
+    {
+      "name": "create:after.svg:0:node:t:text",
+      "passed": true,
+      "expected": "中文 空格 \"引号\" C:\\tmp & < >",
+      "actual": "中文 空格 \"引号\" C:\\tmp & < >"
+    },
+    {
+      "name": "create:after.svg:1:node:empty:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "create:after.svg:1:node:empty:text",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "after.svg",
+    "after.replay.cli"
+  ]
+}

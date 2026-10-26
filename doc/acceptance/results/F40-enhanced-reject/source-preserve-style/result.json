@@ -1,0 +1,836 @@
+{
+  "case": "F40-enhanced-reject",
+  "entry": "source",
+  "mode": "preserve-style",
+  "scenarios": 9,
+  "commands": 72,
+  "assertions": [
+    {
+      "name": "paint:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "paint:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "paint:stdout-exact",
+      "passed": true,
+      "expected": "read input.svg (3 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: unsupported fill paint on rect#r\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (3 elements)\n",
+      "actual": "read input.svg (3 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: unsupported fill paint on rect#r\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (3 elements)\n"
+    },
+    {
+      "name": "paint:state.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "paint:state.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "paint:state.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "paint:state.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "paint:state.svg:0:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "paint:state.svg:0:node:r:attribute:x",
+      "passed": true,
+      "expected": "1",
+      "actual": "1"
+    },
+    {
+      "name": "paint:state.svg:0:node:r:omitted:fill",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "paint:state.svg:0:node:r:omitted:stroke",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "paint:state.svg:0:node:r:omitted:stroke-width",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "paint:state.svg:0:node:r:parent",
+      "passed": true,
+      "expected": "p",
+      "actual": "p"
+    },
+    {
+      "name": "paint:state.svg:1:node:q:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "paint:state.svg:1:node:q:children",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "font:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "font:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "font:stdout-exact",
+      "passed": true,
+      "expected": "read input.svg (3 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: inherited font-size would change on rect#r\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (3 elements)\n",
+      "actual": "read input.svg (3 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: inherited font-size would change on rect#r\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (3 elements)\n"
+    },
+    {
+      "name": "font:state.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "font:state.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "font:state.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "font:state.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "font:state.svg:0:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "font:state.svg:0:node:r:attribute:x",
+      "passed": true,
+      "expected": "1",
+      "actual": "1"
+    },
+    {
+      "name": "font:state.svg:0:node:r:omitted:fill",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "font:state.svg:0:node:r:omitted:stroke",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "font:state.svg:0:node:r:omitted:stroke-width",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "font:state.svg:0:node:r:parent",
+      "passed": true,
+      "expected": "p",
+      "actual": "p"
+    },
+    {
+      "name": "font:state.svg:1:node:q:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "font:state.svg:1:node:q:children",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "opacity:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "opacity:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "opacity:stdout-exact",
+      "passed": true,
+      "expected": "read input.svg (3 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: group opacity context would change\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (3 elements)\n",
+      "actual": "read input.svg (3 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: group opacity context would change\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (3 elements)\n"
+    },
+    {
+      "name": "opacity:state.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "opacity:state.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "opacity:state.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "opacity:state.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "opacity:state.svg:0:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "opacity:state.svg:0:node:r:attribute:x",
+      "passed": true,
+      "expected": "1",
+      "actual": "1"
+    },
+    {
+      "name": "opacity:state.svg:0:node:r:omitted:fill",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "opacity:state.svg:0:node:r:omitted:stroke",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "opacity:state.svg:0:node:r:omitted:stroke-width",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "opacity:state.svg:0:node:r:parent",
+      "passed": true,
+      "expected": "p",
+      "actual": "p"
+    },
+    {
+      "name": "opacity:state.svg:1:node:q:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "opacity:state.svg:1:node:q:children",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "group-atomic:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "group-atomic:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "group-atomic:stdout-exact",
+      "passed": true,
+      "expected": "read input.svg (4 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: unsupported fill paint on circle#c\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (4 elements)\n",
+      "actual": "read input.svg (4 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: unsupported fill paint on circle#c\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (4 elements)\n"
+    },
+    {
+      "name": "group-atomic:state.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "group-atomic:state.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "group-atomic:state.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "group-atomic:state.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "group-atomic:state.svg:0:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "group-atomic:state.svg:0:node:r:attribute:x",
+      "passed": true,
+      "expected": "1",
+      "actual": "1"
+    },
+    {
+      "name": "group-atomic:state.svg:0:node:r:omitted:fill",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "group-atomic:state.svg:0:node:r:omitted:stroke",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "group-atomic:state.svg:0:node:r:omitted:stroke-width",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "group-atomic:state.svg:0:node:r:parent",
+      "passed": true,
+      "expected": "p",
+      "actual": "p"
+    },
+    {
+      "name": "group-atomic:state.svg:1:node:q:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "group-atomic:state.svg:1:node:q:children",
+      "passed": true,
+      "expected": [
+        "c"
+      ],
+      "actual": [
+        "c"
+      ]
+    },
+    {
+      "name": "font-family:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "font-family:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "font-family:stdout-exact",
+      "passed": true,
+      "expected": "read input.svg (3 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: inherited font-family would change on rect#r\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (3 elements)\n",
+      "actual": "read input.svg (3 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: inherited font-family would change on rect#r\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (3 elements)\n"
+    },
+    {
+      "name": "font-family:state.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "font-family:state.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "font-family:state.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "font-family:state.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "font-family:state.svg:0:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "font-family:state.svg:0:node:r:attribute:x",
+      "passed": true,
+      "expected": "1",
+      "actual": "1"
+    },
+    {
+      "name": "font-family:state.svg:0:node:r:omitted:fill",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "font-family:state.svg:0:node:r:omitted:stroke",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "font-family:state.svg:0:node:r:omitted:stroke-width",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "font-family:state.svg:0:node:r:parent",
+      "passed": true,
+      "expected": "p",
+      "actual": "p"
+    },
+    {
+      "name": "font-family:state.svg:1:node:q:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "font-family:state.svg:1:node:q:children",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "font-weight:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "font-weight:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "font-weight:stdout-exact",
+      "passed": true,
+      "expected": "read input.svg (3 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: inherited font-weight would change on rect#r\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (3 elements)\n",
+      "actual": "read input.svg (3 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: inherited font-weight would change on rect#r\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (3 elements)\n"
+    },
+    {
+      "name": "font-weight:state.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "font-weight:state.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "font-weight:state.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "font-weight:state.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "font-weight:state.svg:0:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "font-weight:state.svg:0:node:r:attribute:x",
+      "passed": true,
+      "expected": "1",
+      "actual": "1"
+    },
+    {
+      "name": "font-weight:state.svg:0:node:r:omitted:fill",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "font-weight:state.svg:0:node:r:omitted:stroke",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "font-weight:state.svg:0:node:r:omitted:stroke-width",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "font-weight:state.svg:0:node:r:parent",
+      "passed": true,
+      "expected": "p",
+      "actual": "p"
+    },
+    {
+      "name": "font-weight:state.svg:1:node:q:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "font-weight:state.svg:1:node:q:children",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "text-anchor:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "text-anchor:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "text-anchor:stdout-exact",
+      "passed": true,
+      "expected": "read input.svg (3 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: inherited text-anchor would change on rect#r\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (3 elements)\n",
+      "actual": "read input.svg (3 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: inherited text-anchor would change on rect#r\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (3 elements)\n"
+    },
+    {
+      "name": "text-anchor:state.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "text-anchor:state.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "text-anchor:state.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "text-anchor:state.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "text-anchor:state.svg:0:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "text-anchor:state.svg:0:node:r:attribute:x",
+      "passed": true,
+      "expected": "1",
+      "actual": "1"
+    },
+    {
+      "name": "text-anchor:state.svg:0:node:r:omitted:fill",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "text-anchor:state.svg:0:node:r:omitted:stroke",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "text-anchor:state.svg:0:node:r:omitted:stroke-width",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "text-anchor:state.svg:0:node:r:parent",
+      "passed": true,
+      "expected": "p",
+      "actual": "p"
+    },
+    {
+      "name": "text-anchor:state.svg:1:node:q:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "text-anchor:state.svg:1:node:q:children",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "fill-opacity:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "fill-opacity:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "fill-opacity:stdout-exact",
+      "passed": true,
+      "expected": "read input.svg (3 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: inherited fill-opacity would change on rect#r\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (3 elements)\n",
+      "actual": "read input.svg (3 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: inherited fill-opacity would change on rect#r\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (3 elements)\n"
+    },
+    {
+      "name": "fill-opacity:state.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "fill-opacity:state.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "fill-opacity:state.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "fill-opacity:state.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "fill-opacity:state.svg:0:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "fill-opacity:state.svg:0:node:r:attribute:x",
+      "passed": true,
+      "expected": "1",
+      "actual": "1"
+    },
+    {
+      "name": "fill-opacity:state.svg:0:node:r:omitted:fill",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "fill-opacity:state.svg:0:node:r:omitted:stroke",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "fill-opacity:state.svg:0:node:r:omitted:stroke-width",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "fill-opacity:state.svg:0:node:r:parent",
+      "passed": true,
+      "expected": "p",
+      "actual": "p"
+    },
+    {
+      "name": "fill-opacity:state.svg:1:node:q:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "fill-opacity:state.svg:1:node:q:children",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "stroke-opacity:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "stroke-opacity:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "stroke-opacity:stdout-exact",
+      "passed": true,
+      "expected": "read input.svg (3 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: inherited stroke-opacity would change on rect#r\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (3 elements)\n",
+      "actual": "read input.svg (3 elements)\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: cannot preserve style: inherited stroke-opacity would change on rect#r\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to state.svg (3 elements)\n"
+    },
+    {
+      "name": "stroke-opacity:state.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "stroke-opacity:state.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "stroke-opacity:state.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "stroke-opacity:state.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "stroke-opacity:state.svg:0:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "stroke-opacity:state.svg:0:node:r:attribute:x",
+      "passed": true,
+      "expected": "1",
+      "actual": "1"
+    },
+    {
+      "name": "stroke-opacity:state.svg:0:node:r:omitted:fill",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "stroke-opacity:state.svg:0:node:r:omitted:stroke",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "stroke-opacity:state.svg:0:node:r:omitted:stroke-width",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "stroke-opacity:state.svg:0:node:r:parent",
+      "passed": true,
+      "expected": "p",
+      "actual": "p"
+    },
+    {
+      "name": "stroke-opacity:state.svg:1:node:q:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "stroke-opacity:state.svg:1:node:q:children",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "paint/files/state.svg",
+    "font/files/state.svg",
+    "opacity/files/state.svg",
+    "group-atomic/files/state.svg",
+    "font-family/files/state.svg",
+    "font-weight/files/state.svg",
+    "text-anchor/files/state.svg",
+    "fill-opacity/files/state.svg",
+    "stroke-opacity/files/state.svg"
+  ]
+}

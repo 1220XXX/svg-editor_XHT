@@ -1,0 +1,195 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-26T14:11:11.856Z",
+  "baseline": {
+    "codeCommit": "2f5ef475a2e9d24bd2ece7944b63fc07ac036749",
+    "branch": "main",
+    "sourceTree": "9feed6dab9c9bd15778728dc40c5a77a0c254f8f",
+    "testsTree": "12c72e9e9bdcd2b0d4ee7fbcd73c1d0fe150c3be",
+    "finalCommit": "2f5ef475a2e9d24bd2ece7944b63fc07ac036749",
+    "finalTagObject": "ebe8e0a32fd0784034a6d04bbf61110fe5e21f5a",
+    "worktreeBefore": "M README.md\n M doc/README.md\n M package.json\n?? demo.svg\n?? doc/acceptance/\n?? scripts/",
+    "businessWorktreeChanges": "",
+    "finalToHead": "",
+    "recentCommits": "2f5ef47 (HEAD -> main, tag: final, origin/main) docs: finalize complete Phase 1 submission and tag documentation\necb85a8 docs: verify Phase 1 completion and detail future development roadmap\n41f00cc docs: record user-approved Phase 1 final acceptance\n59d0d7a docs: explain style preservation and future plugin boundaries\n70d4ba1 feat: add opt-in basic style preservation for structural edits\n91837f9 fix: preserve SVG root ids and enforce document-wide uniqueness\n92c7ce7 fix: align tree attribute columns across nested shapes\n0a6606f fix: report resulting edit and restored history states"
+  },
+  "environment": {
+    "node": "v24.22.1",
+    "npm": "11.19.1",
+    "platform": "darwin",
+    "architecture": "arm64",
+    "dependencies": {
+      "@types/node": {
+        "version": "26.6.5",
+        "resolved": "https://registry.npmjs.org/@types/node/-/node-26.6.5.tgz",
+        "overridden": false
+      },
+      "@vitest/coverage-v8": {
+        "version": "5.0.5",
+        "resolved": "https://registry.npmjs.org/@vitest/coverage-v8/-/coverage-v8-5.0.5.tgz",
+        "overridden": false
+      },
+      "@xmldom/xmldom": {
+        "version": "0.9.12",
+        "resolved": "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.9.12.tgz",
+        "overridden": false
+      },
+      "tsx": {
+        "version": "4.23.15",
+        "resolved": "https://registry.npmjs.org/tsx/-/tsx-4.23.15.tgz",
+        "overridden": false
+      },
+      "typescript": {
+        "version": "7.0.2",
+        "resolved": "https://registry.npmjs.org/typescript/-/typescript-7.0.2.tgz",
+        "overridden": false
+      },
+      "vitest": {
+        "version": "5.0.5",
+        "resolved": "https://registry.npmjs.org/vitest/-/vitest-5.0.5.tgz",
+        "overridden": false
+      }
+    },
+    "lockSha256": "0d5bcc005b4638bc7dafcf9e9704dcad6de605fac9aefb7440e2b37a74bf49d5",
+    "renderer": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "rendererVersion": "Google Chrome 155.0.8059.86"
+  },
+  "inputDigests": {
+    "cases": "3d35cbf994900cc2c1404c0df65543289d62450dad10ecf15b93ac2e9ab1561e",
+    "runner": "bafa21351edb89ae5d9364511608979b9e7ec01bfc9422f32374f5af8f15b1c6"
+  },
+  "counts": {
+    "mainCases": 40,
+    "definedScenarios": 55,
+    "definedInputs": 650,
+    "caseExecutions": 90,
+    "scenarioExecutions": 128,
+    "executedInputs": 1508,
+    "assertions": 1674,
+    "snapshotReplays": 48,
+    "interactiveExecutions": 4,
+    "interactiveAssertions": 40,
+    "totalCLIProcesses": 180
+  },
+  "matrix": [
+    {
+      "key": "source-default",
+      "caseExecutions": 37,
+      "scenarioExecutions": 42,
+      "snapshotReplays": 19,
+      "interactiveExecutions": 1,
+      "totalCLIProcesses": 62,
+      "assertions": 538,
+      "passed": 37,
+      "failed": 0
+    },
+    {
+      "key": "build-default",
+      "caseExecutions": 37,
+      "scenarioExecutions": 42,
+      "snapshotReplays": 19,
+      "interactiveExecutions": 1,
+      "totalCLIProcesses": 62,
+      "assertions": 548,
+      "passed": 37,
+      "failed": 0
+    },
+    {
+      "key": "source-preserve-style",
+      "caseExecutions": 8,
+      "scenarioExecutions": 22,
+      "snapshotReplays": 5,
+      "interactiveExecutions": 1,
+      "totalCLIProcesses": 28,
+      "assertions": 290,
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "key": "build-preserve-style",
+      "caseExecutions": 8,
+      "scenarioExecutions": 22,
+      "snapshotReplays": 5,
+      "interactiveExecutions": 1,
+      "totalCLIProcesses": 28,
+      "assertions": 298,
+      "passed": 8,
+      "failed": 0
+    }
+  ],
+  "terminal": [
+    {
+      "case": "terminal",
+      "entry": "source",
+      "mode": "default",
+      "passed": true,
+      "evidence": [
+        "raw.txt",
+        "actual.txt"
+      ],
+      "scenarios": 1,
+      "commands": 4
+    },
+    {
+      "case": "terminal",
+      "entry": "source",
+      "mode": "preserve-style",
+      "passed": true,
+      "evidence": [
+        "raw.txt",
+        "actual.txt"
+      ],
+      "scenarios": 1,
+      "commands": 4
+    },
+    {
+      "case": "terminal",
+      "entry": "build",
+      "mode": "default",
+      "passed": true,
+      "evidence": [
+        "raw.txt",
+        "actual.txt"
+      ],
+      "scenarios": 1,
+      "commands": 4
+    },
+    {
+      "case": "terminal",
+      "entry": "build",
+      "mode": "preserve-style",
+      "passed": true,
+      "evidence": [
+        "raw.txt",
+        "actual.txt"
+      ],
+      "scenarios": 1,
+      "commands": 4
+    }
+  ],
+  "validation": [
+    {
+      "command": "npm ci --prefer-offline --no-audit --no-fund",
+      "passed": true,
+      "log": "validation/npm-ci.txt"
+    },
+    {
+      "command": "npm run check",
+      "passed": true,
+      "log": "validation/check.txt"
+    },
+    {
+      "command": "<temporary-workspace>/project/node_modules/.bin/tsc --ignoreConfig --noEmit --strict --noUncheckedIndexedAccess --exactOptionalPropertyTypes --noUnusedLocals --noUnusedParameters --target ES2022 --module NodeNext --moduleResolution NodeNext --types node --skipLibCheck scripts/acceptance/AcceptanceRunner.ts",
+      "passed": true,
+      "log": "validation/runner-typecheck.txt"
+    },
+    {
+      "command": "npm run test:coverage",
+      "passed": true,
+      "log": "validation/coverage.txt"
+    }
+  ],
+  "failures": [],
+  "coverage": "Full report generated only inside isolated workspace; console summary retained in validation/coverage.txt.",
+  "passed": true
+}

@@ -1,0 +1,8 @@
+init
+create g outer
+create g inner in outer
+set inner fill "red"
+create rect r 1 2 3 4 in inner
+ungroup inner
+show r
+save acceptance-snapshot.svg

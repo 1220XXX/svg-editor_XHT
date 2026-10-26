@@ -1,0 +1,7 @@
+# scenario: create
+init
+create g p
+create circle plain 50 60 7
+create circle painted 50 60 7 red in p
+show plain
+show painted

@@ -1,0 +1,13 @@
+# scenario: containers
+canvas 800x600 created
+g#p created
+g#q created in g#p
+rect#r created
+rect#r deleted
+error: missing id before 'in' clause
+error: no such container: missing
+rect#r created
+error: not a container: r
+error: id already exists: p
+g#q  parent=g#p
+g#p  parent=svg

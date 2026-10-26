@@ -1,0 +1,19 @@
+# scenario: inheritance
+canvas 200x160 created
+g#p created
+g#p updated: fill="red"
+g#q created
+g#q updated: fill="blue"
+rect#frozen created in g#p
+rect#control created in g#q
+rect#frozen moved into g#q
+g#q updated: fill="green"
+rect#frozen  parent=g#q
+  x=10 y=10 width=60 height=60
+  fill=red
+rect#control  parent=g#q
+  x=100 y=10 width=60 height=60
+rect#frozen updated: fill="inherit"
+rect#frozen  parent=g#q
+  x=10 y=10 width=60 height=60
+  fill=inherit

@@ -1,0 +1,31 @@
+{
+  "case": "F29-atomicity",
+  "entry": "source",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 24,
+  "assertions": [
+    {
+      "name": "rejected-edits:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "rejected-edits:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "rejected-edits:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\nrect#r created in g#p\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: id already exists: r\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nerror: no such shape: missing\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nerror: invalid dx: NaN\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nerror: scale factor must be positive\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nerror: group requires at least two shapes\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nerror: duplicate group member\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nerror: cannot group a container into its own descendant: p\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nerror: width must be nonnegative\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\n",
+      "actual": "canvas 800x600 created\ng#p created\nrect#r created in g#p\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nerror: id already exists: r\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nerror: no such shape: missing\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nerror: invalid dx: NaN\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nerror: scale factor must be positive\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nerror: group requires at least two shapes\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nerror: duplicate group member\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nerror: cannot group a container into its own descendant: p\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nerror: width must be nonnegative\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\n"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt"
+  ]
+}

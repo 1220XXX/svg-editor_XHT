@@ -1,0 +1,31 @@
+{
+  "case": "F26-redo",
+  "entry": "source",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 9,
+  "assertions": [
+    {
+      "name": "branch:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "branch:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "branch:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\nrect#r created\nrect#r moved to (11,2)\nrect#r moved back to (1,2)\nrect#r moved to (11,2)\nrect#r moved back to (1,2)\nrect#r updated: fill=\"red\"\nerror: nothing to redo\nrect#r  parent=svg\n  x=1 y=2 width=3 height=4\n  fill=red\n",
+      "actual": "canvas 800x600 created\nrect#r created\nrect#r moved to (11,2)\nrect#r moved back to (1,2)\nrect#r moved to (11,2)\nrect#r moved back to (1,2)\nrect#r updated: fill=\"red\"\nerror: nothing to redo\nrect#r  parent=svg\n  x=1 y=2 width=3 height=4\n  fill=red\n"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt"
+  ]
+}

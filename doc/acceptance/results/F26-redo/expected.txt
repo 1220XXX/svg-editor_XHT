@@ -1,0 +1,12 @@
+# scenario: branch
+canvas 800x600 created
+rect#r created
+rect#r moved to (11,2)
+rect#r moved back to (1,2)
+rect#r moved to (11,2)
+rect#r moved back to (1,2)
+rect#r updated: fill="red"
+error: nothing to redo
+rect#r  parent=svg
+  x=1 y=2 width=3 height=4
+  fill=red

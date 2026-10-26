@@ -1,0 +1,34 @@
+# scenario: all-types
+init
+create rect r 1 2 3 4
+set r fill "#AbC"
+set r stroke "green"
+set r stroke-width "2.5"
+show r
+create circle c 1 2 3
+set c fill "#AbC"
+set c stroke "green"
+set c stroke-width "2.5"
+show c
+create ellipse e 1 2 3 4
+set e fill "#AbC"
+set e stroke "green"
+set e stroke-width "2.5"
+show e
+create line l 1 2 3 4
+set l fill "#AbC"
+set l stroke "green"
+set l stroke-width "2.5"
+show l
+create text t 1 2 "文"
+set t fill "#AbC"
+set t stroke "green"
+set t stroke-width "2.5"
+show t
+create g p
+set p fill "#AbC"
+set p stroke "green"
+set p stroke-width "2.5"
+show p
+set p stroke-width -1
+show p

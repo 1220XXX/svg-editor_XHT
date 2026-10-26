@@ -1,0 +1,31 @@
+{
+  "case": "F22-addto",
+  "entry": "build",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 14,
+  "assertions": [
+    {
+      "name": "reparent:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "reparent:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "reparent:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ng#q created\ng#a created in g#p\ng#b created in g#q\nrect#r created\ng#a moved into g#q\nsvg (800x600)\n├── g#p\n├── g#q\n│   ├── g#b\n│   └── g#a\n└── rect#r  x=1 y=2 w=3 h=4\nerror: cannot move a container into its own descendant: q\nerror: cannot move a container into its own descendant: q\nerror: not a container: r\ng#a moved back into g#p\ng#a  parent=g#p\ng#a moved into g#q\n",
+      "actual": "canvas 800x600 created\ng#p created\ng#q created\ng#a created in g#p\ng#b created in g#q\nrect#r created\ng#a moved into g#q\nsvg (800x600)\n├── g#p\n├── g#q\n│   ├── g#b\n│   └── g#a\n└── rect#r  x=1 y=2 w=3 h=4\nerror: cannot move a container into its own descendant: q\nerror: cannot move a container into its own descendant: q\nerror: not a container: r\ng#a moved back into g#p\ng#a  parent=g#p\ng#a moved into g#q\n"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt"
+  ]
+}

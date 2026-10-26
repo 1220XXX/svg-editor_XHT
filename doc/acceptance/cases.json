@@ -1,0 +1,4830 @@
+{
+  "schemaVersion": 1,
+  "expectationPolicy": "预期由任务书固定会话、命令约定及已声明增强边界预先编写；不得从 actual 输出回填。每条 step 精确比较，仅统一 CRLF。",
+  "cases": [
+    {
+      "id": "F01-help",
+      "title": "帮助与无文档状态",
+      "requirements": "§2、§3",
+      "objective": "help 在无文档时可用；编辑、显示及文档查询拒绝；box/hexagon 不属于已注册类型。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "no-document",
+          "steps": [
+            {
+              "input": "help",
+              "expected": "init [w] [h]\nread <file.svg>\nsave [file.svg]\ncanvas [w] [h]\ncreate <rect|circle|ellipse|line|text|g> <id> [params...] [in <gid>]\ndelete <id>\nmove <id> <dx> <dy>\nscale <id> <factor>\nset <id> <attr> <value>\ngroup <newGid> <id1> <id2>...\nungroup <gid>\naddto <gid> <id>\nfront <id>\nback <id>\ntree [id]\nshow <id>\nundo\nredo\nhelp\ncreate rect <id> <x> <y> <width> <height> [fill] [in <containerId>]\ncreate circle <id> <cx> <cy> <r> [fill] [in <containerId>]\ncreate ellipse <id> <cx> <cy> <rx> <ry> [fill] [in <containerId>]\ncreate line <id> <x1> <y1> <x2> <y2> [stroke] [in <containerId>]\ncreate text <id> <x> <y> \"content\" [in <containerId>]\ncreate g <id> [in <containerId>]"
+            },
+            {
+              "input": "tree",
+              "expected": "error: no document. use 'init' or 'read' first"
+            },
+            {
+              "input": "show r",
+              "expected": "error: no document. use 'init' or 'read' first"
+            },
+            {
+              "input": "create g a",
+              "expected": "error: no document. use 'init' or 'read' first"
+            },
+            {
+              "input": "move r 1 2",
+              "expected": "error: no document. use 'init' or 'read' first"
+            },
+            {
+              "input": "save",
+              "expected": "error: no document. use 'init' or 'read' first"
+            },
+            {
+              "input": "canvas",
+              "expected": "error: no document. use 'init' or 'read' first"
+            },
+            {
+              "input": "undo",
+              "expected": "error: no document. use 'init' or 'read' first"
+            },
+            {
+              "input": "redo",
+              "expected": "error: no document. use 'init' or 'read' first"
+            },
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create box n 1 2 3 4 \"X\"",
+              "expected": "error: unknown shape type: box (is the plugin loaded?)"
+            },
+            {
+              "input": "create hexagon n",
+              "expected": "error: unknown shape type: hexagon (is the plugin loaded?)"
+            },
+            {
+              "input": "tree",
+              "expected": "svg (800x600)"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F02-init",
+      "title": "初始化",
+      "requirements": "§3 文档类",
+      "objective": "默认、单宽、浮点尺寸；替换文档、路径和历史清理。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "replace",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g old",
+              "expected": "g#old created"
+            },
+            {
+              "input": "save old.svg",
+              "expected": "saved to old.svg (1 elements)"
+            },
+            {
+              "input": "init 320",
+              "expected": "canvas 320x600 created"
+            },
+            {
+              "input": "show old",
+              "expected": "error: no such shape: old"
+            },
+            {
+              "input": "save",
+              "expected": "error: no file path. use save <file.svg>"
+            },
+            {
+              "input": "undo",
+              "expected": "error: undo not allowed after io command"
+            },
+            {
+              "input": "redo",
+              "expected": "error: undo not allowed after io command"
+            },
+            {
+              "input": "init 12.5 30.5",
+              "expected": "canvas 12.5x30.5 created"
+            },
+            {
+              "input": "canvas",
+              "expected": "canvas 12.5x30.5"
+            },
+            {
+              "input": "init 0 10",
+              "expected": "error: canvas width must be positive"
+            },
+            {
+              "input": "canvas",
+              "expected": "canvas 12.5x30.5"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": [
+            {
+              "path": "old.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "old",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F03-canvas",
+      "title": "画布管理",
+      "requirements": "§3 文档类、§4.3",
+      "objective": "查询和修改尺寸；拒绝非法尺寸；内容几何不随画布缩放。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "resize",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create rect r 1.5 2.5 30 40",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "canvas",
+              "expected": "canvas 800x600"
+            },
+            {
+              "input": "canvas 400 200",
+              "expected": "canvas resized to 400x200"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=svg\n  x=1.5 y=2.5 width=30 height=40"
+            },
+            {
+              "input": "canvas 0 20",
+              "expected": "error: canvas width must be positive"
+            },
+            {
+              "input": "canvas -2 20",
+              "expected": "error: canvas width must be positive"
+            },
+            {
+              "input": "canvas 1",
+              "expected": "error: invalid arguments. use help for syntax"
+            },
+            {
+              "input": "canvas",
+              "expected": "canvas 400x200"
+            },
+            {
+              "input": "undo",
+              "expected": "error: undo not allowed after io command"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "after.svg",
+              "afterStep": 10,
+              "checks": [
+                {
+                  "kind": "root",
+                  "attributes": {
+                    "width": "400",
+                    "height": "200",
+                    "viewBox": "0 0 400 200"
+                  }
+                },
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "x": "1.5",
+                    "y": "2.5",
+                    "width": "30",
+                    "height": "40"
+                  }
+                }
+              ]
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F04-rect",
+      "title": "rect 创建",
+      "requirements": "§4.1",
+      "objective": "rect 几何、可选 fill、默认属性省略、in 父级。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "create",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "create rect plain 10 20 100 50",
+              "expected": "rect#plain created"
+            },
+            {
+              "input": "create rect painted 10 20 100 50 #eee in p",
+              "expected": "rect#painted created in g#p"
+            },
+            {
+              "input": "show plain",
+              "expected": "rect#plain  parent=svg\n  x=10 y=20 width=100 height=50"
+            },
+            {
+              "input": "show painted",
+              "expected": "rect#painted  parent=g#p\n  x=10 y=20 width=100 height=50\n  fill=#eee"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "after.svg",
+              "afterStep": 6,
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "plain",
+                  "attributes": {
+                    "x": "10",
+                    "y": "20",
+                    "width": "100",
+                    "height": "50"
+                  },
+                  "parent": "svg",
+                  "absentAttributes": [
+                    "fill",
+                    "stroke",
+                    "stroke-width"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "painted",
+                  "attributes": {
+                    "x": "10",
+                    "y": "20",
+                    "width": "100",
+                    "height": "50",
+                    "fill": "#eee"
+                  },
+                  "parent": "p"
+                },
+                {
+                  "kind": "node",
+                  "id": "p",
+                  "children": [
+                    "painted"
+                  ]
+                }
+              ]
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F05-circle",
+      "title": "circle 创建",
+      "requirements": "§4.1",
+      "objective": "circle 几何、可选 fill、默认属性省略、in 父级。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "create",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "create circle plain 50 60 7",
+              "expected": "circle#plain created"
+            },
+            {
+              "input": "create circle painted 50 60 7 red in p",
+              "expected": "circle#painted created in g#p"
+            },
+            {
+              "input": "show plain",
+              "expected": "circle#plain  parent=svg\n  cx=50 cy=60 r=7"
+            },
+            {
+              "input": "show painted",
+              "expected": "circle#painted  parent=g#p\n  cx=50 cy=60 r=7\n  fill=red"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "after.svg",
+              "afterStep": 6,
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "plain",
+                  "attributes": {
+                    "cx": "50",
+                    "cy": "60",
+                    "r": "7"
+                  },
+                  "parent": "svg",
+                  "absentAttributes": [
+                    "fill",
+                    "stroke",
+                    "stroke-width"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "painted",
+                  "attributes": {
+                    "cx": "50",
+                    "cy": "60",
+                    "r": "7",
+                    "fill": "red"
+                  },
+                  "parent": "p"
+                },
+                {
+                  "kind": "node",
+                  "id": "p",
+                  "children": [
+                    "painted"
+                  ]
+                }
+              ]
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F06-ellipse",
+      "title": "ellipse 创建",
+      "requirements": "§4.1",
+      "objective": "ellipse 几何、可选 fill、默认属性省略、in 父级。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "create",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "create ellipse plain 50 60 7 8",
+              "expected": "ellipse#plain created"
+            },
+            {
+              "input": "create ellipse painted 50 60 7 8 blue in p",
+              "expected": "ellipse#painted created in g#p"
+            },
+            {
+              "input": "show plain",
+              "expected": "ellipse#plain  parent=svg\n  cx=50 cy=60 rx=7 ry=8"
+            },
+            {
+              "input": "show painted",
+              "expected": "ellipse#painted  parent=g#p\n  cx=50 cy=60 rx=7 ry=8\n  fill=blue"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "after.svg",
+              "afterStep": 6,
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "plain",
+                  "attributes": {
+                    "cx": "50",
+                    "cy": "60",
+                    "rx": "7",
+                    "ry": "8"
+                  },
+                  "parent": "svg",
+                  "absentAttributes": [
+                    "fill",
+                    "stroke",
+                    "stroke-width"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "painted",
+                  "attributes": {
+                    "cx": "50",
+                    "cy": "60",
+                    "rx": "7",
+                    "ry": "8",
+                    "fill": "blue"
+                  },
+                  "parent": "p"
+                },
+                {
+                  "kind": "node",
+                  "id": "p",
+                  "children": [
+                    "painted"
+                  ]
+                }
+              ]
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F07-line",
+      "title": "line 创建",
+      "requirements": "§4.1",
+      "objective": "line 几何、可选 stroke、默认属性省略、in 父级。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "create",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "create line plain 10 20 30 40",
+              "expected": "line#plain created"
+            },
+            {
+              "input": "create line painted 10 20 30 40 black in p",
+              "expected": "line#painted created in g#p"
+            },
+            {
+              "input": "show plain",
+              "expected": "line#plain  parent=svg\n  x1=10 y1=20 x2=30 y2=40"
+            },
+            {
+              "input": "show painted",
+              "expected": "line#painted  parent=g#p\n  x1=10 y1=20 x2=30 y2=40\n  stroke=black"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "after.svg",
+              "afterStep": 6,
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "plain",
+                  "attributes": {
+                    "x1": "10",
+                    "y1": "20",
+                    "x2": "30",
+                    "y2": "40"
+                  },
+                  "parent": "svg",
+                  "absentAttributes": [
+                    "fill",
+                    "stroke",
+                    "stroke-width"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "painted",
+                  "attributes": {
+                    "x1": "10",
+                    "y1": "20",
+                    "x2": "30",
+                    "y2": "40",
+                    "stroke": "black"
+                  },
+                  "parent": "p"
+                },
+                {
+                  "kind": "node",
+                  "id": "p",
+                  "children": [
+                    "painted"
+                  ]
+                }
+              ]
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F08-text",
+      "title": "text 创建",
+      "requirements": "§2、§4.1",
+      "objective": "中文、空格、空文本、引号与反斜杠，父级验证及 XML 字符。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "create",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "create text t 10 20 \"中文 空格 \\\"引号\\\" C:\\\\tmp & < >\" in p",
+              "expected": "text#t created in g#p"
+            },
+            {
+              "input": "create text empty 0 0 \"\"",
+              "expected": "text#empty created"
+            },
+            {
+              "input": "show t",
+              "expected": "text#t  parent=g#p\n  x=10 y=20\n  text=\"中文 空格 \\\"引号\\\" C:\\\\tmp & < >\""
+            },
+            {
+              "input": "show empty",
+              "expected": "text#empty  parent=svg\n  x=0 y=0\n  text=\"\""
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "after.svg",
+              "afterStep": 6,
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "t",
+                  "parent": "p",
+                  "text": "中文 空格 \"引号\" C:\\tmp & < >"
+                },
+                {
+                  "kind": "node",
+                  "id": "empty",
+                  "text": ""
+                }
+              ]
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F09-group-create",
+      "title": "g 创建与目标校验",
+      "requirements": "§4.1、§4.2",
+      "objective": "空与嵌套容器、必填独立 id、in 不存在或叶子、失败不消耗 redo。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "containers",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "create g q in p",
+              "expected": "g#q created in g#p"
+            },
+            {
+              "input": "create rect r 1 2 3 4",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r deleted"
+            },
+            {
+              "input": "create g in p",
+              "expected": "error: missing id before 'in' clause"
+            },
+            {
+              "input": "create g x in missing",
+              "expected": "error: no such container: missing"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "create g x in r",
+              "expected": "error: not a container: r"
+            },
+            {
+              "input": "create g p",
+              "expected": "error: id already exists: p"
+            },
+            {
+              "input": "show q",
+              "expected": "g#q  parent=g#p"
+            },
+            {
+              "input": "show p",
+              "expected": "g#p  parent=svg"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "after.svg",
+              "afterStep": 12,
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "p",
+                  "children": [
+                    "q"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "q",
+                  "children": []
+                }
+              ]
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F10-move-leaves",
+      "title": "叶子移动",
+      "requirements": "§3 move、§2 坐标",
+      "objective": "五类叶子增量坐标；线段两端；浮点与负增量。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "five-shapes",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create rect r 1 2 3 4",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "move r 10 20",
+              "expected": "rect#r moved to (11,22)"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=svg\n  x=11 y=22 width=3 height=4"
+            },
+            {
+              "input": "create circle c 1 2 3",
+              "expected": "circle#c created"
+            },
+            {
+              "input": "move c 10 20",
+              "expected": "circle#c moved to (11,22)"
+            },
+            {
+              "input": "show c",
+              "expected": "circle#c  parent=svg\n  cx=11 cy=22 r=3"
+            },
+            {
+              "input": "create ellipse e 1 2 3 4",
+              "expected": "ellipse#e created"
+            },
+            {
+              "input": "move e 10 20",
+              "expected": "ellipse#e moved to (11,22)"
+            },
+            {
+              "input": "show e",
+              "expected": "ellipse#e  parent=svg\n  cx=11 cy=22 rx=3 ry=4"
+            },
+            {
+              "input": "create line l 1 2 3 4",
+              "expected": "line#l created"
+            },
+            {
+              "input": "move l 10 20",
+              "expected": "line#l moved to (11,22)"
+            },
+            {
+              "input": "show l",
+              "expected": "line#l  parent=svg\n  x1=11 y1=22 x2=13 y2=24"
+            },
+            {
+              "input": "create text t 1 2 \"文\"",
+              "expected": "text#t created"
+            },
+            {
+              "input": "move t 10 20",
+              "expected": "text#t moved to (11,22)"
+            },
+            {
+              "input": "show t",
+              "expected": "text#t  parent=svg\n  x=11 y=22\n  text=\"文\""
+            },
+            {
+              "input": "move r -0.5 -2",
+              "expected": "rect#r moved to (10.5,20)"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=svg\n  x=10.5 y=20 width=3 height=4"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F11-move-container",
+      "title": "容器移动",
+      "requirements": "§2.1 Composite、§3 move",
+      "objective": "多层容器及五类叶子统一递归移动，undo 精确恢复。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "recursive",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "create g q in p",
+              "expected": "g#q created in g#p"
+            },
+            {
+              "input": "create rect r 1 2 3 4 in q",
+              "expected": "rect#r created in g#q"
+            },
+            {
+              "input": "create circle c 1 2 3 in q",
+              "expected": "circle#c created in g#q"
+            },
+            {
+              "input": "create ellipse e 1 2 3 4 in q",
+              "expected": "ellipse#e created in g#q"
+            },
+            {
+              "input": "create line l 1 2 3 4 in q",
+              "expected": "line#l created in g#q"
+            },
+            {
+              "input": "create text t 1 2 \"文\" in q",
+              "expected": "text#t created in g#q"
+            },
+            {
+              "input": "move p 10 20",
+              "expected": "g#p moved by (10,20)"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#q\n  x=11 y=22 width=3 height=4"
+            },
+            {
+              "input": "show c",
+              "expected": "circle#c  parent=g#q\n  cx=11 cy=22 r=3"
+            },
+            {
+              "input": "show e",
+              "expected": "ellipse#e  parent=g#q\n  cx=11 cy=22 rx=3 ry=4"
+            },
+            {
+              "input": "show l",
+              "expected": "line#l  parent=g#q\n  x1=11 y1=22 x2=13 y2=24"
+            },
+            {
+              "input": "show t",
+              "expected": "text#t  parent=g#q\n  x=11 y=22\n  text=\"文\""
+            },
+            {
+              "input": "undo",
+              "expected": "g#p moved back by (-10,-20)"
+            },
+            {
+              "input": "show l",
+              "expected": "line#l  parent=g#q\n  x1=1 y1=2 x2=3 y2=4"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F12-scale-leaves",
+      "title": "叶子缩放",
+      "requirements": "§3 scale、§4.1",
+      "objective": "位置和全部几何尺寸同乘；CLI scale 不缩放字号或线宽。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "geometry-only",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create rect r 1 2 3 4",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "set r stroke-width \"3\"",
+              "expected": "rect#r updated: stroke-width=\"3\""
+            },
+            {
+              "input": "scale r 2",
+              "expected": "rect#r scaled by 2"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=svg\n  x=2 y=4 width=6 height=8\n  stroke-width=3"
+            },
+            {
+              "input": "create circle c 1 2 3",
+              "expected": "circle#c created"
+            },
+            {
+              "input": "set c stroke-width \"3\"",
+              "expected": "circle#c updated: stroke-width=\"3\""
+            },
+            {
+              "input": "scale c 2",
+              "expected": "circle#c scaled by 2"
+            },
+            {
+              "input": "show c",
+              "expected": "circle#c  parent=svg\n  cx=2 cy=4 r=6\n  stroke-width=3"
+            },
+            {
+              "input": "create ellipse e 1 2 3 4",
+              "expected": "ellipse#e created"
+            },
+            {
+              "input": "set e stroke-width \"3\"",
+              "expected": "ellipse#e updated: stroke-width=\"3\""
+            },
+            {
+              "input": "scale e 2",
+              "expected": "ellipse#e scaled by 2"
+            },
+            {
+              "input": "show e",
+              "expected": "ellipse#e  parent=svg\n  cx=2 cy=4 rx=6 ry=8\n  stroke-width=3"
+            },
+            {
+              "input": "create line l 1 2 3 4",
+              "expected": "line#l created"
+            },
+            {
+              "input": "set l stroke-width \"3\"",
+              "expected": "line#l updated: stroke-width=\"3\""
+            },
+            {
+              "input": "scale l 2",
+              "expected": "line#l scaled by 2"
+            },
+            {
+              "input": "show l",
+              "expected": "line#l  parent=svg\n  x1=2 y1=4 x2=6 y2=8\n  stroke-width=3"
+            },
+            {
+              "input": "create text t 1 2 \"文\"",
+              "expected": "text#t created"
+            },
+            {
+              "input": "set t stroke-width \"3\"",
+              "expected": "text#t updated: stroke-width=\"3\""
+            },
+            {
+              "input": "scale t 2",
+              "expected": "text#t scaled by 2"
+            },
+            {
+              "input": "show t",
+              "expected": "text#t  parent=svg\n  x=2 y=4\n  stroke-width=3\n  text=\"文\""
+            },
+            {
+              "input": "read font.svg",
+              "expected": "read font.svg (1 elements)"
+            },
+            {
+              "input": "scale label 2",
+              "expected": "text#label scaled by 2"
+            },
+            {
+              "input": "show label",
+              "expected": "text#label  parent=svg\n  x=4 y=6\n  font-size=18\n  stroke-width=4\n  text=\"X\""
+            }
+          ],
+          "fixtures": {
+            "font.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><text id=\"label\" x=\"2\" y=\"3\" font-size=\"18\" stroke-width=\"4\">X</text></svg>"
+          },
+          "snapshots": [],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F13-scale-container",
+      "title": "容器缩放",
+      "requirements": "§2.1、§3 scale、§4.2",
+      "objective": "递归几何、非正及非数值因子拒绝，redo 和原状态保留。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "recursive",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "create g q in p",
+              "expected": "g#q created in g#p"
+            },
+            {
+              "input": "create rect r 1 2 3 4 in q",
+              "expected": "rect#r created in g#q"
+            },
+            {
+              "input": "create line l 1 2 3 4 in q",
+              "expected": "line#l created in g#q"
+            },
+            {
+              "input": "scale p 2",
+              "expected": "g#p scaled by 2"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#q\n  x=2 y=4 width=6 height=8"
+            },
+            {
+              "input": "show l",
+              "expected": "line#l  parent=g#q\n  x1=2 y1=4 x2=6 y2=8"
+            },
+            {
+              "input": "undo",
+              "expected": "g#p scale restored"
+            },
+            {
+              "input": "scale p 0",
+              "expected": "error: scale factor must be positive"
+            },
+            {
+              "input": "scale p -1",
+              "expected": "error: scale factor must be positive"
+            },
+            {
+              "input": "scale p NaN",
+              "expected": "error: invalid scale factor: NaN"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#q\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "redo",
+              "expected": "g#p scaled by 2"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#q\n  x=2 y=4 width=6 height=8"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F14-set-geometry",
+      "title": "几何属性修改",
+      "requirements": "§4.1 set 白名单",
+      "objective": "逐项覆盖所有几何白名单；类型外属性、id、transform、font-size 和负尺寸拒绝。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "whitelist",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create rect r 1 2 3 4",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "set r x \"10\"",
+              "expected": "rect#r updated: x=\"10\""
+            },
+            {
+              "input": "set r y \"11\"",
+              "expected": "rect#r updated: y=\"11\""
+            },
+            {
+              "input": "set r width \"12\"",
+              "expected": "rect#r updated: width=\"12\""
+            },
+            {
+              "input": "set r height \"13\"",
+              "expected": "rect#r updated: height=\"13\""
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=svg\n  x=10 y=11 width=12 height=13"
+            },
+            {
+              "input": "set r arbitrary 1",
+              "expected": "error: unknown attribute: arbitrary"
+            },
+            {
+              "input": "create circle c 1 2 3",
+              "expected": "circle#c created"
+            },
+            {
+              "input": "set c cx \"10\"",
+              "expected": "circle#c updated: cx=\"10\""
+            },
+            {
+              "input": "set c cy \"11\"",
+              "expected": "circle#c updated: cy=\"11\""
+            },
+            {
+              "input": "set c r \"12\"",
+              "expected": "circle#c updated: r=\"12\""
+            },
+            {
+              "input": "show c",
+              "expected": "circle#c  parent=svg\n  cx=10 cy=11 r=12"
+            },
+            {
+              "input": "set c arbitrary 1",
+              "expected": "error: unknown attribute: arbitrary"
+            },
+            {
+              "input": "create ellipse e 1 2 3 4",
+              "expected": "ellipse#e created"
+            },
+            {
+              "input": "set e cx \"10\"",
+              "expected": "ellipse#e updated: cx=\"10\""
+            },
+            {
+              "input": "set e cy \"11\"",
+              "expected": "ellipse#e updated: cy=\"11\""
+            },
+            {
+              "input": "set e rx \"12\"",
+              "expected": "ellipse#e updated: rx=\"12\""
+            },
+            {
+              "input": "set e ry \"13\"",
+              "expected": "ellipse#e updated: ry=\"13\""
+            },
+            {
+              "input": "show e",
+              "expected": "ellipse#e  parent=svg\n  cx=10 cy=11 rx=12 ry=13"
+            },
+            {
+              "input": "set e arbitrary 1",
+              "expected": "error: unknown attribute: arbitrary"
+            },
+            {
+              "input": "create line l 1 2 3 4",
+              "expected": "line#l created"
+            },
+            {
+              "input": "set l x1 \"10\"",
+              "expected": "line#l updated: x1=\"10\""
+            },
+            {
+              "input": "set l y1 \"11\"",
+              "expected": "line#l updated: y1=\"11\""
+            },
+            {
+              "input": "set l x2 \"12\"",
+              "expected": "line#l updated: x2=\"12\""
+            },
+            {
+              "input": "set l y2 \"13\"",
+              "expected": "line#l updated: y2=\"13\""
+            },
+            {
+              "input": "show l",
+              "expected": "line#l  parent=svg\n  x1=10 y1=11 x2=12 y2=13"
+            },
+            {
+              "input": "set l arbitrary 1",
+              "expected": "error: unknown attribute: arbitrary"
+            },
+            {
+              "input": "create text t 1 2 \"文\"",
+              "expected": "text#t created"
+            },
+            {
+              "input": "set t x \"10\"",
+              "expected": "text#t updated: x=\"10\""
+            },
+            {
+              "input": "set t y \"11\"",
+              "expected": "text#t updated: y=\"11\""
+            },
+            {
+              "input": "show t",
+              "expected": "text#t  parent=svg\n  x=10 y=11\n  text=\"文\""
+            },
+            {
+              "input": "set t arbitrary 1",
+              "expected": "error: unknown attribute: arbitrary"
+            },
+            {
+              "input": "set r id other",
+              "expected": "error: unknown attribute: id"
+            },
+            {
+              "input": "set r transform x",
+              "expected": "error: unknown attribute: transform"
+            },
+            {
+              "input": "set t font-size 12",
+              "expected": "error: unknown attribute: font-size"
+            },
+            {
+              "input": "set r width -1",
+              "expected": "error: width must be nonnegative"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=svg\n  x=10 y=11 width=12 height=13"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "set p x 1",
+              "expected": "error: unknown attribute: x"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F15-set-style",
+      "title": "公共样式修改",
+      "requirements": "§2.1、§4.1",
+      "objective": "六类图形均可设置三项公共属性，负线宽拒绝。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "all-types",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create rect r 1 2 3 4",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "set r fill \"#AbC\"",
+              "expected": "rect#r updated: fill=\"#AbC\""
+            },
+            {
+              "input": "set r stroke \"green\"",
+              "expected": "rect#r updated: stroke=\"green\""
+            },
+            {
+              "input": "set r stroke-width \"2.5\"",
+              "expected": "rect#r updated: stroke-width=\"2.5\""
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=svg\n  x=1 y=2 width=3 height=4\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5"
+            },
+            {
+              "input": "create circle c 1 2 3",
+              "expected": "circle#c created"
+            },
+            {
+              "input": "set c fill \"#AbC\"",
+              "expected": "circle#c updated: fill=\"#AbC\""
+            },
+            {
+              "input": "set c stroke \"green\"",
+              "expected": "circle#c updated: stroke=\"green\""
+            },
+            {
+              "input": "set c stroke-width \"2.5\"",
+              "expected": "circle#c updated: stroke-width=\"2.5\""
+            },
+            {
+              "input": "show c",
+              "expected": "circle#c  parent=svg\n  cx=1 cy=2 r=3\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5"
+            },
+            {
+              "input": "create ellipse e 1 2 3 4",
+              "expected": "ellipse#e created"
+            },
+            {
+              "input": "set e fill \"#AbC\"",
+              "expected": "ellipse#e updated: fill=\"#AbC\""
+            },
+            {
+              "input": "set e stroke \"green\"",
+              "expected": "ellipse#e updated: stroke=\"green\""
+            },
+            {
+              "input": "set e stroke-width \"2.5\"",
+              "expected": "ellipse#e updated: stroke-width=\"2.5\""
+            },
+            {
+              "input": "show e",
+              "expected": "ellipse#e  parent=svg\n  cx=1 cy=2 rx=3 ry=4\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5"
+            },
+            {
+              "input": "create line l 1 2 3 4",
+              "expected": "line#l created"
+            },
+            {
+              "input": "set l fill \"#AbC\"",
+              "expected": "line#l updated: fill=\"#AbC\""
+            },
+            {
+              "input": "set l stroke \"green\"",
+              "expected": "line#l updated: stroke=\"green\""
+            },
+            {
+              "input": "set l stroke-width \"2.5\"",
+              "expected": "line#l updated: stroke-width=\"2.5\""
+            },
+            {
+              "input": "show l",
+              "expected": "line#l  parent=svg\n  x1=1 y1=2 x2=3 y2=4\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5"
+            },
+            {
+              "input": "create text t 1 2 \"文\"",
+              "expected": "text#t created"
+            },
+            {
+              "input": "set t fill \"#AbC\"",
+              "expected": "text#t updated: fill=\"#AbC\""
+            },
+            {
+              "input": "set t stroke \"green\"",
+              "expected": "text#t updated: stroke=\"green\""
+            },
+            {
+              "input": "set t stroke-width \"2.5\"",
+              "expected": "text#t updated: stroke-width=\"2.5\""
+            },
+            {
+              "input": "show t",
+              "expected": "text#t  parent=svg\n  x=1 y=2\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5\n  text=\"文\""
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "set p fill \"#AbC\"",
+              "expected": "g#p updated: fill=\"#AbC\""
+            },
+            {
+              "input": "set p stroke \"green\"",
+              "expected": "g#p updated: stroke=\"green\""
+            },
+            {
+              "input": "set p stroke-width \"2.5\"",
+              "expected": "g#p updated: stroke-width=\"2.5\""
+            },
+            {
+              "input": "show p",
+              "expected": "g#p  parent=svg\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5"
+            },
+            {
+              "input": "set p stroke-width -1",
+              "expected": "error: stroke-width must be nonnegative"
+            },
+            {
+              "input": "show p",
+              "expected": "g#p  parent=svg\n  fill=#AbC\n  stroke=green\n  stroke-width=2.5"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F16-set-text",
+      "title": "文本修改",
+      "requirements": "§2、§4.1",
+      "objective": "中文、空文本、引号、反斜杠和 XML 特殊字符；撤销恢复。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "content",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create text t 1 2 \"初始\"",
+              "expected": "text#t created"
+            },
+            {
+              "input": "set t text \"中文 \\\"引号\\\" \\\\ & < >\"",
+              "expected": "text#t updated: text=\"中文 \\\"引号\\\" \\\\ & < >\""
+            },
+            {
+              "input": "show t",
+              "expected": "text#t  parent=svg\n  x=1 y=2\n  text=\"中文 \\\"引号\\\" \\\\ & < >\""
+            },
+            {
+              "input": "set t text \"\"",
+              "expected": "text#t updated: text=\"\""
+            },
+            {
+              "input": "show t",
+              "expected": "text#t  parent=svg\n  x=1 y=2\n  text=\"\""
+            },
+            {
+              "input": "undo",
+              "expected": "text#t updated: text=\"中文 \\\"引号\\\" \\\\ & < >\""
+            },
+            {
+              "input": "show t",
+              "expected": "text#t  parent=svg\n  x=1 y=2\n  text=\"中文 \\\"引号\\\" \\\\ & < >\""
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "after.svg",
+              "afterStep": 8,
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "t",
+                  "text": "中文 \"引号\" \\ & < >"
+                }
+              ]
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F17-delete-leaf",
+      "title": "删除叶子",
+      "requirements": "§3 delete、§4.3",
+      "objective": "失去可寻址性，失败不消耗撤销，原父级恢复。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "delete",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "create rect r 1 2 3 4 in p",
+              "expected": "rect#r created in g#p"
+            },
+            {
+              "input": "delete r",
+              "expected": "rect#r deleted"
+            },
+            {
+              "input": "show r",
+              "expected": "error: no such shape: r"
+            },
+            {
+              "input": "move r 1 1",
+              "expected": "error: no such shape: r"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r restored into g#p"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#r deleted"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F18-delete-container",
+      "title": "删除容器",
+      "requirements": "§2.1、§3 delete",
+      "objective": "完整子树删除，一次撤销恢复所有子孙和原次序。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "subtree",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "create g q in p",
+              "expected": "g#q created in g#p"
+            },
+            {
+              "input": "create rect r 1 2 3 4 in q",
+              "expected": "rect#r created in g#q"
+            },
+            {
+              "input": "create circle c 5 6 7 in p",
+              "expected": "circle#c created in g#p"
+            },
+            {
+              "input": "delete p",
+              "expected": "g#p deleted"
+            },
+            {
+              "input": "show q",
+              "expected": "error: no such shape: q"
+            },
+            {
+              "input": "show r",
+              "expected": "error: no such shape: r"
+            },
+            {
+              "input": "show c",
+              "expected": "error: no such shape: c"
+            },
+            {
+              "input": "undo",
+              "expected": "g#p restored into svg"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#q\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "show c",
+              "expected": "circle#c  parent=g#p\n  cx=5 cy=6 r=7"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "after.svg",
+              "afterStep": 12,
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "p",
+                  "children": [
+                    "q",
+                    "c"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "q",
+                  "children": [
+                    "r"
+                  ]
+                }
+              ]
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F19-group-same",
+      "title": "同父分组",
+      "requirements": "§3 group、§4.3",
+      "objective": "忽略参数顺序而保持原遍历顺序，新组占最早成员位置；一次 undo 恢复。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "order",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g a",
+              "expected": "g#a created"
+            },
+            {
+              "input": "create g b",
+              "expected": "g#b created"
+            },
+            {
+              "input": "create g c",
+              "expected": "g#c created"
+            },
+            {
+              "input": "create g d",
+              "expected": "g#d created"
+            },
+            {
+              "input": "group pair d b",
+              "expected": "g#pair created with 2 children"
+            },
+            {
+              "input": "tree",
+              "expected": "svg (800x600)\n├── g#a\n├── g#pair\n│   ├── g#b\n│   └── g#d\n└── g#c"
+            },
+            {
+              "input": "undo",
+              "expected": "g#pair ungrouped (2 children restored)"
+            },
+            {
+              "input": "tree",
+              "expected": "svg (800x600)\n├── g#a\n├── g#b\n├── g#c\n└── g#d"
+            },
+            {
+              "input": "redo",
+              "expected": "g#pair created with 2 children"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "before.svg",
+              "afterStep": 5,
+              "checks": [
+                {
+                  "kind": "root",
+                  "children": [
+                    "a",
+                    "b",
+                    "c",
+                    "d"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "after.svg",
+              "afterStep": 10,
+              "checks": [
+                {
+                  "kind": "root",
+                  "children": [
+                    "a",
+                    "pair",
+                    "c"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "pair",
+                  "children": [
+                    "b",
+                    "d"
+                  ]
+                }
+              ]
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F20-group-cross",
+      "title": "跨父分组",
+      "requirements": "§3 group、§4.3",
+      "objective": "跨父组放画布最早受影响分支处，遍历顺序；undo 恢复两个父级和索引。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default",
+        "preserve-style"
+      ],
+      "scenarios": [
+        {
+          "name": "cross-parent",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "create g q",
+              "expected": "g#q created"
+            },
+            {
+              "input": "create g a in p",
+              "expected": "g#a created in g#p"
+            },
+            {
+              "input": "create g b in p",
+              "expected": "g#b created in g#p"
+            },
+            {
+              "input": "create g c in q",
+              "expected": "g#c created in g#q"
+            },
+            {
+              "input": "create g d in q",
+              "expected": "g#d created in g#q"
+            },
+            {
+              "input": "group pair d b",
+              "expected": "g#pair created with 2 children"
+            },
+            {
+              "input": "tree",
+              "expected": "svg (800x600)\n├── g#pair\n│   ├── g#b\n│   └── g#d\n├── g#p\n│   └── g#a\n└── g#q\n    └── g#c"
+            },
+            {
+              "input": "undo",
+              "expected": "g#pair ungrouped (2 children restored)"
+            },
+            {
+              "input": "tree",
+              "expected": "svg (800x600)\n├── g#p\n│   ├── g#a\n│   └── g#b\n└── g#q\n    ├── g#c\n    └── g#d"
+            },
+            {
+              "input": "redo",
+              "expected": "g#pair created with 2 children"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "after.svg",
+              "afterStep": 12,
+              "checks": [
+                {
+                  "kind": "root",
+                  "children": [
+                    "pair",
+                    "p",
+                    "q"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "pair",
+                  "children": [
+                    "b",
+                    "d"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "p",
+                  "children": [
+                    "a"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "q",
+                  "children": [
+                    "c"
+                  ]
+                }
+              ]
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F21-ungroup",
+      "title": "解组",
+      "requirements": "§3 ungroup、§4.2",
+      "objective": "孩子提升占原位置，根级禁止；失败后 redo 仍可执行。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "promote",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "create g a in p",
+              "expected": "g#a created in g#p"
+            },
+            {
+              "input": "create g inner in p",
+              "expected": "g#inner created in g#p"
+            },
+            {
+              "input": "create g b in inner",
+              "expected": "g#b created in g#inner"
+            },
+            {
+              "input": "create g c in inner",
+              "expected": "g#c created in g#inner"
+            },
+            {
+              "input": "create g d in p",
+              "expected": "g#d created in g#p"
+            },
+            {
+              "input": "ungroup inner",
+              "expected": "g#inner ungrouped (2 children promoted)"
+            },
+            {
+              "input": "tree",
+              "expected": "svg (800x600)\n└── g#p\n    ├── g#a\n    ├── g#b\n    ├── g#c\n    └── g#d"
+            },
+            {
+              "input": "undo",
+              "expected": "g#inner restored with 2 children"
+            },
+            {
+              "input": "show b",
+              "expected": "g#b  parent=g#inner"
+            },
+            {
+              "input": "ungroup p",
+              "expected": "error: cannot ungroup top-level container: p"
+            },
+            {
+              "input": "redo",
+              "expected": "g#inner ungrouped (2 children promoted)"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "after.svg",
+              "afterStep": 13,
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "p",
+                  "children": [
+                    "a",
+                    "b",
+                    "c",
+                    "d"
+                  ]
+                }
+              ]
+            }
+          ],
+          "files": []
+        },
+        {
+          "name": "default-inheritance",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g outer",
+              "expected": "g#outer created"
+            },
+            {
+              "input": "create g inner in outer",
+              "expected": "g#inner created in g#outer"
+            },
+            {
+              "input": "set inner fill \"red\"",
+              "expected": "g#inner updated: fill=\"red\""
+            },
+            {
+              "input": "create rect r 1 2 3 4 in inner",
+              "expected": "rect#r created in g#inner"
+            },
+            {
+              "input": "ungroup inner",
+              "expected": "g#inner ungrouped (1 children promoted)"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#outer\n  x=1 y=2 width=3 height=4"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "after.svg",
+              "afterStep": 7,
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "parent": "outer",
+                  "absentAttributes": [
+                    "fill",
+                    "stroke",
+                    "stroke-width"
+                  ]
+                }
+              ]
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F22-addto",
+      "title": "重新归属",
+      "requirements": "§3 addto",
+      "objective": "追加到目标末尾；自包含、循环及非容器目标拒绝，undo 回原父级。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "reparent",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "create g q",
+              "expected": "g#q created"
+            },
+            {
+              "input": "create g a in p",
+              "expected": "g#a created in g#p"
+            },
+            {
+              "input": "create g b in q",
+              "expected": "g#b created in g#q"
+            },
+            {
+              "input": "create rect r 1 2 3 4",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "addto q a",
+              "expected": "g#a moved into g#q"
+            },
+            {
+              "input": "tree",
+              "expected": "svg (800x600)\n├── g#p\n├── g#q\n│   ├── g#b\n│   └── g#a\n└── rect#r  x=1 y=2 w=3 h=4"
+            },
+            {
+              "input": "addto q q",
+              "expected": "error: cannot move a container into its own descendant: q"
+            },
+            {
+              "input": "addto a q",
+              "expected": "error: cannot move a container into its own descendant: q"
+            },
+            {
+              "input": "addto r a",
+              "expected": "error: not a container: r"
+            },
+            {
+              "input": "undo",
+              "expected": "g#a moved back into g#p"
+            },
+            {
+              "input": "show a",
+              "expected": "g#a  parent=g#p"
+            },
+            {
+              "input": "redo",
+              "expected": "g#a moved into g#q"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F23-front",
+      "title": "front",
+      "requirements": "§3 front/back",
+      "objective": "实际 SVG 同级顺序，undo/redo；由 SVG 真实渲染，交叠像素从蓝变红。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "overlap",
+          "steps": [
+            {
+              "input": "init 200 160",
+              "expected": "canvas 200x160 created"
+            },
+            {
+              "input": "create rect red 10 10 100 100 #ff0000",
+              "expected": "rect#red created"
+            },
+            {
+              "input": "create rect blue 40 40 100 100 #0000ff",
+              "expected": "rect#blue created"
+            },
+            {
+              "input": "front red",
+              "expected": "rect#red brought to front"
+            },
+            {
+              "input": "show red",
+              "expected": "rect#red  parent=svg\n  x=10 y=10 width=100 height=100\n  fill=#ff0000"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#red draw order restored in svg"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#red brought to front"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "before.svg",
+              "afterStep": 3,
+              "checks": [
+                {
+                  "kind": "root",
+                  "children": [
+                    "red",
+                    "blue"
+                  ]
+                }
+              ],
+              "visual": {
+                "pixel": [
+                  60,
+                  60
+                ],
+                "color": "#0000ff"
+              }
+            },
+            {
+              "name": "after.svg",
+              "afterStep": 7,
+              "checks": [
+                {
+                  "kind": "root",
+                  "children": [
+                    "blue",
+                    "red"
+                  ]
+                }
+              ],
+              "visual": {
+                "pixel": [
+                  60,
+                  60
+                ],
+                "color": "#ff0000"
+              }
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F24-back",
+      "title": "back",
+      "requirements": "§3 front/back",
+      "objective": "实际 SVG 同级顺序，undo/redo；由 SVG 真实渲染，交叠像素从蓝变红。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "overlap",
+          "steps": [
+            {
+              "input": "init 200 160",
+              "expected": "canvas 200x160 created"
+            },
+            {
+              "input": "create rect red 10 10 100 100 #ff0000",
+              "expected": "rect#red created"
+            },
+            {
+              "input": "create rect blue 40 40 100 100 #0000ff",
+              "expected": "rect#blue created"
+            },
+            {
+              "input": "back blue",
+              "expected": "rect#blue sent to back"
+            },
+            {
+              "input": "show red",
+              "expected": "rect#red  parent=svg\n  x=10 y=10 width=100 height=100\n  fill=#ff0000"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#blue draw order restored in svg"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#blue sent to back"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "before.svg",
+              "afterStep": 3,
+              "checks": [
+                {
+                  "kind": "root",
+                  "children": [
+                    "red",
+                    "blue"
+                  ]
+                }
+              ],
+              "visual": {
+                "pixel": [
+                  60,
+                  60
+                ],
+                "color": "#0000ff"
+              }
+            },
+            {
+              "name": "after.svg",
+              "afterStep": 7,
+              "checks": [
+                {
+                  "kind": "root",
+                  "children": [
+                    "blue",
+                    "red"
+                  ]
+                }
+              ],
+              "visual": {
+                "pixel": [
+                  60,
+                  60
+                ],
+                "color": "#ff0000"
+              }
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F25-undo",
+      "title": "撤销",
+      "requirements": "§4.3",
+      "objective": "一条编辑一个单元；浮点快照与样式省略精确恢复，耗尽报错。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default",
+        "preserve-style"
+      ],
+      "scenarios": [
+        {
+          "name": "exact",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create rect r 0.1 0.2 0.3 0.4",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "move r 0.2 0",
+              "expected": "rect#r moved to (0.30000000000000004,0.2)"
+            },
+            {
+              "input": "scale r 3",
+              "expected": "rect#r scaled by 3"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r scale restored"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=svg\n  x=0.30000000000000004 y=0.2 width=0.3 height=0.4"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (0.1,0.2)"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=svg\n  x=0.1 y=0.2 width=0.3 height=0.4"
+            },
+            {
+              "input": "set r fill \"red\"",
+              "expected": "rect#r updated: fill=\"red\""
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r updated: fill=<unset>"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=svg\n  x=0.1 y=0.2 width=0.3 height=0.4"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r deleted"
+            },
+            {
+              "input": "undo",
+              "expected": "error: nothing to undo"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "restored.svg",
+              "afterStep": 11,
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "x": "0.1",
+                    "y": "0.2",
+                    "width": "0.3",
+                    "height": "0.4"
+                  },
+                  "absentAttributes": [
+                    "fill"
+                  ]
+                }
+              ]
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F26-redo",
+      "title": "重做",
+      "requirements": "§3 redo、§4.3",
+      "objective": "重做恢复；新成功编辑清空 redo，状态符合新编辑。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "branch",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create rect r 1 2 3 4",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "move r 10 0",
+              "expected": "rect#r moved to (11,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#r moved to (11,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "set r fill \"red\"",
+              "expected": "rect#r updated: fill=\"red\""
+            },
+            {
+              "input": "redo",
+              "expected": "error: nothing to redo"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=svg\n  x=1 y=2 width=3 height=4\n  fill=red"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F27-display-history",
+      "title": "显示与历史",
+      "requirements": "§3 显示、§5",
+      "objective": "tree 几何内联和子树、show 几何合行及样式、只读不占历史或清 redo。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "queries",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "create circle c 1 2 3 red in p",
+              "expected": "circle#c created in g#p"
+            },
+            {
+              "input": "move c 2 3",
+              "expected": "circle#c moved to (3,5)"
+            },
+            {
+              "input": "tree",
+              "expected": "svg (800x600)\n└── g#p\n    └── circle#c  cx=3 cy=5 r=3 fill=red"
+            },
+            {
+              "input": "tree p",
+              "expected": "g#p\n└── circle#c  cx=3 cy=5 r=3 fill=red"
+            },
+            {
+              "input": "show c",
+              "expected": "circle#c  parent=g#p\n  cx=3 cy=5 r=3\n  fill=red"
+            },
+            {
+              "input": "help",
+              "expected": "init [w] [h]\nread <file.svg>\nsave [file.svg]\ncanvas [w] [h]\ncreate <rect|circle|ellipse|line|text|g> <id> [params...] [in <gid>]\ndelete <id>\nmove <id> <dx> <dy>\nscale <id> <factor>\nset <id> <attr> <value>\ngroup <newGid> <id1> <id2>...\nungroup <gid>\naddto <gid> <id>\nfront <id>\nback <id>\ntree [id]\nshow <id>\nundo\nredo\nhelp\ncreate rect <id> <x> <y> <width> <height> [fill] [in <containerId>]\ncreate circle <id> <cx> <cy> <r> [fill] [in <containerId>]\ncreate ellipse <id> <cx> <cy> <rx> <ry> [fill] [in <containerId>]\ncreate line <id> <x1> <y1> <x2> <y2> [stroke] [in <containerId>]\ncreate text <id> <x> <y> \"content\" [in <containerId>]\ncreate g <id> [in <containerId>]"
+            },
+            {
+              "input": "canvas",
+              "expected": "canvas 800x600"
+            },
+            {
+              "input": "undo",
+              "expected": "circle#c moved back to (1,2)"
+            },
+            {
+              "input": "show c",
+              "expected": "circle#c  parent=g#p\n  cx=1 cy=2 r=3\n  fill=red"
+            },
+            {
+              "input": "redo",
+              "expected": "circle#c moved to (3,5)"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F28-barriers",
+      "title": "文档操作屏障",
+      "requirements": "§3 文档类、§4.3",
+      "objective": "分别验证 init/read/save/尺寸修改清理 undo/redo；下一编辑解禁。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default",
+        "preserve-style"
+      ],
+      "scenarios": [
+        {
+          "name": "init",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create rect r 1 2 3 4",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "move r 5 0",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "undo",
+              "expected": "error: undo not allowed after io command"
+            },
+            {
+              "input": "redo",
+              "expected": "error: undo not allowed after io command"
+            },
+            {
+              "input": "create g new",
+              "expected": "g#new created"
+            },
+            {
+              "input": "undo",
+              "expected": "g#new deleted"
+            },
+            {
+              "input": "undo",
+              "expected": "error: nothing to undo"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": []
+        },
+        {
+          "name": "read",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create rect r 1 2 3 4",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "move r 5 0",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "read base.svg",
+              "expected": "read base.svg (1 elements)"
+            },
+            {
+              "input": "undo",
+              "expected": "error: undo not allowed after io command"
+            },
+            {
+              "input": "redo",
+              "expected": "error: undo not allowed after io command"
+            },
+            {
+              "input": "create g new",
+              "expected": "g#new created"
+            },
+            {
+              "input": "undo",
+              "expected": "g#new deleted"
+            },
+            {
+              "input": "undo",
+              "expected": "error: nothing to undo"
+            }
+          ],
+          "fixtures": {
+            "base.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><rect id=\"r\" x=\"1\" y=\"2\" width=\"3\" height=\"4\"/></svg>"
+          },
+          "snapshots": [],
+          "files": []
+        },
+        {
+          "name": "save",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create rect r 1 2 3 4",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "move r 5 0",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "save barrier.svg",
+              "expected": "saved to barrier.svg (1 elements)"
+            },
+            {
+              "input": "undo",
+              "expected": "error: undo not allowed after io command"
+            },
+            {
+              "input": "redo",
+              "expected": "error: undo not allowed after io command"
+            },
+            {
+              "input": "create g new",
+              "expected": "g#new created"
+            },
+            {
+              "input": "undo",
+              "expected": "g#new deleted"
+            },
+            {
+              "input": "undo",
+              "expected": "error: nothing to undo"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": []
+        },
+        {
+          "name": "canvas",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create rect r 1 2 3 4",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "move r 5 0",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "canvas 200 100",
+              "expected": "canvas resized to 200x100"
+            },
+            {
+              "input": "undo",
+              "expected": "error: undo not allowed after io command"
+            },
+            {
+              "input": "redo",
+              "expected": "error: undo not allowed after io command"
+            },
+            {
+              "input": "create g new",
+              "expected": "g#new created"
+            },
+            {
+              "input": "undo",
+              "expected": "g#new deleted"
+            },
+            {
+              "input": "undo",
+              "expected": "error: nothing to undo"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F29-atomicity",
+      "title": "失败原子性",
+      "requirements": "§2、§4.2、§4.3",
+      "objective": "错误后逐项检查原状态；redo 保留，undo 栈未多出失败单元。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "rejected-edits",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "create rect r 1 2 3 4 in p",
+              "expected": "rect#r created in g#p"
+            },
+            {
+              "input": "move r 5 0",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "create g r",
+              "expected": "error: id already exists: r"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "delete missing",
+              "expected": "error: no such shape: missing"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "move r NaN 0",
+              "expected": "error: invalid dx: NaN"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "scale r -1",
+              "expected": "error: scale factor must be positive"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "group single r",
+              "expected": "error: group requires at least two shapes"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "group bad r r",
+              "expected": "error: duplicate group member"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "group bad r p",
+              "expected": "error: cannot group a container into its own descendant: p"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "set r width -1",
+              "expected": "error: width must be nonnegative"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F30-save",
+      "title": "基本保存",
+      "requirements": "§0.1、§4.1",
+      "objective": "标准 SVG 根与命名空间，省略样式保持省略，XML 文本正确转义。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "serialize",
+          "steps": [
+            {
+              "input": "init 200 160",
+              "expected": "canvas 200x160 created"
+            },
+            {
+              "input": "create rect r 1 2 3 4",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "create line l 1 2 3 4",
+              "expected": "line#l created"
+            },
+            {
+              "input": "create text t 5 6 \"A & <B> \\\"Q\\\"\"",
+              "expected": "text#t created"
+            },
+            {
+              "input": "save out.svg",
+              "expected": "saved to out.svg (3 elements)"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": [
+            {
+              "path": "out.svg",
+              "checks": [
+                {
+                  "kind": "root",
+                  "attributes": {
+                    "xmlns": "http://www.w3.org/2000/svg",
+                    "width": "200",
+                    "height": "160",
+                    "viewBox": "0 0 200 160"
+                  },
+                  "children": [
+                    "r",
+                    "l",
+                    "t"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "absentAttributes": [
+                    "fill",
+                    "stroke",
+                    "stroke-width"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "l",
+                  "absentAttributes": [
+                    "fill",
+                    "stroke"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "t",
+                  "text": "A & <B> \"Q\""
+                },
+                {
+                  "kind": "contains",
+                  "value": "&amp; &lt;B&gt; \"Q\""
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F31-roundtrip",
+      "title": "读取与往返",
+      "requirements": "§3 read/save、§4.4 降级边界",
+      "objective": "六类型、嵌套、属性和文本；data-kind=box 仍为普通 g，第二次保存稳定。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default",
+        "preserve-style"
+      ],
+      "scenarios": [
+        {
+          "name": "round-trip",
+          "steps": [
+            {
+              "input": "read input.svg",
+              "expected": "read input.svg (7 elements)"
+            },
+            {
+              "input": "show p",
+              "expected": "g#p  parent=svg\n  fill=red\n  data-kind=box"
+            },
+            {
+              "input": "show t",
+              "expected": "text#t  parent=g#q\n  x=12 y=13\n  font-size=18\n  text-anchor=middle\n  text=\"中 & 文\""
+            },
+            {
+              "input": "save first.svg",
+              "expected": "saved to first.svg (7 elements)"
+            },
+            {
+              "input": "read first.svg",
+              "expected": "read first.svg (7 elements)"
+            },
+            {
+              "input": "save second.svg",
+              "expected": "saved to second.svg (7 elements)"
+            }
+          ],
+          "fixtures": {
+            "input.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><g id=\"p\" fill=\"red\" data-kind=\"box\"><rect id=\"r\" x=\"1\" y=\"2\" width=\"3\" height=\"4\"/><circle id=\"c\" cx=\"5\" cy=\"6\" r=\"7\"/><g id=\"q\"><ellipse id=\"e\" cx=\"8\" cy=\"9\" rx=\"10\" ry=\"11\"/><line id=\"l\" x1=\"1\" y1=\"2\" x2=\"3\" y2=\"4\" stroke=\"green\"/><text id=\"t\" x=\"12\" y=\"13\" font-size=\"18\" text-anchor=\"middle\">中 &amp; 文</text></g></g></svg>"
+          },
+          "snapshots": [],
+          "files": [
+            {
+              "path": "first.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "p",
+                  "attributes": {
+                    "fill": "red",
+                    "data-kind": "box"
+                  },
+                  "children": [
+                    "r",
+                    "c",
+                    "q"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "q",
+                  "children": [
+                    "e",
+                    "l",
+                    "t"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "t",
+                  "attributes": {
+                    "font-size": "18",
+                    "text-anchor": "middle"
+                  },
+                  "parent": "q",
+                  "text": "中 & 文"
+                }
+              ]
+            },
+            {
+              "path": "second.svg",
+              "checks": [
+                {
+                  "kind": "equalFile",
+                  "path": "first.svg"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F32-ids",
+      "title": "id 规则",
+      "requirements": "§2、§4.2",
+      "objective": "大小写、自动补全显式避让及根 id；重复读入和命名失败原子性。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "identity",
+          "steps": [
+            {
+              "input": "read ids.svg",
+              "expected": "warning: assigned id rect3 to unnamed <rect>\nwarning: assigned id g1 to unnamed <g>\nread ids.svg (3 elements)"
+            },
+            {
+              "input": "show rect3",
+              "expected": "rect#rect3  parent=svg\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "create g rect1",
+              "expected": "error: id already exists: rect1"
+            },
+            {
+              "input": "group rect1 rect3 rect2",
+              "expected": "error: id already exists: rect1"
+            },
+            {
+              "input": "create g A",
+              "expected": "g#A created"
+            },
+            {
+              "input": "create g a",
+              "expected": "g#a created"
+            },
+            {
+              "input": "create g A",
+              "expected": "error: id already exists: A"
+            },
+            {
+              "input": "show rect1",
+              "expected": "error: no such shape: rect1"
+            },
+            {
+              "input": "create g x in rect1",
+              "expected": "error: no such container: rect1"
+            },
+            {
+              "input": "read duplicate.svg",
+              "expected": "error: id already exists: x"
+            },
+            {
+              "input": "show A",
+              "expected": "g#A  parent=svg"
+            },
+            {
+              "input": "save after.svg",
+              "expected": "saved to after.svg (5 elements)"
+            },
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "save reset.svg",
+              "expected": "saved to reset.svg (0 elements)"
+            }
+          ],
+          "fixtures": {
+            "ids.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" id=\"rect1\"><rect x=\"1\" y=\"2\" width=\"3\" height=\"4\"/><rect id=\"rect2\"/><g/></svg>",
+            "duplicate.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><rect id=\"x\"/><g id=\"x\"/></svg>"
+          },
+          "snapshots": [],
+          "files": [
+            {
+              "path": "after.svg",
+              "checks": [
+                {
+                  "kind": "root",
+                  "attributes": {
+                    "id": "rect1"
+                  }
+                },
+                {
+                  "kind": "node",
+                  "id": "rect3"
+                },
+                {
+                  "kind": "node",
+                  "id": "A"
+                },
+                {
+                  "kind": "node",
+                  "id": "a"
+                }
+              ]
+            },
+            {
+              "path": "reset.svg",
+              "checks": [
+                {
+                  "kind": "root",
+                  "absentAttributes": [
+                    "id"
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F33-save-path",
+      "title": "保存路径",
+      "requirements": "§3 save、手册 §6.3",
+      "objective": "初始化首次无路径拒绝；已命名保存默认到最近路径；read 后另存副本不改默认读入路径；init 清理。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "paths",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "save",
+              "expected": "error: no file path. use save <file.svg>"
+            },
+            {
+              "input": "create rect r 1 2 3 4",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "save initial.svg",
+              "expected": "saved to initial.svg (1 elements)"
+            },
+            {
+              "input": "move r 1 0",
+              "expected": "rect#r moved to (2,2)"
+            },
+            {
+              "input": "save",
+              "expected": "saved to initial.svg (1 elements)"
+            },
+            {
+              "input": "read source/original.svg",
+              "expected": "read source/original.svg (1 elements)"
+            },
+            {
+              "input": "move r 9 0",
+              "expected": "rect#r moved to (10,2)"
+            },
+            {
+              "input": "save destination/copy.svg",
+              "expected": "saved to destination/copy.svg (1 elements)"
+            },
+            {
+              "input": "move r 10 0",
+              "expected": "rect#r moved to (20,2)"
+            },
+            {
+              "input": "save",
+              "expected": "saved to source/original.svg (1 elements)"
+            },
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "save",
+              "expected": "error: no file path. use save <file.svg>"
+            }
+          ],
+          "fixtures": {
+            "source/original.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><rect id=\"r\" x=\"1\" y=\"2\" width=\"3\" height=\"4\"/></svg>",
+            "destination/.keep": ""
+          },
+          "snapshots": [],
+          "files": [
+            {
+              "path": "initial.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "x": "2"
+                  }
+                }
+              ]
+            },
+            {
+              "path": "source/original.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "x": "20"
+                  }
+                }
+              ]
+            },
+            {
+              "path": "destination/copy.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "x": "10"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F34-io-failure",
+      "title": "IO 失败",
+      "requirements": "§4.2、§2 失败不变",
+      "objective": "不存在、不可作为文件写入的目录目标、畸形 XML；保留默认路径、undo/redo 和状态。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "failed-io",
+          "steps": [
+            {
+              "input": "read source.svg",
+              "expected": "read source.svg (1 elements)"
+            },
+            {
+              "input": "move r 9 0",
+              "expected": "rect#r moved to (10,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "read missing.svg",
+              "expected": "error: cannot read file: missing.svg"
+            },
+            {
+              "input": "read bad.svg",
+              "expected": "error: invalid SVG: malformed XML"
+            },
+            {
+              "input": "save destination",
+              "expected": "error: cannot write file: destination"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=svg\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#r moved to (10,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#r moved to (10,2)"
+            },
+            {
+              "input": "save",
+              "expected": "saved to source.svg (1 elements)"
+            }
+          ],
+          "fixtures": {
+            "source.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><rect id=\"r\" x=\"1\" y=\"2\" width=\"3\" height=\"4\"/></svg>",
+            "bad.svg": "<svg>",
+            "destination/.keep": ""
+          },
+          "snapshots": [],
+          "files": [
+            {
+              "path": "source.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "x": "10"
+                  }
+                }
+              ]
+            },
+            {
+              "path": "destination",
+              "absentFile": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F35-input",
+      "title": "CLI 输入",
+      "requirements": "§2",
+      "objective": "空行和整行注释无输出；# 颜色不被截断；转义、引号错误及未知命令后继续；错误单行。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "parser",
+          "steps": [
+            {
+              "input": "# 注释",
+              "expected": ""
+            },
+            {
+              "input": "",
+              "expected": ""
+            },
+            {
+              "input": "   # 另一个注释",
+              "expected": ""
+            },
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create rect r 1 2 3 4 #AbC",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "create text t 1 2 \"say \\\"hi\\\" C:\\\\tmp\"",
+              "expected": "text#t created"
+            },
+            {
+              "input": "show t",
+              "expected": "text#t  parent=svg\n  x=1 y=2\n  text=\"say \\\"hi\\\" C:\\\\tmp\""
+            },
+            {
+              "input": "set t text \"unfinished",
+              "expected": "error: unterminated double quote"
+            },
+            {
+              "input": "unknown",
+              "expected": "error: unknown command: unknown"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=svg\n  x=1 y=2 width=3 height=4\n  fill=#AbC"
+            },
+            {
+              "input": "show t",
+              "expected": "text#t  parent=svg\n  x=1 y=2\n  text=\"say \\\"hi\\\" C:\\\\tmp\""
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F36-task-book",
+      "title": "任务书综合案例",
+      "requirements": "§6、§6.1 版本 A",
+      "objective": "逐条完整回放典型会话及两节点流程图；仅列明 tree 排版与显式 stroke 展示差异。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default",
+        "preserve-style"
+      ],
+      "scenarios": [
+        {
+          "name": "typical",
+          "steps": [
+            {
+              "input": "init 800 600",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create rect bg 0 0 800 600 #ffffff",
+              "expected": "rect#bg created"
+            },
+            {
+              "input": "create text title 20 40 \"My Diagram\"",
+              "expected": "text#title created"
+            },
+            {
+              "input": "create circle c1 100 100 20 red",
+              "expected": "circle#c1 created"
+            },
+            {
+              "input": "create rect box 200 80 60 60 #3366ff",
+              "expected": "rect#box created"
+            },
+            {
+              "input": "group markers c1 box",
+              "expected": "g#markers created with 2 children"
+            },
+            {
+              "input": "tree",
+              "expected": "svg (800x600)\n├── rect#bg        x=0 y=0 w=800 h=600 fill=#ffffff\n├── text#title     (20,40) \"My Diagram\"\n└── g#markers\n    ├── circle#c1  cx=100 cy=100 r=20 fill=red\n    └── rect#box   x=200 y=80 w=60 h=60 fill=#3366ff"
+            },
+            {
+              "input": "move c1 30 0",
+              "expected": "circle#c1 moved to (130,100)"
+            },
+            {
+              "input": "undo",
+              "expected": "circle#c1 moved back to (100,100)"
+            },
+            {
+              "input": "redo",
+              "expected": "circle#c1 moved to (130,100)"
+            },
+            {
+              "input": "set title text \"My Diagram v2\"",
+              "expected": "text#title updated: text=\"My Diagram v2\""
+            },
+            {
+              "input": "undo",
+              "expected": "text#title updated: text=\"My Diagram\""
+            },
+            {
+              "input": "group bad c1 markers",
+              "expected": "error: cannot group a container into its own descendant: markers"
+            },
+            {
+              "input": "delete box",
+              "expected": "rect#box deleted"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#box restored into g#markers"
+            },
+            {
+              "input": "save demo.svg",
+              "expected": "saved to demo.svg (5 elements)"
+            },
+            {
+              "input": "undo",
+              "expected": "error: undo not allowed after io command"
+            },
+            {
+              "input": "read other.svg",
+              "expected": "warning: assigned id rect1 to unnamed <rect>\nread other.svg (7 elements)"
+            },
+            {
+              "input": "tree",
+              "expected": "svg (400x300)\n├── rect#rect1     x=0 y=0 w=400 h=300 fill=#ffffff\n├── text#t1        (10,290) \"imported\"\n├── circle#c1      cx=50 cy=50 r=10\n├── g#g1\n│   ├── rect#r2    x=0 y=0 w=10 h=10\n│   └── circle#c2  cx=5 cy=5 r=2\n└── ellipse#e1     cx=1 cy=2 rx=3 ry=4"
+            }
+          ],
+          "fixtures": {
+            "other.svg": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"300\" viewBox=\"0 0 400 300\">\n  <rect x=\"0\" y=\"0\" width=\"400\" height=\"300\" fill=\"#ffffff\"/>\n  <text id=\"t1\" x=\"10\" y=\"290\">imported</text>\n  <circle id=\"c1\" cx=\"50\" cy=\"50\" r=\"10\"/>\n  <g id=\"g1\">\n    <rect id=\"r2\" x=\"0\" y=\"0\" width=\"10\" height=\"10\"/>\n    <circle id=\"c2\" cx=\"5\" cy=\"5\" r=\"2\"/>\n  </g>\n  <ellipse id=\"e1\" cx=\"1\" cy=\"2\" rx=\"3\" ry=\"4\"/>\n</svg>\n"
+          },
+          "snapshots": [],
+          "files": [
+            {
+              "path": "demo.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "title",
+                  "text": "My Diagram"
+                },
+                {
+                  "kind": "node",
+                  "id": "c1",
+                  "attributes": {
+                    "cx": "130"
+                  }
+                },
+                {
+                  "kind": "node",
+                  "id": "markers",
+                  "children": [
+                    "c1",
+                    "box"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "flowchart",
+          "steps": [
+            {
+              "input": "init 800 600",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g flowchart",
+              "expected": "g#flowchart created"
+            },
+            {
+              "input": "create g node1 in flowchart",
+              "expected": "g#node1 created in g#flowchart"
+            },
+            {
+              "input": "create rect start 120 100 160 60 #4a90d9 in node1",
+              "expected": "rect#start created in g#node1"
+            },
+            {
+              "input": "create text start-label 155 135 \"开始\" in node1",
+              "expected": "text#start-label created in g#node1"
+            },
+            {
+              "input": "create g node2 in flowchart",
+              "expected": "g#node2 created in g#flowchart"
+            },
+            {
+              "input": "create rect process 520 100 160 60 #f5a623 in node2",
+              "expected": "rect#process created in g#node2"
+            },
+            {
+              "input": "create text process-label 545 135 \"处理数据\" in node2",
+              "expected": "text#process-label created in g#node2"
+            },
+            {
+              "input": "create line arrow1 280 130 520 130 black in flowchart",
+              "expected": "line#arrow1 created in g#flowchart"
+            },
+            {
+              "input": "tree",
+              "expected": "svg (800x600)\n└── g#flowchart\n    ├── g#node1\n    │   ├── rect#start          x=120 y=100 w=160 h=60 fill=#4a90d9\n    │   └── text#start-label    (155,135) \"开始\"\n    ├── g#node2\n    │   ├── rect#process        x=520 y=100 w=160 h=60 fill=#f5a623\n    │   └── text#process-label  (545,135) \"处理数据\"\n    └── line#arrow1             (280,130) -> (520,130) stroke=black"
+            },
+            {
+              "input": "move node2 0 100",
+              "expected": "g#node2 moved by (0,100)"
+            },
+            {
+              "input": "undo",
+              "expected": "g#node2 moved back by (0,-100)"
+            },
+            {
+              "input": "set process-label text \"处理数据 v2\"",
+              "expected": "text#process-label updated: text=\"处理数据 v2\""
+            },
+            {
+              "input": "save flowchart.svg",
+              "expected": "saved to flowchart.svg (8 elements)"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": [
+            {
+              "path": "flowchart.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "flowchart",
+                  "children": [
+                    "node1",
+                    "node2",
+                    "arrow1"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "process",
+                  "attributes": {
+                    "x": "520",
+                    "y": "100"
+                  }
+                },
+                {
+                  "kind": "node",
+                  "id": "process-label",
+                  "text": "处理数据 v2"
+                }
+              ],
+              "visual": {
+                "pixel": [
+                  130,
+                  110
+                ],
+                "color": "#4a90d9"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F37-transform",
+      "title": "transform 导入",
+      "requirements": "§0 背景（可选增强）、手册 §11",
+      "objective": "嵌套、左右顺序、一次归一化、字号/线宽、编辑/undo/往返和不支持变换拒绝。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "default"
+      ],
+      "scenarios": [
+        {
+          "name": "normalize",
+          "steps": [
+            {
+              "input": "read transform.svg",
+              "expected": "read transform.svg (5 elements)"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=12 y=24 width=6 height=8\n  stroke-width=6"
+            },
+            {
+              "input": "show t",
+              "expected": "text#t  parent=g#q\n  x=21 y=22\n  font-size=18\n  text=\"中\""
+            },
+            {
+              "input": "show s",
+              "expected": "rect#s  parent=svg\n  x=22 y=44 width=6 height=8\n  stroke-width=2"
+            },
+            {
+              "input": "move p 1 2",
+              "expected": "g#p moved by (1,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "g#p moved back by (-1,-2)"
+            },
+            {
+              "input": "read rotate.svg",
+              "expected": "error: unsupported or invalid SVG transform: rotate(20)"
+            },
+            {
+              "input": "redo",
+              "expected": "g#p moved by (1,2)"
+            },
+            {
+              "input": "save normalized.svg",
+              "expected": "saved to normalized.svg (5 elements)"
+            },
+            {
+              "input": "read normalized.svg",
+              "expected": "read normalized.svg (5 elements)"
+            },
+            {
+              "input": "save stable.svg",
+              "expected": "saved to stable.svg (5 elements)"
+            }
+          ],
+          "fixtures": {
+            "transform.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><g id=\"p\" transform=\"translate(10,20) scale(2)\" stroke-width=\"3\"><rect id=\"r\" x=\"1\" y=\"2\" width=\"3\" height=\"4\"/><g id=\"q\" transform=\"translate(5,0) scale(0.5)\"><text id=\"t\" x=\"1\" y=\"2\" font-size=\"18\">中</text></g></g><rect id=\"s\" x=\"1\" y=\"2\" width=\"3\" height=\"4\" transform=\"scale(2) translate(10,20)\"/></svg>",
+            "rotate.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><g id=\"bad\" transform=\"rotate(20)\"/></svg>"
+          },
+          "snapshots": [],
+          "files": [
+            {
+              "path": "normalized.svg",
+              "checks": [
+                {
+                  "kind": "notContains",
+                  "value": "transform="
+                },
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "x": "13",
+                    "y": "26",
+                    "width": "6",
+                    "height": "8",
+                    "stroke-width": "6"
+                  }
+                },
+                {
+                  "kind": "node",
+                  "id": "t",
+                  "attributes": {
+                    "x": "22",
+                    "y": "24",
+                    "font-size": "18"
+                  }
+                },
+                {
+                  "kind": "node",
+                  "id": "s",
+                  "attributes": {
+                    "x": "22",
+                    "y": "44"
+                  }
+                }
+              ]
+            },
+            {
+              "path": "stable.svg",
+              "checks": [
+                {
+                  "kind": "equalFile",
+                  "path": "normalized.svg"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F38-preserve-style",
+      "title": "基础样式保留",
+      "requirements": "已声明可选增强、手册 §9.6",
+      "objective": "分别验证 group/ungroup/addto，三项属性有效值、显式覆盖、历史及持久化。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "preserve-style"
+      ],
+      "scenarios": [
+        {
+          "name": "ungroup",
+          "steps": [
+            {
+              "input": "init 200 160",
+              "expected": "canvas 200x160 created"
+            },
+            {
+              "input": "create g outer",
+              "expected": "g#outer created"
+            },
+            {
+              "input": "create g inner in outer",
+              "expected": "g#inner created in g#outer"
+            },
+            {
+              "input": "set inner fill \"red\"",
+              "expected": "g#inner updated: fill=\"red\""
+            },
+            {
+              "input": "set inner stroke \"green\"",
+              "expected": "g#inner updated: stroke=\"green\""
+            },
+            {
+              "input": "set inner stroke-width \"3\"",
+              "expected": "g#inner updated: stroke-width=\"3\""
+            },
+            {
+              "input": "create rect r 10 10 60 60 in inner",
+              "expected": "rect#r created in g#inner"
+            },
+            {
+              "input": "create circle c 100 50 20 blue in inner",
+              "expected": "circle#c created in g#inner"
+            },
+            {
+              "input": "ungroup inner",
+              "expected": "g#inner ungrouped (2 children promoted)"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#outer\n  x=10 y=10 width=60 height=60\n  fill=red\n  stroke=green\n  stroke-width=3"
+            },
+            {
+              "input": "show c",
+              "expected": "circle#c  parent=g#outer\n  cx=100 cy=50 r=20\n  fill=blue\n  stroke=green\n  stroke-width=3"
+            },
+            {
+              "input": "undo",
+              "expected": "g#inner restored with 2 children"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#inner\n  x=10 y=10 width=60 height=60"
+            },
+            {
+              "input": "redo",
+              "expected": "g#inner ungrouped (2 children promoted)"
+            },
+            {
+              "input": "save styles.svg",
+              "expected": "saved to styles.svg (3 elements)"
+            },
+            {
+              "input": "read styles.svg",
+              "expected": "read styles.svg (3 elements)"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#outer\n  x=10 y=10 width=60 height=60\n  fill=red\n  stroke=green\n  stroke-width=3"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": [
+            {
+              "path": "styles.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "fill": "red",
+                    "stroke": "green",
+                    "stroke-width": "3"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "addto",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create rect r 1 2 3 4",
+              "expected": "rect#r created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "set p fill \"blue\"",
+              "expected": "g#p updated: fill=\"blue\""
+            },
+            {
+              "input": "set p stroke \"red\"",
+              "expected": "g#p updated: stroke=\"red\""
+            },
+            {
+              "input": "set p stroke-width \"8\"",
+              "expected": "g#p updated: stroke-width=\"8\""
+            },
+            {
+              "input": "addto p r",
+              "expected": "rect#r moved into g#p"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4\n  fill=black\n  stroke=none\n  stroke-width=1"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back into svg"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=svg\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#r moved into g#p"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [],
+          "files": []
+        },
+        {
+          "name": "group",
+          "steps": [
+            {
+              "input": "init",
+              "expected": "canvas 800x600 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "set p fill \"red\"",
+              "expected": "g#p updated: fill=\"red\""
+            },
+            {
+              "input": "create g q",
+              "expected": "g#q created"
+            },
+            {
+              "input": "set q fill \"blue\"",
+              "expected": "g#q updated: fill=\"blue\""
+            },
+            {
+              "input": "create rect r 1 2 3 4 in p",
+              "expected": "rect#r created in g#p"
+            },
+            {
+              "input": "create circle c 1 2 3 in q",
+              "expected": "circle#c created in g#q"
+            },
+            {
+              "input": "group pair c r",
+              "expected": "g#pair created with 2 children"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#pair\n  x=1 y=2 width=3 height=4\n  fill=red"
+            },
+            {
+              "input": "show c",
+              "expected": "circle#c  parent=g#pair\n  cx=1 cy=2 r=3\n  fill=blue"
+            },
+            {
+              "input": "undo",
+              "expected": "g#pair ungrouped (2 children restored)"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "redo",
+              "expected": "g#pair created with 2 children"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "after.svg",
+              "afterStep": 13,
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "pair",
+                  "children": [
+                    "r",
+                    "c"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "fill": "red"
+                  }
+                },
+                {
+                  "kind": "node",
+                  "id": "c",
+                  "attributes": {
+                    "fill": "blue"
+                  }
+                }
+              ]
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F39-color-link",
+      "title": "显式颜色联动",
+      "requirements": "可选增强、手册 §9.6",
+      "objective": "固化后不再跟随新父级颜色；未固化对照跟随；set fill inherit 恢复联动。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "preserve-style"
+      ],
+      "scenarios": [
+        {
+          "name": "inheritance",
+          "steps": [
+            {
+              "input": "init 200 160",
+              "expected": "canvas 200x160 created"
+            },
+            {
+              "input": "create g p",
+              "expected": "g#p created"
+            },
+            {
+              "input": "set p fill \"red\"",
+              "expected": "g#p updated: fill=\"red\""
+            },
+            {
+              "input": "create g q",
+              "expected": "g#q created"
+            },
+            {
+              "input": "set q fill \"blue\"",
+              "expected": "g#q updated: fill=\"blue\""
+            },
+            {
+              "input": "create rect frozen 10 10 60 60 in p",
+              "expected": "rect#frozen created in g#p"
+            },
+            {
+              "input": "create rect control 100 10 60 60 in q",
+              "expected": "rect#control created in g#q"
+            },
+            {
+              "input": "addto q frozen",
+              "expected": "rect#frozen moved into g#q"
+            },
+            {
+              "input": "set q fill \"green\"",
+              "expected": "g#q updated: fill=\"green\""
+            },
+            {
+              "input": "show frozen",
+              "expected": "rect#frozen  parent=g#q\n  x=10 y=10 width=60 height=60\n  fill=red"
+            },
+            {
+              "input": "show control",
+              "expected": "rect#control  parent=g#q\n  x=100 y=10 width=60 height=60"
+            },
+            {
+              "input": "set frozen fill \"inherit\"",
+              "expected": "rect#frozen updated: fill=\"inherit\""
+            },
+            {
+              "input": "show frozen",
+              "expected": "rect#frozen  parent=g#q\n  x=10 y=10 width=60 height=60\n  fill=inherit"
+            }
+          ],
+          "fixtures": {},
+          "snapshots": [
+            {
+              "name": "frozen.svg",
+              "afterStep": 11,
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "frozen",
+                  "attributes": {
+                    "fill": "red"
+                  },
+                  "parent": "q"
+                },
+                {
+                  "kind": "node",
+                  "id": "control",
+                  "absentAttributes": [
+                    "fill"
+                  ]
+                }
+              ],
+              "visual": {
+                "pixels": [
+                  [
+                    30,
+                    30,
+                    "#ff0000"
+                  ],
+                  [
+                    120,
+                    30,
+                    "#008000"
+                  ]
+                ]
+              }
+            },
+            {
+              "name": "inherit.svg",
+              "afterStep": 13,
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "frozen",
+                  "attributes": {
+                    "fill": "inherit"
+                  }
+                }
+              ],
+              "visual": {
+                "pixels": [
+                  [
+                    30,
+                    30,
+                    "#008000"
+                  ],
+                  [
+                    120,
+                    30,
+                    "#008000"
+                  ]
+                ]
+              }
+            }
+          ],
+          "files": []
+        }
+      ]
+    },
+    {
+      "id": "F40-enhanced-reject",
+      "title": "增强模式拒绝",
+      "requirements": "可选增强边界、§2 失败原子性",
+      "objective": "不支持 paint、字体继承变化、透明度上下文和多成员中途拒绝；无部分样式补写，原状态和 redo 保持。",
+      "preconditions": "独立空目录、全新 CLI 进程；fixtures 为用例明确声明的输入，禁止依赖个人文件。",
+      "entries": [
+        "source",
+        "build"
+      ],
+      "modes": [
+        "preserve-style"
+      ],
+      "scenarios": [
+        {
+          "name": "paint",
+          "steps": [
+            {
+              "input": "read input.svg",
+              "expected": "read input.svg (3 elements)"
+            },
+            {
+              "input": "move r 5 0",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "addto q r",
+              "expected": "error: cannot preserve style: unsupported fill paint on rect#r"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "save state.svg",
+              "expected": "saved to state.svg (3 elements)"
+            }
+          ],
+          "fixtures": {
+            "input.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><g id=\"p\" fill=\"rgb(255,0,0)\"><rect id=\"r\" x=\"1\" y=\"2\" width=\"3\" height=\"4\"/></g><g id=\"q\"/></svg>"
+          },
+          "snapshots": [],
+          "files": [
+            {
+              "path": "state.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "x": "1"
+                  },
+                  "parent": "p",
+                  "absentAttributes": [
+                    "fill",
+                    "stroke",
+                    "stroke-width"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "q",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "font",
+          "steps": [
+            {
+              "input": "read input.svg",
+              "expected": "read input.svg (3 elements)"
+            },
+            {
+              "input": "move r 5 0",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "addto q r",
+              "expected": "error: cannot preserve style: inherited font-size would change on rect#r"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "save state.svg",
+              "expected": "saved to state.svg (3 elements)"
+            }
+          ],
+          "fixtures": {
+            "input.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><g id=\"p\" font-size=\"20\"><rect id=\"r\" x=\"1\" y=\"2\" width=\"3\" height=\"4\"/></g><g id=\"q\"/></svg>"
+          },
+          "snapshots": [],
+          "files": [
+            {
+              "path": "state.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "x": "1"
+                  },
+                  "parent": "p",
+                  "absentAttributes": [
+                    "fill",
+                    "stroke",
+                    "stroke-width"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "q",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "opacity",
+          "steps": [
+            {
+              "input": "read input.svg",
+              "expected": "read input.svg (3 elements)"
+            },
+            {
+              "input": "move r 5 0",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "addto q r",
+              "expected": "error: cannot preserve style: group opacity context would change"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "save state.svg",
+              "expected": "saved to state.svg (3 elements)"
+            }
+          ],
+          "fixtures": {
+            "input.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><g id=\"p\" opacity=\"0.5\"><rect id=\"r\" x=\"1\" y=\"2\" width=\"3\" height=\"4\"/></g><g id=\"q\"/></svg>"
+          },
+          "snapshots": [],
+          "files": [
+            {
+              "path": "state.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "x": "1"
+                  },
+                  "parent": "p",
+                  "absentAttributes": [
+                    "fill",
+                    "stroke",
+                    "stroke-width"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "q",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "group-atomic",
+          "steps": [
+            {
+              "input": "read input.svg",
+              "expected": "read input.svg (4 elements)"
+            },
+            {
+              "input": "move r 5 0",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "group pair r c",
+              "expected": "error: cannot preserve style: unsupported fill paint on circle#c"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "save state.svg",
+              "expected": "saved to state.svg (4 elements)"
+            }
+          ],
+          "fixtures": {
+            "input.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><g id=\"p\" fill=\"red\"><rect id=\"r\" x=\"1\" y=\"2\" width=\"3\" height=\"4\"/></g><g id=\"q\" fill=\"currentColor\"><circle id=\"c\" cx=\"1\" cy=\"2\" r=\"3\"/></g></svg>"
+          },
+          "snapshots": [],
+          "files": [
+            {
+              "path": "state.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "x": "1"
+                  },
+                  "parent": "p",
+                  "absentAttributes": [
+                    "fill",
+                    "stroke",
+                    "stroke-width"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "q",
+                  "children": [
+                    "c"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "font-family",
+          "steps": [
+            {
+              "input": "read input.svg",
+              "expected": "read input.svg (3 elements)"
+            },
+            {
+              "input": "move r 5 0",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "addto q r",
+              "expected": "error: cannot preserve style: inherited font-family would change on rect#r"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "save state.svg",
+              "expected": "saved to state.svg (3 elements)"
+            }
+          ],
+          "fixtures": {
+            "input.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><g id=\"p\" font-family=\"monospace\"><rect id=\"r\" x=\"1\" y=\"2\" width=\"3\" height=\"4\"/></g><g id=\"q\"/></svg>"
+          },
+          "snapshots": [],
+          "files": [
+            {
+              "path": "state.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "x": "1"
+                  },
+                  "parent": "p",
+                  "absentAttributes": [
+                    "fill",
+                    "stroke",
+                    "stroke-width"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "q",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "font-weight",
+          "steps": [
+            {
+              "input": "read input.svg",
+              "expected": "read input.svg (3 elements)"
+            },
+            {
+              "input": "move r 5 0",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "addto q r",
+              "expected": "error: cannot preserve style: inherited font-weight would change on rect#r"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "save state.svg",
+              "expected": "saved to state.svg (3 elements)"
+            }
+          ],
+          "fixtures": {
+            "input.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><g id=\"p\" font-weight=\"bold\"><rect id=\"r\" x=\"1\" y=\"2\" width=\"3\" height=\"4\"/></g><g id=\"q\"/></svg>"
+          },
+          "snapshots": [],
+          "files": [
+            {
+              "path": "state.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "x": "1"
+                  },
+                  "parent": "p",
+                  "absentAttributes": [
+                    "fill",
+                    "stroke",
+                    "stroke-width"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "q",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "text-anchor",
+          "steps": [
+            {
+              "input": "read input.svg",
+              "expected": "read input.svg (3 elements)"
+            },
+            {
+              "input": "move r 5 0",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "addto q r",
+              "expected": "error: cannot preserve style: inherited text-anchor would change on rect#r"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "save state.svg",
+              "expected": "saved to state.svg (3 elements)"
+            }
+          ],
+          "fixtures": {
+            "input.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><g id=\"p\" text-anchor=\"middle\"><rect id=\"r\" x=\"1\" y=\"2\" width=\"3\" height=\"4\"/></g><g id=\"q\"/></svg>"
+          },
+          "snapshots": [],
+          "files": [
+            {
+              "path": "state.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "x": "1"
+                  },
+                  "parent": "p",
+                  "absentAttributes": [
+                    "fill",
+                    "stroke",
+                    "stroke-width"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "q",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "fill-opacity",
+          "steps": [
+            {
+              "input": "read input.svg",
+              "expected": "read input.svg (3 elements)"
+            },
+            {
+              "input": "move r 5 0",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "addto q r",
+              "expected": "error: cannot preserve style: inherited fill-opacity would change on rect#r"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "save state.svg",
+              "expected": "saved to state.svg (3 elements)"
+            }
+          ],
+          "fixtures": {
+            "input.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><g id=\"p\" fill-opacity=\"0.5\"><rect id=\"r\" x=\"1\" y=\"2\" width=\"3\" height=\"4\"/></g><g id=\"q\"/></svg>"
+          },
+          "snapshots": [],
+          "files": [
+            {
+              "path": "state.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "x": "1"
+                  },
+                  "parent": "p",
+                  "absentAttributes": [
+                    "fill",
+                    "stroke",
+                    "stroke-width"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "q",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "stroke-opacity",
+          "steps": [
+            {
+              "input": "read input.svg",
+              "expected": "read input.svg (3 elements)"
+            },
+            {
+              "input": "move r 5 0",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "addto q r",
+              "expected": "error: cannot preserve style: inherited stroke-opacity would change on rect#r"
+            },
+            {
+              "input": "show r",
+              "expected": "rect#r  parent=g#p\n  x=1 y=2 width=3 height=4"
+            },
+            {
+              "input": "redo",
+              "expected": "rect#r moved to (6,2)"
+            },
+            {
+              "input": "undo",
+              "expected": "rect#r moved back to (1,2)"
+            },
+            {
+              "input": "save state.svg",
+              "expected": "saved to state.svg (3 elements)"
+            }
+          ],
+          "fixtures": {
+            "input.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" ><g id=\"p\" stroke-opacity=\"0.5\"><rect id=\"r\" x=\"1\" y=\"2\" width=\"3\" height=\"4\"/></g><g id=\"q\"/></svg>"
+          },
+          "snapshots": [],
+          "files": [
+            {
+              "path": "state.svg",
+              "checks": [
+                {
+                  "kind": "node",
+                  "id": "r",
+                  "attributes": {
+                    "x": "1"
+                  },
+                  "parent": "p",
+                  "absentAttributes": [
+                    "fill",
+                    "stroke",
+                    "stroke-width"
+                  ]
+                },
+                {
+                  "kind": "node",
+                  "id": "q",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,201 @@
+{
+  "case": "F21-ungroup",
+  "entry": "build",
+  "mode": "default",
+  "scenarios": 2,
+  "commands": 20,
+  "assertions": [
+    {
+      "name": "promote:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "promote:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "promote:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ng#a created in g#p\ng#inner created in g#p\ng#b created in g#inner\ng#c created in g#inner\ng#d created in g#p\ng#inner ungrouped (2 children promoted)\nsvg (800x600)\n└── g#p\n    ├── g#a\n    ├── g#b\n    ├── g#c\n    └── g#d\ng#inner restored with 2 children\ng#b  parent=g#inner\nerror: cannot ungroup top-level container: p\ng#inner ungrouped (2 children promoted)\n",
+      "actual": "canvas 800x600 created\ng#p created\ng#a created in g#p\ng#inner created in g#p\ng#b created in g#inner\ng#c created in g#inner\ng#d created in g#p\ng#inner ungrouped (2 children promoted)\nsvg (800x600)\n└── g#p\n    ├── g#a\n    ├── g#b\n    ├── g#c\n    └── g#d\ng#inner restored with 2 children\ng#b  parent=g#inner\nerror: cannot ungroup top-level container: p\ng#inner ungrouped (2 children promoted)\n"
+    },
+    {
+      "name": "promote:after.svg:replay-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "promote:after.svg:replay-stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "promote:after.svg:replay-prefix",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ng#a created in g#p\ng#inner created in g#p\ng#b created in g#inner\ng#c created in g#inner\ng#d created in g#p\ng#inner ungrouped (2 children promoted)\nsvg (800x600)\n└── g#p\n    ├── g#a\n    ├── g#b\n    ├── g#c\n    └── g#d\ng#inner restored with 2 children\ng#b  parent=g#inner\nerror: cannot ungroup top-level container: p\ng#inner ungrouped (2 children promoted)\n",
+      "actual": "canvas 800x600 created\ng#p created\ng#a created in g#p\ng#inner created in g#p\ng#b created in g#inner\ng#c created in g#inner\ng#d created in g#p\ng#inner ungrouped (2 children promoted)\nsvg (800x600)\n└── g#p\n    ├── g#a\n    ├── g#b\n    ├── g#c\n    └── g#d\ng#inner restored with 2 children\ng#b  parent=g#inner\nerror: cannot ungroup top-level container: p\ng#inner ungrouped (2 children promoted)\n"
+    },
+    {
+      "name": "promote:after.svg:save-response",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "promote:after.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "promote:after.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "promote:after.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "promote:after.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "promote:after.svg:0:node:p:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "promote:after.svg:0:node:p:children",
+      "passed": true,
+      "expected": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "actual": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ]
+    },
+    {
+      "name": "default-inheritance:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "default-inheritance:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "default-inheritance:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n",
+      "actual": "canvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n"
+    },
+    {
+      "name": "default-inheritance:after.svg:replay-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "default-inheritance:after.svg:replay-stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "default-inheritance:after.svg:replay-prefix",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n",
+      "actual": "canvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n"
+    },
+    {
+      "name": "default-inheritance:after.svg:save-response",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "default-inheritance:after.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "default-inheritance:after.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "default-inheritance:after.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "default-inheritance:after.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "default-inheritance:after.svg:0:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "default-inheritance:after.svg:0:node:r:omitted:fill",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "default-inheritance:after.svg:0:node:r:omitted:stroke",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "default-inheritance:after.svg:0:node:r:omitted:stroke-width",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "default-inheritance:after.svg:0:node:r:parent",
+      "passed": true,
+      "expected": "outer",
+      "actual": "outer"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "promote/after.svg",
+    "promote/after.replay.cli",
+    "default-inheritance/after.svg",
+    "default-inheritance/after.replay.cli"
+  ]
+}

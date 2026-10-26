@@ -1,0 +1,13 @@
+# scenario: containers
+init
+create g p
+create g q in p
+create rect r 1 2 3 4
+undo
+create g in p
+create g x in missing
+redo
+create g x in r
+create g p
+show q
+show p

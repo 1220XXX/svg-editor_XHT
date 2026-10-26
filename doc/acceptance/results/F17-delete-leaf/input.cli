@@ -1,0 +1,10 @@
+# scenario: delete
+init
+create g p
+create rect r 1 2 3 4 in p
+delete r
+show r
+move r 1 1
+undo
+show r
+redo

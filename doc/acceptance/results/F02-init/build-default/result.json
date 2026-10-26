@@ -1,0 +1,68 @@
+{
+  "case": "F02-init",
+  "entry": "build",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 12,
+  "assertions": [
+    {
+      "name": "replace:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "replace:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "replace:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#old created\nsaved to old.svg (1 elements)\ncanvas 320x600 created\nerror: no such shape: old\nerror: no file path. use save <file.svg>\nerror: undo not allowed after io command\nerror: undo not allowed after io command\ncanvas 12.5x30.5 created\ncanvas 12.5x30.5\nerror: canvas width must be positive\ncanvas 12.5x30.5\n",
+      "actual": "canvas 800x600 created\ng#old created\nsaved to old.svg (1 elements)\ncanvas 320x600 created\nerror: no such shape: old\nerror: no file path. use save <file.svg>\nerror: undo not allowed after io command\nerror: undo not allowed after io command\ncanvas 12.5x30.5 created\ncanvas 12.5x30.5\nerror: canvas width must be positive\ncanvas 12.5x30.5\n"
+    },
+    {
+      "name": "replace:old.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "replace:old.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "replace:old.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "replace:old.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "replace:old.svg:0:node:old:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "replace:old.svg:0:node:old:children",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "files/old.svg"
+  ]
+}

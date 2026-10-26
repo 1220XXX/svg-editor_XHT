@@ -1,0 +1,11 @@
+# scenario: resize
+init
+create rect r 1.5 2.5 30 40
+canvas
+canvas 400 200
+show r
+canvas 0 20
+canvas -2 20
+canvas 1
+canvas
+undo

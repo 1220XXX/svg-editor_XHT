@@ -1,0 +1,90 @@
+# scenario: paint
+read input.svg (3 elements)
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+error: cannot preserve style: unsupported fill paint on rect#r
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+saved to state.svg (3 elements)
+# scenario: font
+read input.svg (3 elements)
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+error: cannot preserve style: inherited font-size would change on rect#r
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+saved to state.svg (3 elements)
+# scenario: opacity
+read input.svg (3 elements)
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+error: cannot preserve style: group opacity context would change
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+saved to state.svg (3 elements)
+# scenario: group-atomic
+read input.svg (4 elements)
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+error: cannot preserve style: unsupported fill paint on circle#c
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+saved to state.svg (4 elements)
+# scenario: font-family
+read input.svg (3 elements)
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+error: cannot preserve style: inherited font-family would change on rect#r
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+saved to state.svg (3 elements)
+# scenario: font-weight
+read input.svg (3 elements)
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+error: cannot preserve style: inherited font-weight would change on rect#r
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+saved to state.svg (3 elements)
+# scenario: text-anchor
+read input.svg (3 elements)
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+error: cannot preserve style: inherited text-anchor would change on rect#r
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+saved to state.svg (3 elements)
+# scenario: fill-opacity
+read input.svg (3 elements)
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+error: cannot preserve style: inherited fill-opacity would change on rect#r
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+saved to state.svg (3 elements)
+# scenario: stroke-opacity
+read input.svg (3 elements)
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+error: cannot preserve style: inherited stroke-opacity would change on rect#r
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+saved to state.svg (3 elements)

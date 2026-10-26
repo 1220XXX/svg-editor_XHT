@@ -1,0 +1,151 @@
+{
+  "case": "F20-group-cross",
+  "entry": "build",
+  "mode": "preserve-style",
+  "scenarios": 1,
+  "commands": 12,
+  "assertions": [
+    {
+      "name": "cross-parent:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "cross-parent:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "cross-parent:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ng#q created\ng#a created in g#p\ng#b created in g#p\ng#c created in g#q\ng#d created in g#q\ng#pair created with 2 children\nsvg (800x600)\n├── g#pair\n│   ├── g#b\n│   └── g#d\n├── g#p\n│   └── g#a\n└── g#q\n    └── g#c\ng#pair ungrouped (2 children restored)\nsvg (800x600)\n├── g#p\n│   ├── g#a\n│   └── g#b\n└── g#q\n    ├── g#c\n    └── g#d\ng#pair created with 2 children\n",
+      "actual": "canvas 800x600 created\ng#p created\ng#q created\ng#a created in g#p\ng#b created in g#p\ng#c created in g#q\ng#d created in g#q\ng#pair created with 2 children\nsvg (800x600)\n├── g#pair\n│   ├── g#b\n│   └── g#d\n├── g#p\n│   └── g#a\n└── g#q\n    └── g#c\ng#pair ungrouped (2 children restored)\nsvg (800x600)\n├── g#p\n│   ├── g#a\n│   └── g#b\n└── g#q\n    ├── g#c\n    └── g#d\ng#pair created with 2 children\n"
+    },
+    {
+      "name": "cross-parent:after.svg:replay-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "cross-parent:after.svg:replay-stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "cross-parent:after.svg:replay-prefix",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ng#q created\ng#a created in g#p\ng#b created in g#p\ng#c created in g#q\ng#d created in g#q\ng#pair created with 2 children\nsvg (800x600)\n├── g#pair\n│   ├── g#b\n│   └── g#d\n├── g#p\n│   └── g#a\n└── g#q\n    └── g#c\ng#pair ungrouped (2 children restored)\nsvg (800x600)\n├── g#p\n│   ├── g#a\n│   └── g#b\n└── g#q\n    ├── g#c\n    └── g#d\ng#pair created with 2 children\n",
+      "actual": "canvas 800x600 created\ng#p created\ng#q created\ng#a created in g#p\ng#b created in g#p\ng#c created in g#q\ng#d created in g#q\ng#pair created with 2 children\nsvg (800x600)\n├── g#pair\n│   ├── g#b\n│   └── g#d\n├── g#p\n│   └── g#a\n└── g#q\n    └── g#c\ng#pair ungrouped (2 children restored)\nsvg (800x600)\n├── g#p\n│   ├── g#a\n│   └── g#b\n└── g#q\n    ├── g#c\n    └── g#d\ng#pair created with 2 children\n"
+    },
+    {
+      "name": "cross-parent:after.svg:save-response",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "cross-parent:after.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "cross-parent:after.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "cross-parent:after.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "cross-parent:after.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "cross-parent:after.svg:0:root:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "cross-parent:after.svg:0:root:children",
+      "passed": true,
+      "expected": [
+        "pair",
+        "p",
+        "q"
+      ],
+      "actual": [
+        "pair",
+        "p",
+        "q"
+      ]
+    },
+    {
+      "name": "cross-parent:after.svg:1:node:pair:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "cross-parent:after.svg:1:node:pair:children",
+      "passed": true,
+      "expected": [
+        "b",
+        "d"
+      ],
+      "actual": [
+        "b",
+        "d"
+      ]
+    },
+    {
+      "name": "cross-parent:after.svg:2:node:p:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "cross-parent:after.svg:2:node:p:children",
+      "passed": true,
+      "expected": [
+        "a"
+      ],
+      "actual": [
+        "a"
+      ]
+    },
+    {
+      "name": "cross-parent:after.svg:3:node:q:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "cross-parent:after.svg:3:node:q:children",
+      "passed": true,
+      "expected": [
+        "c"
+      ],
+      "actual": [
+        "c"
+      ]
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "after.svg",
+    "after.replay.cli"
+  ]
+}

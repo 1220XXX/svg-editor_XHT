@@ -1,0 +1,14 @@
+# scenario: exact
+init
+create rect r 0.1 0.2 0.3 0.4
+move r 0.2 0
+scale r 3
+undo
+show r
+undo
+show r
+set r fill "red"
+undo
+show r
+undo
+undo

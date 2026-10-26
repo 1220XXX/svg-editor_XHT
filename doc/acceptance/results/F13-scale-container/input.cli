@@ -1,0 +1,16 @@
+# scenario: recursive
+init
+create g p
+create g q in p
+create rect r 1 2 3 4 in q
+create line l 1 2 3 4 in q
+scale p 2
+show r
+show l
+undo
+scale p 0
+scale p -1
+scale p NaN
+show r
+redo
+show r

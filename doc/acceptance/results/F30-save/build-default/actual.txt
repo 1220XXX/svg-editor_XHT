@@ -1,0 +1,6 @@
+# scenario: serialize
+canvas 200x160 created
+rect#r created
+line#l created
+text#t created
+saved to out.svg (3 elements)

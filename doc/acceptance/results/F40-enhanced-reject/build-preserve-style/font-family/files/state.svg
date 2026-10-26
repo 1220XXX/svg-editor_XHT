@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="160" viewBox="0 0 200 160">
+  <g id="p" font-family="monospace">
+    <rect id="r" x="1" y="2" width="3" height="4"/>
+  </g>
+  <g id="q"/>
+</svg>

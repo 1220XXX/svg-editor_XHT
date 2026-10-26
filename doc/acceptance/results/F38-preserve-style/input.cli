@@ -1,0 +1,46 @@
+# scenario: ungroup
+init 200 160
+create g outer
+create g inner in outer
+set inner fill "red"
+set inner stroke "green"
+set inner stroke-width "3"
+create rect r 10 10 60 60 in inner
+create circle c 100 50 20 blue in inner
+ungroup inner
+show r
+show c
+undo
+show r
+redo
+save styles.svg
+read styles.svg
+show r
+
+# scenario: addto
+init
+create rect r 1 2 3 4
+create g p
+set p fill "blue"
+set p stroke "red"
+set p stroke-width "8"
+addto p r
+show r
+undo
+show r
+redo
+
+# scenario: group
+init
+create g p
+set p fill "red"
+create g q
+set q fill "blue"
+create rect r 1 2 3 4 in p
+create circle c 1 2 3 in q
+group pair c r
+show r
+show c
+undo
+show r
+redo

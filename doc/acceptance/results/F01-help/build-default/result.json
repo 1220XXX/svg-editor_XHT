@@ -1,0 +1,31 @@
+{
+  "case": "F01-help",
+  "entry": "build",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 13,
+  "assertions": [
+    {
+      "name": "no-document:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "no-document:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "no-document:stdout-exact",
+      "passed": true,
+      "expected": "init [w] [h]\nread <file.svg>\nsave [file.svg]\ncanvas [w] [h]\ncreate <rect|circle|ellipse|line|text|g> <id> [params...] [in <gid>]\ndelete <id>\nmove <id> <dx> <dy>\nscale <id> <factor>\nset <id> <attr> <value>\ngroup <newGid> <id1> <id2>...\nungroup <gid>\naddto <gid> <id>\nfront <id>\nback <id>\ntree [id]\nshow <id>\nundo\nredo\nhelp\ncreate rect <id> <x> <y> <width> <height> [fill] [in <containerId>]\ncreate circle <id> <cx> <cy> <r> [fill] [in <containerId>]\ncreate ellipse <id> <cx> <cy> <rx> <ry> [fill] [in <containerId>]\ncreate line <id> <x1> <y1> <x2> <y2> [stroke] [in <containerId>]\ncreate text <id> <x> <y> \"content\" [in <containerId>]\ncreate g <id> [in <containerId>]\nerror: no document. use 'init' or 'read' first\nerror: no document. use 'init' or 'read' first\nerror: no document. use 'init' or 'read' first\nerror: no document. use 'init' or 'read' first\nerror: no document. use 'init' or 'read' first\nerror: no document. use 'init' or 'read' first\nerror: no document. use 'init' or 'read' first\nerror: no document. use 'init' or 'read' first\ncanvas 800x600 created\nerror: unknown shape type: box (is the plugin loaded?)\nerror: unknown shape type: hexagon (is the plugin loaded?)\nsvg (800x600)\n",
+      "actual": "init [w] [h]\nread <file.svg>\nsave [file.svg]\ncanvas [w] [h]\ncreate <rect|circle|ellipse|line|text|g> <id> [params...] [in <gid>]\ndelete <id>\nmove <id> <dx> <dy>\nscale <id> <factor>\nset <id> <attr> <value>\ngroup <newGid> <id1> <id2>...\nungroup <gid>\naddto <gid> <id>\nfront <id>\nback <id>\ntree [id]\nshow <id>\nundo\nredo\nhelp\ncreate rect <id> <x> <y> <width> <height> [fill] [in <containerId>]\ncreate circle <id> <cx> <cy> <r> [fill] [in <containerId>]\ncreate ellipse <id> <cx> <cy> <rx> <ry> [fill] [in <containerId>]\ncreate line <id> <x1> <y1> <x2> <y2> [stroke] [in <containerId>]\ncreate text <id> <x> <y> \"content\" [in <containerId>]\ncreate g <id> [in <containerId>]\nerror: no document. use 'init' or 'read' first\nerror: no document. use 'init' or 'read' first\nerror: no document. use 'init' or 'read' first\nerror: no document. use 'init' or 'read' first\nerror: no document. use 'init' or 'read' first\nerror: no document. use 'init' or 'read' first\nerror: no document. use 'init' or 'read' first\nerror: no document. use 'init' or 'read' first\ncanvas 800x600 created\nerror: unknown shape type: box (is the plugin loaded?)\nerror: unknown shape type: hexagon (is the plugin loaded?)\nsvg (800x600)\n"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt"
+  ]
+}

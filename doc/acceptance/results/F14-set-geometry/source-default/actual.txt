@@ -1,0 +1,48 @@
+# scenario: whitelist
+canvas 800x600 created
+rect#r created
+rect#r updated: x="10"
+rect#r updated: y="11"
+rect#r updated: width="12"
+rect#r updated: height="13"
+rect#r  parent=svg
+  x=10 y=11 width=12 height=13
+error: unknown attribute: arbitrary
+circle#c created
+circle#c updated: cx="10"
+circle#c updated: cy="11"
+circle#c updated: r="12"
+circle#c  parent=svg
+  cx=10 cy=11 r=12
+error: unknown attribute: arbitrary
+ellipse#e created
+ellipse#e updated: cx="10"
+ellipse#e updated: cy="11"
+ellipse#e updated: rx="12"
+ellipse#e updated: ry="13"
+ellipse#e  parent=svg
+  cx=10 cy=11 rx=12 ry=13
+error: unknown attribute: arbitrary
+line#l created
+line#l updated: x1="10"
+line#l updated: y1="11"
+line#l updated: x2="12"
+line#l updated: y2="13"
+line#l  parent=svg
+  x1=10 y1=11 x2=12 y2=13
+error: unknown attribute: arbitrary
+text#t created
+text#t updated: x="10"
+text#t updated: y="11"
+text#t  parent=svg
+  x=10 y=11
+  text="文"
+error: unknown attribute: arbitrary
+error: unknown attribute: id
+error: unknown attribute: transform
+error: unknown attribute: font-size
+error: width must be nonnegative
+rect#r  parent=svg
+  x=10 y=11 width=12 height=13
+g#p created
+error: unknown attribute: x

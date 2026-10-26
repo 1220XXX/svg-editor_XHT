@@ -1,0 +1,171 @@
+{
+  "case": "F37-transform",
+  "entry": "source",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 11,
+  "assertions": [
+    {
+      "name": "normalize:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "normalize:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "normalize:stdout-exact",
+      "passed": true,
+      "expected": "read transform.svg (5 elements)\nrect#r  parent=g#p\n  x=12 y=24 width=6 height=8\n  stroke-width=6\ntext#t  parent=g#q\n  x=21 y=22\n  font-size=18\n  text=\"中\"\nrect#s  parent=svg\n  x=22 y=44 width=6 height=8\n  stroke-width=2\ng#p moved by (1,2)\ng#p moved back by (-1,-2)\nerror: unsupported or invalid SVG transform: rotate(20)\ng#p moved by (1,2)\nsaved to normalized.svg (5 elements)\nread normalized.svg (5 elements)\nsaved to stable.svg (5 elements)\n",
+      "actual": "read transform.svg (5 elements)\nrect#r  parent=g#p\n  x=12 y=24 width=6 height=8\n  stroke-width=6\ntext#t  parent=g#q\n  x=21 y=22\n  font-size=18\n  text=\"中\"\nrect#s  parent=svg\n  x=22 y=44 width=6 height=8\n  stroke-width=2\ng#p moved by (1,2)\ng#p moved back by (-1,-2)\nerror: unsupported or invalid SVG transform: rotate(20)\ng#p moved by (1,2)\nsaved to normalized.svg (5 elements)\nread normalized.svg (5 elements)\nsaved to stable.svg (5 elements)\n"
+    },
+    {
+      "name": "normalize:normalized.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "normalize:normalized.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "normalize:normalized.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "normalize:normalized.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "normalize:normalized.svg:0:notContains",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "normalize:normalized.svg:1:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "normalize:normalized.svg:1:node:r:attribute:x",
+      "passed": true,
+      "expected": "13",
+      "actual": "13"
+    },
+    {
+      "name": "normalize:normalized.svg:1:node:r:attribute:y",
+      "passed": true,
+      "expected": "26",
+      "actual": "26"
+    },
+    {
+      "name": "normalize:normalized.svg:1:node:r:attribute:width",
+      "passed": true,
+      "expected": "6",
+      "actual": "6"
+    },
+    {
+      "name": "normalize:normalized.svg:1:node:r:attribute:height",
+      "passed": true,
+      "expected": "8",
+      "actual": "8"
+    },
+    {
+      "name": "normalize:normalized.svg:1:node:r:attribute:stroke-width",
+      "passed": true,
+      "expected": "6",
+      "actual": "6"
+    },
+    {
+      "name": "normalize:normalized.svg:2:node:t:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "normalize:normalized.svg:2:node:t:attribute:x",
+      "passed": true,
+      "expected": "22",
+      "actual": "22"
+    },
+    {
+      "name": "normalize:normalized.svg:2:node:t:attribute:y",
+      "passed": true,
+      "expected": "24",
+      "actual": "24"
+    },
+    {
+      "name": "normalize:normalized.svg:2:node:t:attribute:font-size",
+      "passed": true,
+      "expected": "18",
+      "actual": "18"
+    },
+    {
+      "name": "normalize:normalized.svg:3:node:s:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "normalize:normalized.svg:3:node:s:attribute:x",
+      "passed": true,
+      "expected": "22",
+      "actual": "22"
+    },
+    {
+      "name": "normalize:normalized.svg:3:node:s:attribute:y",
+      "passed": true,
+      "expected": "44",
+      "actual": "44"
+    },
+    {
+      "name": "normalize:stable.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "normalize:stable.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "normalize:stable.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "normalize:stable.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "normalize:stable.svg:0:equalFile",
+      "passed": true,
+      "expected": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" viewBox=\"0 0 200 160\">\n  <g id=\"p\" stroke-width=\"3\">\n    <rect id=\"r\" stroke-width=\"6\" x=\"13\" y=\"26\" width=\"6\" height=\"8\"/>\n    <g id=\"q\">\n      <text id=\"t\" font-size=\"18\" x=\"22\" y=\"24\">中</text>\n    </g>\n  </g>\n  <rect id=\"s\" stroke-width=\"2\" x=\"22\" y=\"44\" width=\"6\" height=\"8\"/>\n</svg>\n",
+      "actual": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" viewBox=\"0 0 200 160\">\n  <g id=\"p\" stroke-width=\"3\">\n    <rect id=\"r\" stroke-width=\"6\" x=\"13\" y=\"26\" width=\"6\" height=\"8\"/>\n    <g id=\"q\">\n      <text id=\"t\" font-size=\"18\" x=\"22\" y=\"24\">中</text>\n    </g>\n  </g>\n  <rect id=\"s\" stroke-width=\"2\" x=\"22\" y=\"44\" width=\"6\" height=\"8\"/>\n</svg>\n"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "files/normalized.svg",
+    "files/stable.svg"
+  ]
+}

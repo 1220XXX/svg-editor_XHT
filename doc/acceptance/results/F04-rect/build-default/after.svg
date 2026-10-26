@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <g id="p">
+    <rect id="painted" fill="#eee" x="10" y="20" width="100" height="50"/>
+  </g>
+  <rect id="plain" x="10" y="20" width="100" height="50"/>
+</svg>

@@ -1,0 +1,7 @@
+# scenario: create
+init
+create g p
+create text t 10 20 "中文 空格 \"引号\" C:\\tmp & < >" in p
+create text empty 0 0 ""
+show t
+show empty

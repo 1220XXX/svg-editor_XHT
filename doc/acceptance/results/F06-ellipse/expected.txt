@@ -1,0 +1,10 @@
+# scenario: create
+canvas 800x600 created
+g#p created
+ellipse#plain created
+ellipse#painted created in g#p
+ellipse#plain  parent=svg
+  cx=50 cy=60 rx=7 ry=8
+ellipse#painted  parent=g#p
+  cx=50 cy=60 rx=7 ry=8
+  fill=blue

@@ -1,0 +1,12 @@
+init 200 160
+create g p
+set p fill "red"
+create g q
+set q fill "blue"
+create rect frozen 10 10 60 60 in p
+create rect control 100 10 60 60 in q
+addto q frozen
+set q fill "green"
+show frozen
+show control
+save acceptance-snapshot.svg

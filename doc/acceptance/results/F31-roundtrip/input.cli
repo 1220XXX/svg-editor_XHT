@@ -1,0 +1,7 @@
+# scenario: round-trip
+read input.svg
+show p
+show t
+save first.svg
+read first.svg
+save second.svg

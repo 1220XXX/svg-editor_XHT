@@ -1,0 +1,11 @@
+svg-editor 0.1 — type 'help' for commands
+svg> init 200 160
+canvas 200x160 created
+svg> invalid
+error: unknown command: invalid
+svg> create g recovered
+g#recovered created
+svg> tree
+svg (200x160)
+└── g#recovered
+svg> 

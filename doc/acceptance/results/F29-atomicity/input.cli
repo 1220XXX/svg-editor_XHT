@@ -1,0 +1,25 @@
+# scenario: rejected-edits
+init
+create g p
+create rect r 1 2 3 4 in p
+move r 5 0
+undo
+create g r
+show r
+delete missing
+show r
+move r NaN 0
+show r
+scale r -1
+show r
+group single r
+show r
+group bad r r
+show r
+group bad r p
+show r
+set r width -1
+show r
+redo
+undo
+show r

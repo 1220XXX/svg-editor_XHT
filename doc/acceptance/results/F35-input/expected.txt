@@ -1,0 +1,15 @@
+# scenario: parser
+canvas 800x600 created
+rect#r created
+text#t created
+text#t  parent=svg
+  x=1 y=2
+  text="say \"hi\" C:\\tmp"
+error: unterminated double quote
+error: unknown command: unknown
+rect#r  parent=svg
+  x=1 y=2 width=3 height=4
+  fill=#AbC
+text#t  parent=svg
+  x=1 y=2
+  text="say \"hi\" C:\\tmp"

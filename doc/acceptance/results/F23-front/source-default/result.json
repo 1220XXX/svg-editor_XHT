@@ -1,0 +1,167 @@
+{
+  "case": "F23-front",
+  "entry": "source",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 7,
+  "assertions": [
+    {
+      "name": "overlap:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "overlap:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "overlap:stdout-exact",
+      "passed": true,
+      "expected": "canvas 200x160 created\nrect#red created\nrect#blue created\nrect#red brought to front\nrect#red  parent=svg\n  x=10 y=10 width=100 height=100\n  fill=#ff0000\nrect#red draw order restored in svg\nrect#red brought to front\n",
+      "actual": "canvas 200x160 created\nrect#red created\nrect#blue created\nrect#red brought to front\nrect#red  parent=svg\n  x=10 y=10 width=100 height=100\n  fill=#ff0000\nrect#red draw order restored in svg\nrect#red brought to front\n"
+    },
+    {
+      "name": "overlap:before.svg:replay-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "overlap:before.svg:replay-stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "overlap:before.svg:replay-prefix",
+      "passed": true,
+      "expected": "canvas 200x160 created\nrect#red created\nrect#blue created\n",
+      "actual": "canvas 200x160 created\nrect#red created\nrect#blue created\n"
+    },
+    {
+      "name": "overlap:before.svg:save-response",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "overlap:before.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "overlap:before.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "overlap:before.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "overlap:before.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "overlap:before.svg:0:root:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "overlap:before.svg:0:root:children",
+      "passed": true,
+      "expected": [
+        "red",
+        "blue"
+      ],
+      "actual": [
+        "red",
+        "blue"
+      ]
+    },
+    {
+      "name": "overlap:after.svg:replay-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "overlap:after.svg:replay-stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "overlap:after.svg:replay-prefix",
+      "passed": true,
+      "expected": "canvas 200x160 created\nrect#red created\nrect#blue created\nrect#red brought to front\nrect#red  parent=svg\n  x=10 y=10 width=100 height=100\n  fill=#ff0000\nrect#red draw order restored in svg\nrect#red brought to front\n",
+      "actual": "canvas 200x160 created\nrect#red created\nrect#blue created\nrect#red brought to front\nrect#red  parent=svg\n  x=10 y=10 width=100 height=100\n  fill=#ff0000\nrect#red draw order restored in svg\nrect#red brought to front\n"
+    },
+    {
+      "name": "overlap:after.svg:save-response",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "overlap:after.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "overlap:after.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "overlap:after.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "overlap:after.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "overlap:after.svg:0:root:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "overlap:after.svg:0:root:children",
+      "passed": true,
+      "expected": [
+        "blue",
+        "red"
+      ],
+      "actual": [
+        "blue",
+        "red"
+      ]
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "before.svg",
+    "before.replay.cli",
+    "after.svg",
+    "after.replay.cli"
+  ]
+}

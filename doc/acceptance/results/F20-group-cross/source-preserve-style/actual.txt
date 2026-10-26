@@ -1,0 +1,26 @@
+# scenario: cross-parent
+canvas 800x600 created
+g#p created
+g#q created
+g#a created in g#p
+g#b created in g#p
+g#c created in g#q
+g#d created in g#q
+g#pair created with 2 children
+svg (800x600)
+├── g#pair
+│   ├── g#b
+│   └── g#d
+├── g#p
+│   └── g#a
+└── g#q
+    └── g#c
+g#pair ungrouped (2 children restored)
+svg (800x600)
+├── g#p
+│   ├── g#a
+│   └── g#b
+└── g#q
+    ├── g#c
+    └── g#d
+g#pair created with 2 children

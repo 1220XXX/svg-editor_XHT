@@ -1,0 +1,24 @@
+# scenario: recursive
+canvas 800x600 created
+g#p created
+g#q created in g#p
+rect#r created in g#q
+circle#c created in g#q
+ellipse#e created in g#q
+line#l created in g#q
+text#t created in g#q
+g#p moved by (10,20)
+rect#r  parent=g#q
+  x=11 y=22 width=3 height=4
+circle#c  parent=g#q
+  cx=11 cy=22 r=3
+ellipse#e  parent=g#q
+  cx=11 cy=22 rx=3 ry=4
+line#l  parent=g#q
+  x1=11 y1=22 x2=13 y2=24
+text#t  parent=g#q
+  x=11 y=22
+  text="文"
+g#p moved back by (-10,-20)
+line#l  parent=g#q
+  x1=1 y1=2 x2=3 y2=4

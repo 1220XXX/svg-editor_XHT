@@ -1,0 +1,181 @@
+{
+  "case": "F05-circle",
+  "entry": "build",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 6,
+  "assertions": [
+    {
+      "name": "create:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "create:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "create:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ncircle#plain created\ncircle#painted created in g#p\ncircle#plain  parent=svg\n  cx=50 cy=60 r=7\ncircle#painted  parent=g#p\n  cx=50 cy=60 r=7\n  fill=red\n",
+      "actual": "canvas 800x600 created\ng#p created\ncircle#plain created\ncircle#painted created in g#p\ncircle#plain  parent=svg\n  cx=50 cy=60 r=7\ncircle#painted  parent=g#p\n  cx=50 cy=60 r=7\n  fill=red\n"
+    },
+    {
+      "name": "create:after.svg:replay-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "create:after.svg:replay-stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "create:after.svg:replay-prefix",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ncircle#plain created\ncircle#painted created in g#p\ncircle#plain  parent=svg\n  cx=50 cy=60 r=7\ncircle#painted  parent=g#p\n  cx=50 cy=60 r=7\n  fill=red\n",
+      "actual": "canvas 800x600 created\ng#p created\ncircle#plain created\ncircle#painted created in g#p\ncircle#plain  parent=svg\n  cx=50 cy=60 r=7\ncircle#painted  parent=g#p\n  cx=50 cy=60 r=7\n  fill=red\n"
+    },
+    {
+      "name": "create:after.svg:save-response",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "create:after.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "create:after.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "create:after.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "create:after.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "create:after.svg:0:node:plain:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "create:after.svg:0:node:plain:attribute:cx",
+      "passed": true,
+      "expected": "50",
+      "actual": "50"
+    },
+    {
+      "name": "create:after.svg:0:node:plain:attribute:cy",
+      "passed": true,
+      "expected": "60",
+      "actual": "60"
+    },
+    {
+      "name": "create:after.svg:0:node:plain:attribute:r",
+      "passed": true,
+      "expected": "7",
+      "actual": "7"
+    },
+    {
+      "name": "create:after.svg:0:node:plain:omitted:fill",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "create:after.svg:0:node:plain:omitted:stroke",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "create:after.svg:0:node:plain:omitted:stroke-width",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "create:after.svg:0:node:plain:parent",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "create:after.svg:1:node:painted:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "create:after.svg:1:node:painted:attribute:cx",
+      "passed": true,
+      "expected": "50",
+      "actual": "50"
+    },
+    {
+      "name": "create:after.svg:1:node:painted:attribute:cy",
+      "passed": true,
+      "expected": "60",
+      "actual": "60"
+    },
+    {
+      "name": "create:after.svg:1:node:painted:attribute:r",
+      "passed": true,
+      "expected": "7",
+      "actual": "7"
+    },
+    {
+      "name": "create:after.svg:1:node:painted:attribute:fill",
+      "passed": true,
+      "expected": "red",
+      "actual": "red"
+    },
+    {
+      "name": "create:after.svg:1:node:painted:parent",
+      "passed": true,
+      "expected": "p",
+      "actual": "p"
+    },
+    {
+      "name": "create:after.svg:2:node:p:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "create:after.svg:2:node:p:children",
+      "passed": true,
+      "expected": [
+        "painted"
+      ],
+      "actual": [
+        "painted"
+      ]
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "after.svg",
+    "after.replay.cli"
+  ]
+}

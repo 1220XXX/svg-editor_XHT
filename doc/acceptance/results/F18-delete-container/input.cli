@@ -1,0 +1,13 @@
+# scenario: subtree
+init
+create g p
+create g q in p
+create rect r 1 2 3 4 in q
+create circle c 5 6 7 in p
+delete p
+show q
+show r
+show c
+undo
+show r
+show c

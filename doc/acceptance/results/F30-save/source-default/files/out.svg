@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="160" viewBox="0 0 200 160">
+  <rect id="r" x="1" y="2" width="3" height="4"/>
+  <line id="l" x1="1" y1="2" x2="3" y2="4"/>
+  <text id="t" x="5" y="6">A &amp; &lt;B&gt; "Q"</text>
+</svg>

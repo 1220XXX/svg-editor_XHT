@@ -1,0 +1,14 @@
+# scenario: paths
+init
+save
+create rect r 1 2 3 4
+save initial.svg
+move r 1 0
+save
+read source/original.svg
+move r 9 0
+save destination/copy.svg
+move r 10 0
+save
+init
+save

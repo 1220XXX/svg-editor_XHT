@@ -1,0 +1,6 @@
+# scenario: serialize
+init 200 160
+create rect r 1 2 3 4
+create line l 1 2 3 4
+create text t 5 6 "A & <B> \"Q\""
+save out.svg

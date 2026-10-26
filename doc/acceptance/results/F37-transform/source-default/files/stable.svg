@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="160" viewBox="0 0 200 160">
+  <g id="p" stroke-width="3">
+    <rect id="r" stroke-width="6" x="13" y="26" width="6" height="8"/>
+    <g id="q">
+      <text id="t" font-size="18" x="22" y="24">中</text>
+    </g>
+  </g>
+  <rect id="s" stroke-width="2" x="22" y="44" width="6" height="8"/>
+</svg>

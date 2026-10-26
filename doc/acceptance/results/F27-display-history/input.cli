@@ -1,0 +1,13 @@
+# scenario: queries
+init
+create g p
+create circle c 1 2 3 red in p
+move c 2 3
+tree
+tree p
+show c
+help
+canvas
+undo
+show c
+redo

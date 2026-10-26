@@ -1,0 +1,31 @@
+{
+  "case": "F17-delete-leaf",
+  "entry": "source",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 9,
+  "assertions": [
+    {
+      "name": "delete:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "delete:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "delete:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\nrect#r created in g#p\nrect#r deleted\nerror: no such shape: r\nerror: no such shape: r\nrect#r restored into g#p\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r deleted\n",
+      "actual": "canvas 800x600 created\ng#p created\nrect#r created in g#p\nrect#r deleted\nerror: no such shape: r\nerror: no such shape: r\nrect#r restored into g#p\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\nrect#r deleted\n"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt"
+  ]
+}

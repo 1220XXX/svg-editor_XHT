@@ -1,0 +1,10 @@
+# scenario: branch
+init
+create rect r 1 2 3 4
+move r 10 0
+undo
+redo
+undo
+set r fill "red"
+redo
+show r

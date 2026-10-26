@@ -1,0 +1,14 @@
+init
+create g p
+set p fill "red"
+create g q
+set q fill "blue"
+create rect r 1 2 3 4 in p
+create circle c 1 2 3 in q
+group pair c r
+show r
+show c
+undo
+show r
+redo
+save acceptance-snapshot.svg

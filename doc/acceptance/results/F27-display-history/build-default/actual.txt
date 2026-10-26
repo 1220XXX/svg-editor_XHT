@@ -1,0 +1,44 @@
+# scenario: queries
+canvas 800x600 created
+g#p created
+circle#c created in g#p
+circle#c moved to (3,5)
+svg (800x600)
+└── g#p
+    └── circle#c  cx=3 cy=5 r=3 fill=red
+g#p
+└── circle#c  cx=3 cy=5 r=3 fill=red
+circle#c  parent=g#p
+  cx=3 cy=5 r=3
+  fill=red
+init [w] [h]
+read <file.svg>
+save [file.svg]
+canvas [w] [h]
+create <rect|circle|ellipse|line|text|g> <id> [params...] [in <gid>]
+delete <id>
+move <id> <dx> <dy>
+scale <id> <factor>
+set <id> <attr> <value>
+group <newGid> <id1> <id2>...
+ungroup <gid>
+addto <gid> <id>
+front <id>
+back <id>
+tree [id]
+show <id>
+undo
+redo
+help
+create rect <id> <x> <y> <width> <height> [fill] [in <containerId>]
+create circle <id> <cx> <cy> <r> [fill] [in <containerId>]
+create ellipse <id> <cx> <cy> <rx> <ry> [fill] [in <containerId>]
+create line <id> <x1> <y1> <x2> <y2> [stroke] [in <containerId>]
+create text <id> <x> <y> "content" [in <containerId>]
+create g <id> [in <containerId>]
+canvas 800x600
+circle#c moved back to (1,2)
+circle#c  parent=g#p
+  cx=1 cy=2 r=3
+  fill=red
+circle#c moved to (3,5)

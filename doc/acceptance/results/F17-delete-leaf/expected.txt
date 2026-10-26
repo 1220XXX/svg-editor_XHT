@@ -1,0 +1,11 @@
+# scenario: delete
+canvas 800x600 created
+g#p created
+rect#r created in g#p
+rect#r deleted
+error: no such shape: r
+error: no such shape: r
+rect#r restored into g#p
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+rect#r deleted

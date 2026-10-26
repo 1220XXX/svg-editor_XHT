@@ -1,0 +1,15 @@
+# scenario: content
+canvas 800x600 created
+text#t created
+text#t updated: text="中文 \"引号\" \\ & < >"
+text#t  parent=svg
+  x=1 y=2
+  text="中文 \"引号\" \\ & < >"
+text#t updated: text=""
+text#t  parent=svg
+  x=1 y=2
+  text=""
+text#t updated: text="中文 \"引号\" \\ & < >"
+text#t  parent=svg
+  x=1 y=2
+  text="中文 \"引号\" \\ & < >"

@@ -1,0 +1,7 @@
+# scenario: create
+init
+create g p
+create line plain 10 20 30 40
+create line painted 10 20 30 40 black in p
+show plain
+show painted

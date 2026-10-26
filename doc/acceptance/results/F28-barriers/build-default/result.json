@@ -1,0 +1,85 @@
+{
+  "case": "F28-barriers",
+  "entry": "build",
+  "mode": "default",
+  "scenarios": 4,
+  "commands": 40,
+  "assertions": [
+    {
+      "name": "init:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "init:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "init:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\nrect#r created\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\ncanvas 800x600 created\nerror: undo not allowed after io command\nerror: undo not allowed after io command\ng#new created\ng#new deleted\nerror: nothing to undo\n",
+      "actual": "canvas 800x600 created\nrect#r created\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\ncanvas 800x600 created\nerror: undo not allowed after io command\nerror: undo not allowed after io command\ng#new created\ng#new deleted\nerror: nothing to undo\n"
+    },
+    {
+      "name": "read:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "read:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "read:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\nrect#r created\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nread base.svg (1 elements)\nerror: undo not allowed after io command\nerror: undo not allowed after io command\ng#new created\ng#new deleted\nerror: nothing to undo\n",
+      "actual": "canvas 800x600 created\nrect#r created\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nread base.svg (1 elements)\nerror: undo not allowed after io command\nerror: undo not allowed after io command\ng#new created\ng#new deleted\nerror: nothing to undo\n"
+    },
+    {
+      "name": "save:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "save:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "save:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\nrect#r created\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to barrier.svg (1 elements)\nerror: undo not allowed after io command\nerror: undo not allowed after io command\ng#new created\ng#new deleted\nerror: nothing to undo\n",
+      "actual": "canvas 800x600 created\nrect#r created\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\nsaved to barrier.svg (1 elements)\nerror: undo not allowed after io command\nerror: undo not allowed after io command\ng#new created\ng#new deleted\nerror: nothing to undo\n"
+    },
+    {
+      "name": "canvas:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "canvas:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "canvas:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\nrect#r created\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\ncanvas resized to 200x100\nerror: undo not allowed after io command\nerror: undo not allowed after io command\ng#new created\ng#new deleted\nerror: nothing to undo\n",
+      "actual": "canvas 800x600 created\nrect#r created\nrect#r moved to (6,2)\nrect#r moved back to (1,2)\ncanvas resized to 200x100\nerror: undo not allowed after io command\nerror: undo not allowed after io command\ng#new created\ng#new deleted\nerror: nothing to undo\n"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt"
+  ]
+}

@@ -1,0 +1,6 @@
+init
+create g a
+create g b
+create g c
+create g d
+save acceptance-snapshot.svg

@@ -1,0 +1,115 @@
+{
+  "case": "F18-delete-container",
+  "entry": "source",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 12,
+  "assertions": [
+    {
+      "name": "subtree:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "subtree:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "subtree:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ng#q created in g#p\nrect#r created in g#q\ncircle#c created in g#p\ng#p deleted\nerror: no such shape: q\nerror: no such shape: r\nerror: no such shape: c\ng#p restored into svg\nrect#r  parent=g#q\n  x=1 y=2 width=3 height=4\ncircle#c  parent=g#p\n  cx=5 cy=6 r=7\n",
+      "actual": "canvas 800x600 created\ng#p created\ng#q created in g#p\nrect#r created in g#q\ncircle#c created in g#p\ng#p deleted\nerror: no such shape: q\nerror: no such shape: r\nerror: no such shape: c\ng#p restored into svg\nrect#r  parent=g#q\n  x=1 y=2 width=3 height=4\ncircle#c  parent=g#p\n  cx=5 cy=6 r=7\n"
+    },
+    {
+      "name": "subtree:after.svg:replay-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "subtree:after.svg:replay-stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "subtree:after.svg:replay-prefix",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ng#q created in g#p\nrect#r created in g#q\ncircle#c created in g#p\ng#p deleted\nerror: no such shape: q\nerror: no such shape: r\nerror: no such shape: c\ng#p restored into svg\nrect#r  parent=g#q\n  x=1 y=2 width=3 height=4\ncircle#c  parent=g#p\n  cx=5 cy=6 r=7\n",
+      "actual": "canvas 800x600 created\ng#p created\ng#q created in g#p\nrect#r created in g#q\ncircle#c created in g#p\ng#p deleted\nerror: no such shape: q\nerror: no such shape: r\nerror: no such shape: c\ng#p restored into svg\nrect#r  parent=g#q\n  x=1 y=2 width=3 height=4\ncircle#c  parent=g#p\n  cx=5 cy=6 r=7\n"
+    },
+    {
+      "name": "subtree:after.svg:save-response",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "subtree:after.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "subtree:after.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "subtree:after.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "subtree:after.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "subtree:after.svg:0:node:p:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "subtree:after.svg:0:node:p:children",
+      "passed": true,
+      "expected": [
+        "q",
+        "c"
+      ],
+      "actual": [
+        "q",
+        "c"
+      ]
+    },
+    {
+      "name": "subtree:after.svg:1:node:q:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "subtree:after.svg:1:node:q:children",
+      "passed": true,
+      "expected": [
+        "r"
+      ],
+      "actual": [
+        "r"
+      ]
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "after.svg",
+    "after.replay.cli"
+  ]
+}

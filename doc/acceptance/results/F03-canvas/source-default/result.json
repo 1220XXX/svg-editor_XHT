@@ -1,0 +1,135 @@
+{
+  "case": "F03-canvas",
+  "entry": "source",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 10,
+  "assertions": [
+    {
+      "name": "resize:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "resize:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "resize:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\nrect#r created\ncanvas 800x600\ncanvas resized to 400x200\nrect#r  parent=svg\n  x=1.5 y=2.5 width=30 height=40\nerror: canvas width must be positive\nerror: canvas width must be positive\nerror: invalid arguments. use help for syntax\ncanvas 400x200\nerror: undo not allowed after io command\n",
+      "actual": "canvas 800x600 created\nrect#r created\ncanvas 800x600\ncanvas resized to 400x200\nrect#r  parent=svg\n  x=1.5 y=2.5 width=30 height=40\nerror: canvas width must be positive\nerror: canvas width must be positive\nerror: invalid arguments. use help for syntax\ncanvas 400x200\nerror: undo not allowed after io command\n"
+    },
+    {
+      "name": "resize:after.svg:replay-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "resize:after.svg:replay-stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "resize:after.svg:replay-prefix",
+      "passed": true,
+      "expected": "canvas 800x600 created\nrect#r created\ncanvas 800x600\ncanvas resized to 400x200\nrect#r  parent=svg\n  x=1.5 y=2.5 width=30 height=40\nerror: canvas width must be positive\nerror: canvas width must be positive\nerror: invalid arguments. use help for syntax\ncanvas 400x200\nerror: undo not allowed after io command\n",
+      "actual": "canvas 800x600 created\nrect#r created\ncanvas 800x600\ncanvas resized to 400x200\nrect#r  parent=svg\n  x=1.5 y=2.5 width=30 height=40\nerror: canvas width must be positive\nerror: canvas width must be positive\nerror: invalid arguments. use help for syntax\ncanvas 400x200\nerror: undo not allowed after io command\n"
+    },
+    {
+      "name": "resize:after.svg:save-response",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "resize:after.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "resize:after.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "resize:after.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "resize:after.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "resize:after.svg:0:root:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "resize:after.svg:0:root:attribute:width",
+      "passed": true,
+      "expected": "400",
+      "actual": "400"
+    },
+    {
+      "name": "resize:after.svg:0:root:attribute:height",
+      "passed": true,
+      "expected": "200",
+      "actual": "200"
+    },
+    {
+      "name": "resize:after.svg:0:root:attribute:viewBox",
+      "passed": true,
+      "expected": "0 0 400 200",
+      "actual": "0 0 400 200"
+    },
+    {
+      "name": "resize:after.svg:1:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "resize:after.svg:1:node:r:attribute:x",
+      "passed": true,
+      "expected": "1.5",
+      "actual": "1.5"
+    },
+    {
+      "name": "resize:after.svg:1:node:r:attribute:y",
+      "passed": true,
+      "expected": "2.5",
+      "actual": "2.5"
+    },
+    {
+      "name": "resize:after.svg:1:node:r:attribute:width",
+      "passed": true,
+      "expected": "30",
+      "actual": "30"
+    },
+    {
+      "name": "resize:after.svg:1:node:r:attribute:height",
+      "passed": true,
+      "expected": "40",
+      "actual": "40"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "after.svg",
+    "after.replay.cli"
+  ]
+}

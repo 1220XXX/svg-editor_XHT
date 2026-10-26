@@ -1,0 +1,13 @@
+# scenario: failed-io
+read source.svg (1 elements)
+rect#r moved to (10,2)
+rect#r moved back to (1,2)
+error: cannot read file: missing.svg
+error: invalid SVG: malformed XML
+error: cannot write file: destination
+rect#r  parent=svg
+  x=1 y=2 width=3 height=4
+rect#r moved to (10,2)
+rect#r moved back to (1,2)
+rect#r moved to (10,2)
+saved to source.svg (1 elements)

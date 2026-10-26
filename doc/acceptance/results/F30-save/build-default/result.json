@@ -1,0 +1,160 @@
+{
+  "case": "F30-save",
+  "entry": "build",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 5,
+  "assertions": [
+    {
+      "name": "serialize:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "serialize:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "serialize:stdout-exact",
+      "passed": true,
+      "expected": "canvas 200x160 created\nrect#r created\nline#l created\ntext#t created\nsaved to out.svg (3 elements)\n",
+      "actual": "canvas 200x160 created\nrect#r created\nline#l created\ntext#t created\nsaved to out.svg (3 elements)\n"
+    },
+    {
+      "name": "serialize:out.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "serialize:out.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "serialize:out.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "serialize:out.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "serialize:out.svg:0:root:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "serialize:out.svg:0:root:attribute:xmlns",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "serialize:out.svg:0:root:attribute:width",
+      "passed": true,
+      "expected": "200",
+      "actual": "200"
+    },
+    {
+      "name": "serialize:out.svg:0:root:attribute:height",
+      "passed": true,
+      "expected": "160",
+      "actual": "160"
+    },
+    {
+      "name": "serialize:out.svg:0:root:attribute:viewBox",
+      "passed": true,
+      "expected": "0 0 200 160",
+      "actual": "0 0 200 160"
+    },
+    {
+      "name": "serialize:out.svg:0:root:children",
+      "passed": true,
+      "expected": [
+        "r",
+        "l",
+        "t"
+      ],
+      "actual": [
+        "r",
+        "l",
+        "t"
+      ]
+    },
+    {
+      "name": "serialize:out.svg:1:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "serialize:out.svg:1:node:r:omitted:fill",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "serialize:out.svg:1:node:r:omitted:stroke",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "serialize:out.svg:1:node:r:omitted:stroke-width",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "serialize:out.svg:2:node:l:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "serialize:out.svg:2:node:l:omitted:fill",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "serialize:out.svg:2:node:l:omitted:stroke",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "serialize:out.svg:3:node:t:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "serialize:out.svg:3:node:t:text",
+      "passed": true,
+      "expected": "A & <B> \"Q\"",
+      "actual": "A & <B> \"Q\""
+    },
+    {
+      "name": "serialize:out.svg:4:contains",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "files/out.svg"
+  ]
+}

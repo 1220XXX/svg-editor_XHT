@@ -1,0 +1,191 @@
+{
+  "case": "F36-task-book",
+  "entry": "source",
+  "mode": "preserve-style",
+  "scenarios": 2,
+  "commands": 33,
+  "assertions": [
+    {
+      "name": "typical:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "typical:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "typical:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\nrect#bg created\ntext#title created\ncircle#c1 created\nrect#box created\ng#markers created with 2 children\nsvg (800x600)\n├── rect#bg        x=0 y=0 w=800 h=600 fill=#ffffff\n├── text#title     (20,40) \"My Diagram\"\n└── g#markers\n    ├── circle#c1  cx=100 cy=100 r=20 fill=red\n    └── rect#box   x=200 y=80 w=60 h=60 fill=#3366ff\ncircle#c1 moved to (130,100)\ncircle#c1 moved back to (100,100)\ncircle#c1 moved to (130,100)\ntext#title updated: text=\"My Diagram v2\"\ntext#title updated: text=\"My Diagram\"\nerror: cannot group a container into its own descendant: markers\nrect#box deleted\nrect#box restored into g#markers\nsaved to demo.svg (5 elements)\nerror: undo not allowed after io command\nwarning: assigned id rect1 to unnamed <rect>\nread other.svg (7 elements)\nsvg (400x300)\n├── rect#rect1     x=0 y=0 w=400 h=300 fill=#ffffff\n├── text#t1        (10,290) \"imported\"\n├── circle#c1      cx=50 cy=50 r=10\n├── g#g1\n│   ├── rect#r2    x=0 y=0 w=10 h=10\n│   └── circle#c2  cx=5 cy=5 r=2\n└── ellipse#e1     cx=1 cy=2 rx=3 ry=4\n",
+      "actual": "canvas 800x600 created\nrect#bg created\ntext#title created\ncircle#c1 created\nrect#box created\ng#markers created with 2 children\nsvg (800x600)\n├── rect#bg        x=0 y=0 w=800 h=600 fill=#ffffff\n├── text#title     (20,40) \"My Diagram\"\n└── g#markers\n    ├── circle#c1  cx=100 cy=100 r=20 fill=red\n    └── rect#box   x=200 y=80 w=60 h=60 fill=#3366ff\ncircle#c1 moved to (130,100)\ncircle#c1 moved back to (100,100)\ncircle#c1 moved to (130,100)\ntext#title updated: text=\"My Diagram v2\"\ntext#title updated: text=\"My Diagram\"\nerror: cannot group a container into its own descendant: markers\nrect#box deleted\nrect#box restored into g#markers\nsaved to demo.svg (5 elements)\nerror: undo not allowed after io command\nwarning: assigned id rect1 to unnamed <rect>\nread other.svg (7 elements)\nsvg (400x300)\n├── rect#rect1     x=0 y=0 w=400 h=300 fill=#ffffff\n├── text#t1        (10,290) \"imported\"\n├── circle#c1      cx=50 cy=50 r=10\n├── g#g1\n│   ├── rect#r2    x=0 y=0 w=10 h=10\n│   └── circle#c2  cx=5 cy=5 r=2\n└── ellipse#e1     cx=1 cy=2 rx=3 ry=4\n"
+    },
+    {
+      "name": "typical:demo.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "typical:demo.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "typical:demo.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "typical:demo.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "typical:demo.svg:0:node:title:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "typical:demo.svg:0:node:title:text",
+      "passed": true,
+      "expected": "My Diagram",
+      "actual": "My Diagram"
+    },
+    {
+      "name": "typical:demo.svg:1:node:c1:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "typical:demo.svg:1:node:c1:attribute:cx",
+      "passed": true,
+      "expected": "130",
+      "actual": "130"
+    },
+    {
+      "name": "typical:demo.svg:2:node:markers:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "typical:demo.svg:2:node:markers:children",
+      "passed": true,
+      "expected": [
+        "c1",
+        "box"
+      ],
+      "actual": [
+        "c1",
+        "box"
+      ]
+    },
+    {
+      "name": "flowchart:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "flowchart:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "flowchart:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#flowchart created\ng#node1 created in g#flowchart\nrect#start created in g#node1\ntext#start-label created in g#node1\ng#node2 created in g#flowchart\nrect#process created in g#node2\ntext#process-label created in g#node2\nline#arrow1 created in g#flowchart\nsvg (800x600)\n└── g#flowchart\n    ├── g#node1\n    │   ├── rect#start          x=120 y=100 w=160 h=60 fill=#4a90d9\n    │   └── text#start-label    (155,135) \"开始\"\n    ├── g#node2\n    │   ├── rect#process        x=520 y=100 w=160 h=60 fill=#f5a623\n    │   └── text#process-label  (545,135) \"处理数据\"\n    └── line#arrow1             (280,130) -> (520,130) stroke=black\ng#node2 moved by (0,100)\ng#node2 moved back by (0,-100)\ntext#process-label updated: text=\"处理数据 v2\"\nsaved to flowchart.svg (8 elements)\n",
+      "actual": "canvas 800x600 created\ng#flowchart created\ng#node1 created in g#flowchart\nrect#start created in g#node1\ntext#start-label created in g#node1\ng#node2 created in g#flowchart\nrect#process created in g#node2\ntext#process-label created in g#node2\nline#arrow1 created in g#flowchart\nsvg (800x600)\n└── g#flowchart\n    ├── g#node1\n    │   ├── rect#start          x=120 y=100 w=160 h=60 fill=#4a90d9\n    │   └── text#start-label    (155,135) \"开始\"\n    ├── g#node2\n    │   ├── rect#process        x=520 y=100 w=160 h=60 fill=#f5a623\n    │   └── text#process-label  (545,135) \"处理数据\"\n    └── line#arrow1             (280,130) -> (520,130) stroke=black\ng#node2 moved by (0,100)\ng#node2 moved back by (0,-100)\ntext#process-label updated: text=\"处理数据 v2\"\nsaved to flowchart.svg (8 elements)\n"
+    },
+    {
+      "name": "flowchart:flowchart.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "flowchart:flowchart.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "flowchart:flowchart.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "flowchart:flowchart.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "flowchart:flowchart.svg:0:node:flowchart:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "flowchart:flowchart.svg:0:node:flowchart:children",
+      "passed": true,
+      "expected": [
+        "node1",
+        "node2",
+        "arrow1"
+      ],
+      "actual": [
+        "node1",
+        "node2",
+        "arrow1"
+      ]
+    },
+    {
+      "name": "flowchart:flowchart.svg:1:node:process:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "flowchart:flowchart.svg:1:node:process:attribute:x",
+      "passed": true,
+      "expected": "520",
+      "actual": "520"
+    },
+    {
+      "name": "flowchart:flowchart.svg:1:node:process:attribute:y",
+      "passed": true,
+      "expected": "100",
+      "actual": "100"
+    },
+    {
+      "name": "flowchart:flowchart.svg:2:node:process-label:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "flowchart:flowchart.svg:2:node:process-label:text",
+      "passed": true,
+      "expected": "处理数据 v2",
+      "actual": "处理数据 v2"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "typical/files/demo.svg",
+    "flowchart/files/flowchart.svg"
+  ]
+}

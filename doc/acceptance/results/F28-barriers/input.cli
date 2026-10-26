@@ -1,0 +1,47 @@
+# scenario: init
+init
+create rect r 1 2 3 4
+move r 5 0
+undo
+init
+undo
+redo
+create g new
+undo
+undo
+
+# scenario: read
+init
+create rect r 1 2 3 4
+move r 5 0
+undo
+read base.svg
+undo
+redo
+create g new
+undo
+undo
+
+# scenario: save
+init
+create rect r 1 2 3 4
+move r 5 0
+undo
+save barrier.svg
+undo
+redo
+create g new
+undo
+undo
+
+# scenario: canvas
+init
+create rect r 1 2 3 4
+move r 5 0
+undo
+canvas 200 100
+undo
+redo
+create g new
+undo
+undo

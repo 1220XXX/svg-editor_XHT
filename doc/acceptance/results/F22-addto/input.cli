@@ -1,0 +1,15 @@
+# scenario: reparent
+init
+create g p
+create g q
+create g a in p
+create g b in q
+create rect r 1 2 3 4
+addto q a
+tree
+addto q q
+addto a q
+addto r a
+undo
+show a
+redo

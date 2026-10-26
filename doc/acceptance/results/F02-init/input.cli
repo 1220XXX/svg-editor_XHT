@@ -1,0 +1,13 @@
+# scenario: replace
+init
+create g old
+save old.svg
+init 320
+show old
+save
+undo
+redo
+init 12.5 30.5
+canvas
+init 0 10
+canvas

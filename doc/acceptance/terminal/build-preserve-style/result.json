@@ -1,0 +1,74 @@
+{
+  "case": "terminal",
+  "entry": "build",
+  "mode": "preserve-style",
+  "assertions": [
+    {
+      "name": "pty-driver-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "CLI-EOF-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "ordered:svg-editor 0.1 — type 'help' for commands",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "ordered:svg> ",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "ordered:canvas 200x160 created",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "ordered:error: unknown command: invalid",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "ordered:g#recovered created",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "ordered:svg (200x160)",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "ordered:└── g#recovered",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "continuous-prompts",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "raw.txt",
+    "actual.txt"
+  ],
+  "scenarios": 1,
+  "commands": 4
+}

@@ -1,0 +1,15 @@
+# scenario: identity
+read ids.svg
+show rect3
+create g rect1
+group rect1 rect3 rect2
+create g A
+create g a
+create g A
+show rect1
+create g x in rect1
+read duplicate.svg
+show A
+save after.svg
+init
+save reset.svg

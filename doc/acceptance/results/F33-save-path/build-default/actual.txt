@@ -1,0 +1,14 @@
+# scenario: paths
+canvas 800x600 created
+error: no file path. use save <file.svg>
+rect#r created
+saved to initial.svg (1 elements)
+rect#r moved to (2,2)
+saved to initial.svg (1 elements)
+read source/original.svg (1 elements)
+rect#r moved to (10,2)
+saved to destination/copy.svg (1 elements)
+rect#r moved to (20,2)
+saved to source/original.svg (1 elements)
+canvas 800x600 created
+error: no file path. use save <file.svg>

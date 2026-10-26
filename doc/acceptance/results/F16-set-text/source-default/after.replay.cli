@@ -1,0 +1,9 @@
+init
+create text t 1 2 "初始"
+set t text "中文 \"引号\" \\ & < >"
+show t
+set t text ""
+show t
+undo
+show t
+save acceptance-snapshot.svg

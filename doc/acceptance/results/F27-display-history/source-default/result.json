@@ -1,0 +1,31 @@
+{
+  "case": "F27-display-history",
+  "entry": "source",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 12,
+  "assertions": [
+    {
+      "name": "queries:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "queries:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "queries:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ncircle#c created in g#p\ncircle#c moved to (3,5)\nsvg (800x600)\n└── g#p\n    └── circle#c  cx=3 cy=5 r=3 fill=red\ng#p\n└── circle#c  cx=3 cy=5 r=3 fill=red\ncircle#c  parent=g#p\n  cx=3 cy=5 r=3\n  fill=red\ninit [w] [h]\nread <file.svg>\nsave [file.svg]\ncanvas [w] [h]\ncreate <rect|circle|ellipse|line|text|g> <id> [params...] [in <gid>]\ndelete <id>\nmove <id> <dx> <dy>\nscale <id> <factor>\nset <id> <attr> <value>\ngroup <newGid> <id1> <id2>...\nungroup <gid>\naddto <gid> <id>\nfront <id>\nback <id>\ntree [id]\nshow <id>\nundo\nredo\nhelp\ncreate rect <id> <x> <y> <width> <height> [fill] [in <containerId>]\ncreate circle <id> <cx> <cy> <r> [fill] [in <containerId>]\ncreate ellipse <id> <cx> <cy> <rx> <ry> [fill] [in <containerId>]\ncreate line <id> <x1> <y1> <x2> <y2> [stroke] [in <containerId>]\ncreate text <id> <x> <y> \"content\" [in <containerId>]\ncreate g <id> [in <containerId>]\ncanvas 800x600\ncircle#c moved back to (1,2)\ncircle#c  parent=g#p\n  cx=1 cy=2 r=3\n  fill=red\ncircle#c moved to (3,5)\n",
+      "actual": "canvas 800x600 created\ng#p created\ncircle#c created in g#p\ncircle#c moved to (3,5)\nsvg (800x600)\n└── g#p\n    └── circle#c  cx=3 cy=5 r=3 fill=red\ng#p\n└── circle#c  cx=3 cy=5 r=3 fill=red\ncircle#c  parent=g#p\n  cx=3 cy=5 r=3\n  fill=red\ninit [w] [h]\nread <file.svg>\nsave [file.svg]\ncanvas [w] [h]\ncreate <rect|circle|ellipse|line|text|g> <id> [params...] [in <gid>]\ndelete <id>\nmove <id> <dx> <dy>\nscale <id> <factor>\nset <id> <attr> <value>\ngroup <newGid> <id1> <id2>...\nungroup <gid>\naddto <gid> <id>\nfront <id>\nback <id>\ntree [id]\nshow <id>\nundo\nredo\nhelp\ncreate rect <id> <x> <y> <width> <height> [fill] [in <containerId>]\ncreate circle <id> <cx> <cy> <r> [fill] [in <containerId>]\ncreate ellipse <id> <cx> <cy> <rx> <ry> [fill] [in <containerId>]\ncreate line <id> <x1> <y1> <x2> <y2> [stroke] [in <containerId>]\ncreate text <id> <x> <y> \"content\" [in <containerId>]\ncreate g <id> [in <containerId>]\ncanvas 800x600\ncircle#c moved back to (1,2)\ncircle#c  parent=g#p\n  cx=1 cy=2 r=3\n  fill=red\ncircle#c moved to (3,5)\n"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt"
+  ]
+}

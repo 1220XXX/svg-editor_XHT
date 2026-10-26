@@ -1,0 +1,31 @@
+{
+  "case": "F11-move-container",
+  "entry": "build",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 16,
+  "assertions": [
+    {
+      "name": "recursive:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "recursive:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "recursive:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ng#q created in g#p\nrect#r created in g#q\ncircle#c created in g#q\nellipse#e created in g#q\nline#l created in g#q\ntext#t created in g#q\ng#p moved by (10,20)\nrect#r  parent=g#q\n  x=11 y=22 width=3 height=4\ncircle#c  parent=g#q\n  cx=11 cy=22 r=3\nellipse#e  parent=g#q\n  cx=11 cy=22 rx=3 ry=4\nline#l  parent=g#q\n  x1=11 y1=22 x2=13 y2=24\ntext#t  parent=g#q\n  x=11 y=22\n  text=\"文\"\ng#p moved back by (-10,-20)\nline#l  parent=g#q\n  x1=1 y1=2 x2=3 y2=4\n",
+      "actual": "canvas 800x600 created\ng#p created\ng#q created in g#p\nrect#r created in g#q\ncircle#c created in g#q\nellipse#e created in g#q\nline#l created in g#q\ntext#t created in g#q\ng#p moved by (10,20)\nrect#r  parent=g#q\n  x=11 y=22 width=3 height=4\ncircle#c  parent=g#q\n  cx=11 cy=22 r=3\nellipse#e  parent=g#q\n  cx=11 cy=22 rx=3 ry=4\nline#l  parent=g#q\n  x1=11 y1=22 x2=13 y2=24\ntext#t  parent=g#q\n  x=11 y=22\n  text=\"文\"\ng#p moved back by (-10,-20)\nline#l  parent=g#q\n  x1=1 y1=2 x2=3 y2=4\n"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt"
+  ]
+}

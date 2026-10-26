@@ -1,0 +1,142 @@
+{
+  "case": "F33-save-path",
+  "entry": "source",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 13,
+  "assertions": [
+    {
+      "name": "paths:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "paths:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "paths:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\nerror: no file path. use save <file.svg>\nrect#r created\nsaved to initial.svg (1 elements)\nrect#r moved to (2,2)\nsaved to initial.svg (1 elements)\nread source/original.svg (1 elements)\nrect#r moved to (10,2)\nsaved to destination/copy.svg (1 elements)\nrect#r moved to (20,2)\nsaved to source/original.svg (1 elements)\ncanvas 800x600 created\nerror: no file path. use save <file.svg>\n",
+      "actual": "canvas 800x600 created\nerror: no file path. use save <file.svg>\nrect#r created\nsaved to initial.svg (1 elements)\nrect#r moved to (2,2)\nsaved to initial.svg (1 elements)\nread source/original.svg (1 elements)\nrect#r moved to (10,2)\nsaved to destination/copy.svg (1 elements)\nrect#r moved to (20,2)\nsaved to source/original.svg (1 elements)\ncanvas 800x600 created\nerror: no file path. use save <file.svg>\n"
+    },
+    {
+      "name": "paths:initial.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "paths:initial.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "paths:initial.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "paths:initial.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "paths:initial.svg:0:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "paths:initial.svg:0:node:r:attribute:x",
+      "passed": true,
+      "expected": "2",
+      "actual": "2"
+    },
+    {
+      "name": "paths:source/original.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "paths:source/original.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "paths:source/original.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "paths:source/original.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "paths:source/original.svg:0:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "paths:source/original.svg:0:node:r:attribute:x",
+      "passed": true,
+      "expected": "20",
+      "actual": "20"
+    },
+    {
+      "name": "paths:destination/copy.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "paths:destination/copy.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "paths:destination/copy.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "paths:destination/copy.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "paths:destination/copy.svg:0:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "paths:destination/copy.svg:0:node:r:attribute:x",
+      "passed": true,
+      "expected": "10",
+      "actual": "10"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "files/initial.svg",
+    "files/source/original.svg",
+    "files/destination/copy.svg"
+  ]
+}

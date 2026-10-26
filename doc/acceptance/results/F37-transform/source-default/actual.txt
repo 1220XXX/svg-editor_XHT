@@ -1,0 +1,19 @@
+# scenario: normalize
+read transform.svg (5 elements)
+rect#r  parent=g#p
+  x=12 y=24 width=6 height=8
+  stroke-width=6
+text#t  parent=g#q
+  x=21 y=22
+  font-size=18
+  text="中"
+rect#s  parent=svg
+  x=22 y=44 width=6 height=8
+  stroke-width=2
+g#p moved by (1,2)
+g#p moved back by (-1,-2)
+error: unsupported or invalid SVG transform: rotate(20)
+g#p moved by (1,2)
+saved to normalized.svg (5 elements)
+read normalized.svg (5 elements)
+saved to stable.svg (5 elements)

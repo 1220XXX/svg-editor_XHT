@@ -1,0 +1,8 @@
+# scenario: overlap
+init 200 160
+create rect red 10 10 100 100 #ff0000
+create rect blue 40 40 100 100 #0000ff
+back blue
+show red
+undo
+redo

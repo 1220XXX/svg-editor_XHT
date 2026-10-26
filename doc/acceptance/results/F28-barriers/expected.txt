@@ -1,0 +1,44 @@
+# scenario: init
+canvas 800x600 created
+rect#r created
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+canvas 800x600 created
+error: undo not allowed after io command
+error: undo not allowed after io command
+g#new created
+g#new deleted
+error: nothing to undo
+# scenario: read
+canvas 800x600 created
+rect#r created
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+read base.svg (1 elements)
+error: undo not allowed after io command
+error: undo not allowed after io command
+g#new created
+g#new deleted
+error: nothing to undo
+# scenario: save
+canvas 800x600 created
+rect#r created
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+saved to barrier.svg (1 elements)
+error: undo not allowed after io command
+error: undo not allowed after io command
+g#new created
+g#new deleted
+error: nothing to undo
+# scenario: canvas
+canvas 800x600 created
+rect#r created
+rect#r moved to (6,2)
+rect#r moved back to (1,2)
+canvas resized to 200x100
+error: undo not allowed after io command
+error: undo not allowed after io command
+g#new created
+g#new deleted
+error: nothing to undo

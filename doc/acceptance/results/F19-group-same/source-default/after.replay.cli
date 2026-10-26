@@ -1,0 +1,11 @@
+init
+create g a
+create g b
+create g c
+create g d
+group pair d b
+tree
+undo
+tree
+redo
+save acceptance-snapshot.svg

@@ -1,0 +1,31 @@
+{
+  "case": "F35-input",
+  "entry": "build",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 11,
+  "assertions": [
+    {
+      "name": "parser:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "parser:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "parser:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\nrect#r created\ntext#t created\ntext#t  parent=svg\n  x=1 y=2\n  text=\"say \\\"hi\\\" C:\\\\tmp\"\nerror: unterminated double quote\nerror: unknown command: unknown\nrect#r  parent=svg\n  x=1 y=2 width=3 height=4\n  fill=#AbC\ntext#t  parent=svg\n  x=1 y=2\n  text=\"say \\\"hi\\\" C:\\\\tmp\"\n",
+      "actual": "canvas 800x600 created\nrect#r created\ntext#t created\ntext#t  parent=svg\n  x=1 y=2\n  text=\"say \\\"hi\\\" C:\\\\tmp\"\nerror: unterminated double quote\nerror: unknown command: unknown\nrect#r  parent=svg\n  x=1 y=2 width=3 height=4\n  fill=#AbC\ntext#t  parent=svg\n  x=1 y=2\n  text=\"say \\\"hi\\\" C:\\\\tmp\"\n"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt"
+  ]
+}

@@ -1,0 +1,11 @@
+# scenario: create
+canvas 800x600 created
+g#p created
+text#t created in g#p
+text#empty created
+text#t  parent=g#p
+  x=10 y=20
+  text="中文 空格 \"引号\" C:\\tmp & < >"
+text#empty  parent=svg
+  x=0 y=0
+  text=""

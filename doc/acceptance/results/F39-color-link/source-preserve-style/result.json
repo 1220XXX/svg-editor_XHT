@@ -1,0 +1,173 @@
+{
+  "case": "F39-color-link",
+  "entry": "source",
+  "mode": "preserve-style",
+  "scenarios": 1,
+  "commands": 13,
+  "assertions": [
+    {
+      "name": "inheritance:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "inheritance:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "inheritance:stdout-exact",
+      "passed": true,
+      "expected": "canvas 200x160 created\ng#p created\ng#p updated: fill=\"red\"\ng#q created\ng#q updated: fill=\"blue\"\nrect#frozen created in g#p\nrect#control created in g#q\nrect#frozen moved into g#q\ng#q updated: fill=\"green\"\nrect#frozen  parent=g#q\n  x=10 y=10 width=60 height=60\n  fill=red\nrect#control  parent=g#q\n  x=100 y=10 width=60 height=60\nrect#frozen updated: fill=\"inherit\"\nrect#frozen  parent=g#q\n  x=10 y=10 width=60 height=60\n  fill=inherit\n",
+      "actual": "canvas 200x160 created\ng#p created\ng#p updated: fill=\"red\"\ng#q created\ng#q updated: fill=\"blue\"\nrect#frozen created in g#p\nrect#control created in g#q\nrect#frozen moved into g#q\ng#q updated: fill=\"green\"\nrect#frozen  parent=g#q\n  x=10 y=10 width=60 height=60\n  fill=red\nrect#control  parent=g#q\n  x=100 y=10 width=60 height=60\nrect#frozen updated: fill=\"inherit\"\nrect#frozen  parent=g#q\n  x=10 y=10 width=60 height=60\n  fill=inherit\n"
+    },
+    {
+      "name": "inheritance:frozen.svg:replay-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "inheritance:frozen.svg:replay-stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "inheritance:frozen.svg:replay-prefix",
+      "passed": true,
+      "expected": "canvas 200x160 created\ng#p created\ng#p updated: fill=\"red\"\ng#q created\ng#q updated: fill=\"blue\"\nrect#frozen created in g#p\nrect#control created in g#q\nrect#frozen moved into g#q\ng#q updated: fill=\"green\"\nrect#frozen  parent=g#q\n  x=10 y=10 width=60 height=60\n  fill=red\nrect#control  parent=g#q\n  x=100 y=10 width=60 height=60\n",
+      "actual": "canvas 200x160 created\ng#p created\ng#p updated: fill=\"red\"\ng#q created\ng#q updated: fill=\"blue\"\nrect#frozen created in g#p\nrect#control created in g#q\nrect#frozen moved into g#q\ng#q updated: fill=\"green\"\nrect#frozen  parent=g#q\n  x=10 y=10 width=60 height=60\n  fill=red\nrect#control  parent=g#q\n  x=100 y=10 width=60 height=60\n"
+    },
+    {
+      "name": "inheritance:frozen.svg:save-response",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "inheritance:frozen.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "inheritance:frozen.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "inheritance:frozen.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "inheritance:frozen.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "inheritance:frozen.svg:0:node:frozen:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "inheritance:frozen.svg:0:node:frozen:attribute:fill",
+      "passed": true,
+      "expected": "red",
+      "actual": "red"
+    },
+    {
+      "name": "inheritance:frozen.svg:0:node:frozen:parent",
+      "passed": true,
+      "expected": "q",
+      "actual": "q"
+    },
+    {
+      "name": "inheritance:frozen.svg:1:node:control:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "inheritance:frozen.svg:1:node:control:omitted:fill",
+      "passed": true,
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "inheritance:inherit.svg:replay-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "inheritance:inherit.svg:replay-stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "inheritance:inherit.svg:replay-prefix",
+      "passed": true,
+      "expected": "canvas 200x160 created\ng#p created\ng#p updated: fill=\"red\"\ng#q created\ng#q updated: fill=\"blue\"\nrect#frozen created in g#p\nrect#control created in g#q\nrect#frozen moved into g#q\ng#q updated: fill=\"green\"\nrect#frozen  parent=g#q\n  x=10 y=10 width=60 height=60\n  fill=red\nrect#control  parent=g#q\n  x=100 y=10 width=60 height=60\nrect#frozen updated: fill=\"inherit\"\nrect#frozen  parent=g#q\n  x=10 y=10 width=60 height=60\n  fill=inherit\n",
+      "actual": "canvas 200x160 created\ng#p created\ng#p updated: fill=\"red\"\ng#q created\ng#q updated: fill=\"blue\"\nrect#frozen created in g#p\nrect#control created in g#q\nrect#frozen moved into g#q\ng#q updated: fill=\"green\"\nrect#frozen  parent=g#q\n  x=10 y=10 width=60 height=60\n  fill=red\nrect#control  parent=g#q\n  x=100 y=10 width=60 height=60\nrect#frozen updated: fill=\"inherit\"\nrect#frozen  parent=g#q\n  x=10 y=10 width=60 height=60\n  fill=inherit\n"
+    },
+    {
+      "name": "inheritance:inherit.svg:save-response",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "inheritance:inherit.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "inheritance:inherit.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "inheritance:inherit.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "inheritance:inherit.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "inheritance:inherit.svg:0:node:frozen:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "inheritance:inherit.svg:0:node:frozen:attribute:fill",
+      "passed": true,
+      "expected": "inherit",
+      "actual": "inherit"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "frozen.svg",
+    "frozen.replay.cli",
+    "inherit.svg",
+    "inherit.replay.cli"
+  ]
+}

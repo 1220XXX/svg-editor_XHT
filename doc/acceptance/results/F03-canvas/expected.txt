@@ -1,0 +1,12 @@
+# scenario: resize
+canvas 800x600 created
+rect#r created
+canvas 800x600
+canvas resized to 400x200
+rect#r  parent=svg
+  x=1.5 y=2.5 width=30 height=40
+error: canvas width must be positive
+error: canvas width must be positive
+error: invalid arguments. use help for syntax
+canvas 400x200
+error: undo not allowed after io command

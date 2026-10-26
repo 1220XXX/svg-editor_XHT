@@ -1,0 +1,12 @@
+# scenario: parser
+# 注释
+
+   # 另一个注释
+init
+create rect r 1 2 3 4 #AbC
+create text t 1 2 "say \"hi\" C:\\tmp"
+show t
+set t text "unfinished
+unknown
+show r
+show t

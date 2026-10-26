@@ -1,0 +1,10 @@
+# scenario: create
+canvas 800x600 created
+g#p created
+circle#plain created
+circle#painted created in g#p
+circle#plain  parent=svg
+  cx=50 cy=60 r=7
+circle#painted  parent=g#p
+  cx=50 cy=60 r=7
+  fill=red

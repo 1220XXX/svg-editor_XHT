@@ -1,0 +1,93 @@
+{
+  "case": "F16-set-text",
+  "entry": "source",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 8,
+  "assertions": [
+    {
+      "name": "content:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "content:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "content:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ntext#t created\ntext#t updated: text=\"中文 \\\"引号\\\" \\\\ & < >\"\ntext#t  parent=svg\n  x=1 y=2\n  text=\"中文 \\\"引号\\\" \\\\ & < >\"\ntext#t updated: text=\"\"\ntext#t  parent=svg\n  x=1 y=2\n  text=\"\"\ntext#t updated: text=\"中文 \\\"引号\\\" \\\\ & < >\"\ntext#t  parent=svg\n  x=1 y=2\n  text=\"中文 \\\"引号\\\" \\\\ & < >\"\n",
+      "actual": "canvas 800x600 created\ntext#t created\ntext#t updated: text=\"中文 \\\"引号\\\" \\\\ & < >\"\ntext#t  parent=svg\n  x=1 y=2\n  text=\"中文 \\\"引号\\\" \\\\ & < >\"\ntext#t updated: text=\"\"\ntext#t  parent=svg\n  x=1 y=2\n  text=\"\"\ntext#t updated: text=\"中文 \\\"引号\\\" \\\\ & < >\"\ntext#t  parent=svg\n  x=1 y=2\n  text=\"中文 \\\"引号\\\" \\\\ & < >\"\n"
+    },
+    {
+      "name": "content:after.svg:replay-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "content:after.svg:replay-stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "content:after.svg:replay-prefix",
+      "passed": true,
+      "expected": "canvas 800x600 created\ntext#t created\ntext#t updated: text=\"中文 \\\"引号\\\" \\\\ & < >\"\ntext#t  parent=svg\n  x=1 y=2\n  text=\"中文 \\\"引号\\\" \\\\ & < >\"\ntext#t updated: text=\"\"\ntext#t  parent=svg\n  x=1 y=2\n  text=\"\"\ntext#t updated: text=\"中文 \\\"引号\\\" \\\\ & < >\"\ntext#t  parent=svg\n  x=1 y=2\n  text=\"中文 \\\"引号\\\" \\\\ & < >\"\n",
+      "actual": "canvas 800x600 created\ntext#t created\ntext#t updated: text=\"中文 \\\"引号\\\" \\\\ & < >\"\ntext#t  parent=svg\n  x=1 y=2\n  text=\"中文 \\\"引号\\\" \\\\ & < >\"\ntext#t updated: text=\"\"\ntext#t  parent=svg\n  x=1 y=2\n  text=\"\"\ntext#t updated: text=\"中文 \\\"引号\\\" \\\\ & < >\"\ntext#t  parent=svg\n  x=1 y=2\n  text=\"中文 \\\"引号\\\" \\\\ & < >\"\n"
+    },
+    {
+      "name": "content:after.svg:save-response",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "content:after.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "content:after.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "content:after.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "content:after.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "content:after.svg:0:node:t:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "content:after.svg:0:node:t:text",
+      "passed": true,
+      "expected": "中文 \"引号\" \\ & < >",
+      "actual": "中文 \"引号\" \\ & < >"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "after.svg",
+    "after.replay.cli"
+  ]
+}

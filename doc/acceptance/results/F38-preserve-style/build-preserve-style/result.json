@@ -1,0 +1,208 @@
+{
+  "case": "F38-preserve-style",
+  "entry": "build",
+  "mode": "preserve-style",
+  "scenarios": 3,
+  "commands": 41,
+  "assertions": [
+    {
+      "name": "ungroup:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "ungroup:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "ungroup:stdout-exact",
+      "passed": true,
+      "expected": "canvas 200x160 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\ng#inner updated: stroke=\"green\"\ng#inner updated: stroke-width=\"3\"\nrect#r created in g#inner\ncircle#c created in g#inner\ng#inner ungrouped (2 children promoted)\nrect#r  parent=g#outer\n  x=10 y=10 width=60 height=60\n  fill=red\n  stroke=green\n  stroke-width=3\ncircle#c  parent=g#outer\n  cx=100 cy=50 r=20\n  fill=blue\n  stroke=green\n  stroke-width=3\ng#inner restored with 2 children\nrect#r  parent=g#inner\n  x=10 y=10 width=60 height=60\ng#inner ungrouped (2 children promoted)\nsaved to styles.svg (3 elements)\nread styles.svg (3 elements)\nrect#r  parent=g#outer\n  x=10 y=10 width=60 height=60\n  fill=red\n  stroke=green\n  stroke-width=3\n",
+      "actual": "canvas 200x160 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\ng#inner updated: stroke=\"green\"\ng#inner updated: stroke-width=\"3\"\nrect#r created in g#inner\ncircle#c created in g#inner\ng#inner ungrouped (2 children promoted)\nrect#r  parent=g#outer\n  x=10 y=10 width=60 height=60\n  fill=red\n  stroke=green\n  stroke-width=3\ncircle#c  parent=g#outer\n  cx=100 cy=50 r=20\n  fill=blue\n  stroke=green\n  stroke-width=3\ng#inner restored with 2 children\nrect#r  parent=g#inner\n  x=10 y=10 width=60 height=60\ng#inner ungrouped (2 children promoted)\nsaved to styles.svg (3 elements)\nread styles.svg (3 elements)\nrect#r  parent=g#outer\n  x=10 y=10 width=60 height=60\n  fill=red\n  stroke=green\n  stroke-width=3\n"
+    },
+    {
+      "name": "ungroup:styles.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "ungroup:styles.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "ungroup:styles.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "ungroup:styles.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "ungroup:styles.svg:0:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "ungroup:styles.svg:0:node:r:attribute:fill",
+      "passed": true,
+      "expected": "red",
+      "actual": "red"
+    },
+    {
+      "name": "ungroup:styles.svg:0:node:r:attribute:stroke",
+      "passed": true,
+      "expected": "green",
+      "actual": "green"
+    },
+    {
+      "name": "ungroup:styles.svg:0:node:r:attribute:stroke-width",
+      "passed": true,
+      "expected": "3",
+      "actual": "3"
+    },
+    {
+      "name": "addto:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "addto:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "addto:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\nrect#r created\ng#p created\ng#p updated: fill=\"blue\"\ng#p updated: stroke=\"red\"\ng#p updated: stroke-width=\"8\"\nrect#r moved into g#p\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\n  fill=black\n  stroke=none\n  stroke-width=1\nrect#r moved back into svg\nrect#r  parent=svg\n  x=1 y=2 width=3 height=4\nrect#r moved into g#p\n",
+      "actual": "canvas 800x600 created\nrect#r created\ng#p created\ng#p updated: fill=\"blue\"\ng#p updated: stroke=\"red\"\ng#p updated: stroke-width=\"8\"\nrect#r moved into g#p\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\n  fill=black\n  stroke=none\n  stroke-width=1\nrect#r moved back into svg\nrect#r  parent=svg\n  x=1 y=2 width=3 height=4\nrect#r moved into g#p\n"
+    },
+    {
+      "name": "group:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "group:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "group:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ng#p updated: fill=\"red\"\ng#q created\ng#q updated: fill=\"blue\"\nrect#r created in g#p\ncircle#c created in g#q\ng#pair created with 2 children\nrect#r  parent=g#pair\n  x=1 y=2 width=3 height=4\n  fill=red\ncircle#c  parent=g#pair\n  cx=1 cy=2 r=3\n  fill=blue\ng#pair ungrouped (2 children restored)\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\ng#pair created with 2 children\n",
+      "actual": "canvas 800x600 created\ng#p created\ng#p updated: fill=\"red\"\ng#q created\ng#q updated: fill=\"blue\"\nrect#r created in g#p\ncircle#c created in g#q\ng#pair created with 2 children\nrect#r  parent=g#pair\n  x=1 y=2 width=3 height=4\n  fill=red\ncircle#c  parent=g#pair\n  cx=1 cy=2 r=3\n  fill=blue\ng#pair ungrouped (2 children restored)\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\ng#pair created with 2 children\n"
+    },
+    {
+      "name": "group:after.svg:replay-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "group:after.svg:replay-stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "group:after.svg:replay-prefix",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ng#p updated: fill=\"red\"\ng#q created\ng#q updated: fill=\"blue\"\nrect#r created in g#p\ncircle#c created in g#q\ng#pair created with 2 children\nrect#r  parent=g#pair\n  x=1 y=2 width=3 height=4\n  fill=red\ncircle#c  parent=g#pair\n  cx=1 cy=2 r=3\n  fill=blue\ng#pair ungrouped (2 children restored)\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\ng#pair created with 2 children\n",
+      "actual": "canvas 800x600 created\ng#p created\ng#p updated: fill=\"red\"\ng#q created\ng#q updated: fill=\"blue\"\nrect#r created in g#p\ncircle#c created in g#q\ng#pair created with 2 children\nrect#r  parent=g#pair\n  x=1 y=2 width=3 height=4\n  fill=red\ncircle#c  parent=g#pair\n  cx=1 cy=2 r=3\n  fill=blue\ng#pair ungrouped (2 children restored)\nrect#r  parent=g#p\n  x=1 y=2 width=3 height=4\ng#pair created with 2 children\n"
+    },
+    {
+      "name": "group:after.svg:save-response",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "group:after.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "group:after.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "group:after.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "group:after.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "group:after.svg:0:node:pair:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "group:after.svg:0:node:pair:children",
+      "passed": true,
+      "expected": [
+        "r",
+        "c"
+      ],
+      "actual": [
+        "r",
+        "c"
+      ]
+    },
+    {
+      "name": "group:after.svg:1:node:r:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "group:after.svg:1:node:r:attribute:fill",
+      "passed": true,
+      "expected": "red",
+      "actual": "red"
+    },
+    {
+      "name": "group:after.svg:2:node:c:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "group:after.svg:2:node:c:attribute:fill",
+      "passed": true,
+      "expected": "blue",
+      "actual": "blue"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "ungroup/files/styles.svg",
+    "group/after.svg",
+    "group/after.replay.cli"
+  ]
+}

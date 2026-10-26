@@ -1,0 +1,67 @@
+# scenario: ungroup
+canvas 200x160 created
+g#outer created
+g#inner created in g#outer
+g#inner updated: fill="red"
+g#inner updated: stroke="green"
+g#inner updated: stroke-width="3"
+rect#r created in g#inner
+circle#c created in g#inner
+g#inner ungrouped (2 children promoted)
+rect#r  parent=g#outer
+  x=10 y=10 width=60 height=60
+  fill=red
+  stroke=green
+  stroke-width=3
+circle#c  parent=g#outer
+  cx=100 cy=50 r=20
+  fill=blue
+  stroke=green
+  stroke-width=3
+g#inner restored with 2 children
+rect#r  parent=g#inner
+  x=10 y=10 width=60 height=60
+g#inner ungrouped (2 children promoted)
+saved to styles.svg (3 elements)
+read styles.svg (3 elements)
+rect#r  parent=g#outer
+  x=10 y=10 width=60 height=60
+  fill=red
+  stroke=green
+  stroke-width=3
+# scenario: addto
+canvas 800x600 created
+rect#r created
+g#p created
+g#p updated: fill="blue"
+g#p updated: stroke="red"
+g#p updated: stroke-width="8"
+rect#r moved into g#p
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+  fill=black
+  stroke=none
+  stroke-width=1
+rect#r moved back into svg
+rect#r  parent=svg
+  x=1 y=2 width=3 height=4
+rect#r moved into g#p
+# scenario: group
+canvas 800x600 created
+g#p created
+g#p updated: fill="red"
+g#q created
+g#q updated: fill="blue"
+rect#r created in g#p
+circle#c created in g#q
+g#pair created with 2 children
+rect#r  parent=g#pair
+  x=1 y=2 width=3 height=4
+  fill=red
+circle#c  parent=g#pair
+  cx=1 cy=2 r=3
+  fill=blue
+g#pair ungrouped (2 children restored)
+rect#r  parent=g#p
+  x=1 y=2 width=3 height=4
+g#pair created with 2 children

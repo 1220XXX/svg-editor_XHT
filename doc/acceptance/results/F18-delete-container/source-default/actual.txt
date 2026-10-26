@@ -1,0 +1,15 @@
+# scenario: subtree
+canvas 800x600 created
+g#p created
+g#q created in g#p
+rect#r created in g#q
+circle#c created in g#p
+g#p deleted
+error: no such shape: q
+error: no such shape: r
+error: no such shape: c
+g#p restored into svg
+rect#r  parent=g#q
+  x=1 y=2 width=3 height=4
+circle#c  parent=g#p
+  cx=5 cy=6 r=7

@@ -1,0 +1,169 @@
+{
+  "case": "F31-roundtrip",
+  "entry": "build",
+  "mode": "preserve-style",
+  "scenarios": 1,
+  "commands": 6,
+  "assertions": [
+    {
+      "name": "round-trip:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "round-trip:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "round-trip:stdout-exact",
+      "passed": true,
+      "expected": "read input.svg (7 elements)\ng#p  parent=svg\n  fill=red\n  data-kind=box\ntext#t  parent=g#q\n  x=12 y=13\n  font-size=18\n  text-anchor=middle\n  text=\"中 & 文\"\nsaved to first.svg (7 elements)\nread first.svg (7 elements)\nsaved to second.svg (7 elements)\n",
+      "actual": "read input.svg (7 elements)\ng#p  parent=svg\n  fill=red\n  data-kind=box\ntext#t  parent=g#q\n  x=12 y=13\n  font-size=18\n  text-anchor=middle\n  text=\"中 & 文\"\nsaved to first.svg (7 elements)\nread first.svg (7 elements)\nsaved to second.svg (7 elements)\n"
+    },
+    {
+      "name": "round-trip:first.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "round-trip:first.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "round-trip:first.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "round-trip:first.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "round-trip:first.svg:0:node:p:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "round-trip:first.svg:0:node:p:attribute:fill",
+      "passed": true,
+      "expected": "red",
+      "actual": "red"
+    },
+    {
+      "name": "round-trip:first.svg:0:node:p:attribute:data-kind",
+      "passed": true,
+      "expected": "box",
+      "actual": "box"
+    },
+    {
+      "name": "round-trip:first.svg:0:node:p:children",
+      "passed": true,
+      "expected": [
+        "r",
+        "c",
+        "q"
+      ],
+      "actual": [
+        "r",
+        "c",
+        "q"
+      ]
+    },
+    {
+      "name": "round-trip:first.svg:1:node:q:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "round-trip:first.svg:1:node:q:children",
+      "passed": true,
+      "expected": [
+        "e",
+        "l",
+        "t"
+      ],
+      "actual": [
+        "e",
+        "l",
+        "t"
+      ]
+    },
+    {
+      "name": "round-trip:first.svg:2:node:t:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "round-trip:first.svg:2:node:t:attribute:font-size",
+      "passed": true,
+      "expected": "18",
+      "actual": "18"
+    },
+    {
+      "name": "round-trip:first.svg:2:node:t:attribute:text-anchor",
+      "passed": true,
+      "expected": "middle",
+      "actual": "middle"
+    },
+    {
+      "name": "round-trip:first.svg:2:node:t:parent",
+      "passed": true,
+      "expected": "q",
+      "actual": "q"
+    },
+    {
+      "name": "round-trip:first.svg:2:node:t:text",
+      "passed": true,
+      "expected": "中 & 文",
+      "actual": "中 & 文"
+    },
+    {
+      "name": "round-trip:second.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "round-trip:second.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "round-trip:second.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "round-trip:second.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "round-trip:second.svg:0:equalFile",
+      "passed": true,
+      "expected": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" viewBox=\"0 0 200 160\">\n  <g id=\"p\" fill=\"red\" data-kind=\"box\">\n    <rect id=\"r\" x=\"1\" y=\"2\" width=\"3\" height=\"4\"/>\n    <circle id=\"c\" cx=\"5\" cy=\"6\" r=\"7\"/>\n    <g id=\"q\">\n      <ellipse id=\"e\" cx=\"8\" cy=\"9\" rx=\"10\" ry=\"11\"/>\n      <line id=\"l\" stroke=\"green\" x1=\"1\" y1=\"2\" x2=\"3\" y2=\"4\"/>\n      <text id=\"t\" font-size=\"18\" text-anchor=\"middle\" x=\"12\" y=\"13\">中 &amp; 文</text>\n    </g>\n  </g>\n</svg>\n",
+      "actual": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"200\" height=\"160\" viewBox=\"0 0 200 160\">\n  <g id=\"p\" fill=\"red\" data-kind=\"box\">\n    <rect id=\"r\" x=\"1\" y=\"2\" width=\"3\" height=\"4\"/>\n    <circle id=\"c\" cx=\"5\" cy=\"6\" r=\"7\"/>\n    <g id=\"q\">\n      <ellipse id=\"e\" cx=\"8\" cy=\"9\" rx=\"10\" ry=\"11\"/>\n      <line id=\"l\" stroke=\"green\" x1=\"1\" y1=\"2\" x2=\"3\" y2=\"4\"/>\n      <text id=\"t\" font-size=\"18\" text-anchor=\"middle\" x=\"12\" y=\"13\">中 &amp; 文</text>\n    </g>\n  </g>\n</svg>\n"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "files/first.svg",
+    "files/second.svg"
+  ]
+}

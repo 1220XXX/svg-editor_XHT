@@ -1,0 +1,20 @@
+# scenario: order
+canvas 800x600 created
+g#a created
+g#b created
+g#c created
+g#d created
+g#pair created with 2 children
+svg (800x600)
+├── g#a
+├── g#pair
+│   ├── g#b
+│   └── g#d
+└── g#c
+g#pair ungrouped (2 children restored)
+svg (800x600)
+├── g#a
+├── g#b
+├── g#c
+└── g#d
+g#pair created with 2 children

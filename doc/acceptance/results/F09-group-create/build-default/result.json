@@ -1,0 +1,109 @@
+{
+  "case": "F09-group-create",
+  "entry": "build",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 12,
+  "assertions": [
+    {
+      "name": "containers:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "containers:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "containers:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ng#q created in g#p\nrect#r created\nrect#r deleted\nerror: missing id before 'in' clause\nerror: no such container: missing\nrect#r created\nerror: not a container: r\nerror: id already exists: p\ng#q  parent=g#p\ng#p  parent=svg\n",
+      "actual": "canvas 800x600 created\ng#p created\ng#q created in g#p\nrect#r created\nrect#r deleted\nerror: missing id before 'in' clause\nerror: no such container: missing\nrect#r created\nerror: not a container: r\nerror: id already exists: p\ng#q  parent=g#p\ng#p  parent=svg\n"
+    },
+    {
+      "name": "containers:after.svg:replay-exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "containers:after.svg:replay-stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "containers:after.svg:replay-prefix",
+      "passed": true,
+      "expected": "canvas 800x600 created\ng#p created\ng#q created in g#p\nrect#r created\nrect#r deleted\nerror: missing id before 'in' clause\nerror: no such container: missing\nrect#r created\nerror: not a container: r\nerror: id already exists: p\ng#q  parent=g#p\ng#p  parent=svg\n",
+      "actual": "canvas 800x600 created\ng#p created\ng#q created in g#p\nrect#r created\nrect#r deleted\nerror: missing id before 'in' clause\nerror: no such container: missing\nrect#r created\nerror: not a container: r\nerror: id already exists: p\ng#q  parent=g#p\ng#p  parent=svg\n"
+    },
+    {
+      "name": "containers:after.svg:save-response",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "containers:after.svg:exists",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "containers:after.svg:svg-root",
+      "passed": true,
+      "expected": "svg",
+      "actual": "svg"
+    },
+    {
+      "name": "containers:after.svg:namespace",
+      "passed": true,
+      "expected": "http://www.w3.org/2000/svg",
+      "actual": "http://www.w3.org/2000/svg"
+    },
+    {
+      "name": "containers:after.svg:all-shape-ids-present-unique",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "containers:after.svg:0:node:p:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "containers:after.svg:0:node:p:children",
+      "passed": true,
+      "expected": [
+        "q"
+      ],
+      "actual": [
+        "q"
+      ]
+    },
+    {
+      "name": "containers:after.svg:1:node:q:present",
+      "passed": true,
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "containers:after.svg:1:node:q:children",
+      "passed": true,
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt",
+    "after.svg",
+    "after.replay.cli"
+  ]
+}

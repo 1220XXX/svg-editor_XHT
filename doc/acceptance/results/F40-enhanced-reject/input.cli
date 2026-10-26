@@ -1,0 +1,89 @@
+# scenario: paint
+read input.svg
+move r 5 0
+undo
+addto q r
+show r
+redo
+undo
+save state.svg
+
+# scenario: font
+read input.svg
+move r 5 0
+undo
+addto q r
+show r
+redo
+undo
+save state.svg
+
+# scenario: opacity
+read input.svg
+move r 5 0
+undo
+addto q r
+show r
+redo
+undo
+save state.svg
+
+# scenario: group-atomic
+read input.svg
+move r 5 0
+undo
+group pair r c
+show r
+redo
+undo
+save state.svg
+
+# scenario: font-family
+read input.svg
+move r 5 0
+undo
+addto q r
+show r
+redo
+undo
+save state.svg
+
+# scenario: font-weight
+read input.svg
+move r 5 0
+undo
+addto q r
+show r
+redo
+undo
+save state.svg
+
+# scenario: text-anchor
+read input.svg
+move r 5 0
+undo
+addto q r
+show r
+redo
+undo
+save state.svg
+
+# scenario: fill-opacity
+read input.svg
+move r 5 0
+undo
+addto q r
+show r
+redo
+undo
+save state.svg
+
+# scenario: stroke-opacity
+read input.svg
+move r 5 0
+undo
+addto q r
+show r
+redo
+undo
+save state.svg

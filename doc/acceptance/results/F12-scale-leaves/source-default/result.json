@@ -1,0 +1,31 @@
+{
+  "case": "F12-scale-leaves",
+  "entry": "source",
+  "mode": "default",
+  "scenarios": 1,
+  "commands": 24,
+  "assertions": [
+    {
+      "name": "geometry-only:exit",
+      "passed": true,
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "geometry-only:stderr",
+      "passed": true,
+      "expected": "",
+      "actual": ""
+    },
+    {
+      "name": "geometry-only:stdout-exact",
+      "passed": true,
+      "expected": "canvas 800x600 created\nrect#r created\nrect#r updated: stroke-width=\"3\"\nrect#r scaled by 2\nrect#r  parent=svg\n  x=2 y=4 width=6 height=8\n  stroke-width=3\ncircle#c created\ncircle#c updated: stroke-width=\"3\"\ncircle#c scaled by 2\ncircle#c  parent=svg\n  cx=2 cy=4 r=6\n  stroke-width=3\nellipse#e created\nellipse#e updated: stroke-width=\"3\"\nellipse#e scaled by 2\nellipse#e  parent=svg\n  cx=2 cy=4 rx=6 ry=8\n  stroke-width=3\nline#l created\nline#l updated: stroke-width=\"3\"\nline#l scaled by 2\nline#l  parent=svg\n  x1=2 y1=4 x2=6 y2=8\n  stroke-width=3\ntext#t created\ntext#t updated: stroke-width=\"3\"\ntext#t scaled by 2\ntext#t  parent=svg\n  x=2 y=4\n  stroke-width=3\n  text=\"文\"\nread font.svg (1 elements)\ntext#label scaled by 2\ntext#label  parent=svg\n  x=4 y=6\n  font-size=18\n  stroke-width=4\n  text=\"X\"\n",
+      "actual": "canvas 800x600 created\nrect#r created\nrect#r updated: stroke-width=\"3\"\nrect#r scaled by 2\nrect#r  parent=svg\n  x=2 y=4 width=6 height=8\n  stroke-width=3\ncircle#c created\ncircle#c updated: stroke-width=\"3\"\ncircle#c scaled by 2\ncircle#c  parent=svg\n  cx=2 cy=4 r=6\n  stroke-width=3\nellipse#e created\nellipse#e updated: stroke-width=\"3\"\nellipse#e scaled by 2\nellipse#e  parent=svg\n  cx=2 cy=4 rx=6 ry=8\n  stroke-width=3\nline#l created\nline#l updated: stroke-width=\"3\"\nline#l scaled by 2\nline#l  parent=svg\n  x1=2 y1=4 x2=6 y2=8\n  stroke-width=3\ntext#t created\ntext#t updated: stroke-width=\"3\"\ntext#t scaled by 2\ntext#t  parent=svg\n  x=2 y=4\n  stroke-width=3\n  text=\"文\"\nread font.svg (1 elements)\ntext#label scaled by 2\ntext#label  parent=svg\n  x=4 y=6\n  font-size=18\n  stroke-width=4\n  text=\"X\"\n"
+    }
+  ],
+  "passed": true,
+  "evidence": [
+    "actual.txt"
+  ]
+}

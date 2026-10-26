@@ -1,0 +1,19 @@
+# scenario: five-shapes
+init
+create rect r 1 2 3 4
+move r 10 20
+show r
+create circle c 1 2 3
+move c 10 20
+show c
+create ellipse e 1 2 3 4
+move e 10 20
+show e
+create line l 1 2 3 4
+move l 10 20
+show l
+create text t 1 2 "文"
+move t 10 20
+show t
+move r -0.5 -2
+show r

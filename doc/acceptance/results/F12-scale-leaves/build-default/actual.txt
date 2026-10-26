@@ -1,0 +1,40 @@
+# scenario: geometry-only
+canvas 800x600 created
+rect#r created
+rect#r updated: stroke-width="3"
+rect#r scaled by 2
+rect#r  parent=svg
+  x=2 y=4 width=6 height=8
+  stroke-width=3
+circle#c created
+circle#c updated: stroke-width="3"
+circle#c scaled by 2
+circle#c  parent=svg
+  cx=2 cy=4 r=6
+  stroke-width=3
+ellipse#e created
+ellipse#e updated: stroke-width="3"
+ellipse#e scaled by 2
+ellipse#e  parent=svg
+  cx=2 cy=4 rx=6 ry=8
+  stroke-width=3
+line#l created
+line#l updated: stroke-width="3"
+line#l scaled by 2
+line#l  parent=svg
+  x1=2 y1=4 x2=6 y2=8
+  stroke-width=3
+text#t created
+text#t updated: stroke-width="3"
+text#t scaled by 2
+text#t  parent=svg
+  x=2 y=4
+  stroke-width=3
+  text="文"
+read font.svg (1 elements)
+text#label scaled by 2
+text#label  parent=svg
+  x=4 y=6
+  font-size=18
+  stroke-width=4
+  text="X"

@@ -1,0 +1,14 @@
+# scenario: no-document
+help
+tree
+show r
+create g a
+move r 1 2
+save
+canvas
+undo
+redo
+init
+create box n 1 2 3 4 "X"
+create hexagon n
+tree
