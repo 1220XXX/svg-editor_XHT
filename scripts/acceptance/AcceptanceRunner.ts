@@ -24,6 +24,7 @@ class AcceptanceRunner {
   private readonly executions: Execution[] = [];
   private readonly snapshotRuns: Record<string, number> = {};
   private readonly checks: { command: string; passed: boolean; log: string }[] = [];
+  private automatedTests: { files: number; tests: number } | undefined;
   private readonly record = process.argv.includes('--record');
   private readonly keep = process.argv.includes('--keep-temp');
   private chrome: string | undefined;
@@ -268,6 +269,13 @@ finally:
     const log = `validation/${name}.txt`;
     this.put(join(this.evidence, log), `$ ${command} ${args.join(' ')}\n${r.stdout}${r.stderr}\nexit=${r.status}\n`);
     this.checks.push({ command: `${command} ${args.join(' ')}`, passed: r.status === 0, log });
+    if (name === 'check' && r.status === 0) {
+      const output = r.stdout.replace(/\x1b\[[0-?]*[ -/]*[@-~]/g, '');
+      const files = /\bTest Files\s+(\d+)\s+passed/.exec(output);
+      const tests = /\bTests\s+(\d+)\s+passed/.exec(output);
+      if (!files || !tests) throw new Error('cannot determine actual automated test counts from check output');
+      this.automatedTests = { files: Number(files[1]), tests: Number(tests[1]) };
+    }
     if (r.status !== 0) console.log((r.stdout + r.stderr).slice(-12000));
     return r.status === 0;
   }
@@ -294,7 +302,7 @@ finally:
       '本轮补充黑盒验收与交付证据，不开发业务功能。覆盖任务书必做的六类图形、19 条命令及已实现的 transform、基础样式保留；box 仅验证未知类型错误，动态插件与完整 SVG/CSS 未实施。任务书为 [phase_cli_1.md](../phase_cli_1.md)，使用说明为 [USER_GUIDE.md](../USER_GUIDE.md)。', '',
       '## 基线、环境和隔离', '',
       `- 被测代码提交：\`${summary.baseline.codeCommit}\`；分支：\`${summary.baseline.branch}\`。`,
-      `- final 提交：\`${summary.baseline.finalCommit}\`；标签对象：\`${summary.baseline.finalTagObject}\`。本轮不移动标签。`,
+      `- 验收采集时的 final 提交：\`${summary.baseline.finalCommit}\`；当时标签对象：\`${summary.baseline.finalTagObject}\`。验收脚本不修改标签；这些字段记录采集时状态，最终交付标签说明见 [正式报告](../README.md#本阶段交付结论)。`,
       `- Node：\`${summary.environment.node}\`；npm：\`${summary.environment.npm}\`；平台：\`${process.platform}/${process.arch}\`。`,
       '- 依赖：`@xmldom/xmldom 0.9.12`、`@types/node 26.6.5`、`tsx 4.23.15`、`typescript 7.0.2`、`vitest 5.0.5`、`@vitest/coverage-v8 5.0.5`；锁文件 SHA-256 与实际 npm ls 见 [summary.json](summary.json)。',
       '- 业务代码与提交一致；已有未提交文件仅作为工作区清单记录，均不参与测试。使用 git archive 导出确认后的提交，叠加本轮脚本、用例及唯一新增 npm 命令；依赖、npm 缓存、dist、coverage、CLI 产物和路径实验全在临时目录。原目录 demo.svg 未被读取为用例或覆盖。',
@@ -337,14 +345,15 @@ finally:
       '- F34 使用现存目录作为不可写文件目标，避免 chmod 在管理员身份/不同系统上不可靠；证明写入失败原子性，不代表覆盖每一种 OS 权限/磁盘故障。',
       '- 默认模式结构调整遵循新父级继承；可选样式增强只保留三项基础属性。完整 SVG/CSS、动态插件、box 实现、rotate/skew/非等比变换均不属于本轮已完成功能。',
       '- 只验证本次 Node/平台；交互终端由真实 PTY 验证提示符、逐次输入、错误恢复和 Ctrl+D EOF，保留 raw 与去终端控制字符后的文本。Windows PTY 未测试。',
-      '- 课程截止时间未知；本轮保留 final，新增证据提交位于其后，不能据此声称 final 已包含本轮材料。',
+      '- 采集脚本保留当时的 final，不将其描述为后续最终交付状态；标签更新须另有用户授权，并记录真实操作时间。',
       `- 未解决失败：${summary.failures.length ? JSON.stringify(summary.failures) : '无'}。未观测 GitHub Actions 的执行状态，本报告只记录本地隔离运行。`, '',
       '## 统计和结论', '',
       `- 主用例：${summary.counts.mainCases}；独立子场景：${summary.counts.definedScenarios}；定义输入：${summary.counts.definedInputs}（不是新增功能数量）。`,
       `- 主矩阵实际执行 ${summary.counts.caseExecutions} 次、子场景 ${summary.counts.scenarioExecutions} 次、输入 ${summary.counts.executedInputs} 条；断言 ${summary.counts.assertions} 条。中间 SVG 重放另外执行 ${summary.counts.snapshotReplays} 次，不计为新增功能/子场景。`,
       `- 含中间状态重放与 PTY，总计 ${summary.counts.totalCLIProcesses} 个真实 CLI 进程；主矩阵与重放及 PTY 分别统计，不能将重复运行计为新增用例。`,
       '- 入口/模式执行统计、断言数及失败列表见 [summary.json](summary.json)；每组两种入口结果均独立保存，不用一次运行代替另一入口。',
-      '- 隔离 npm ci、严格类型检查、原有 165 项测试、生产构建、覆盖率检查及验收脚本自身严格类型检查的命令输出见 [验证日志](validation/)。',
+      `- 隔离 npm ci、严格类型检查、${summary.automatedTests?.files ?? '未完成'} 个自动化测试文件 / ${summary.automatedTests?.tests ?? '未完成'} 项测试、生产构建、覆盖率检查及验收脚本自身严格类型检查的命令输出见 [验证日志](validation/)。数量取自本次实际 check 输出，不写死旧值。`,
+      '- 启动参数验证独立放在 tests/startup-options.test.ts，由 check 覆盖解析类、源码入口和新构建入口；40 个功能主用例保持原范围。启动错误检查退出码 2、精确 stderr、空 stdout 和输入命令未执行；编辑器命令错误仍继续执行。',
       '- 交互 PTY 共 4 次（源码/构建 × 普通/增强），见 [交互记录](terminal/)。',
       `- 总结：${summary.passed ? '本轮全部必要验证通过；当前 Phase 1 功能与已声明增强在上述边界内通过可重复验收。' : '存在失败，不能宣布全部通过，也不应提交推送。'}`, '');
     return lines.join('\n');
@@ -398,7 +407,7 @@ finally:
     const summary = { schemaVersion: 1, generatedAt: new Date().toISOString(), baseline: this.baseline, environment: { node: process.version, npm: this.run('npm', ['--version'], this.project).stdout.trim(), platform: process.platform, architecture: process.arch, dependencies: JSON.parse(versions.stdout).dependencies, lockSha256: this.hash(readFileSync(join(this.project, 'package-lock.json'))), renderer: this.chrome ?? null, rendererVersion: this.chromeVersion },
       inputDigests: { cases: this.hash(readFileSync(join(this.root, 'doc/acceptance/cases.json'))), runner: this.hash(readFileSync(fileURLToPath(import.meta.url))) },
       counts: { mainCases: this.cases.length, definedScenarios: this.cases.reduce((a, c) => a + c.scenarios.length, 0), definedInputs: this.cases.flatMap(c => c.scenarios).reduce((a, s) => a + s.steps.length, 0), caseExecutions: this.executions.length, scenarioExecutions: this.executions.reduce((a, e) => a + e.scenarios, 0), executedInputs: this.executions.reduce((a, e) => a + e.commands, 0), assertions: this.executions.reduce((a, e) => a + e.assertions.length, 0), snapshotReplays: Object.values(this.snapshotRuns).reduce((a, n) => a + n, 0), interactiveExecutions: terminals.length, interactiveAssertions: terminals.reduce((a, e) => a + e.assertions.length, 0), totalCLIProcesses: matrix.reduce((a, m) => a + m.totalCLIProcesses, 0) },
-      matrix, terminal: terminals.map(({ assertions: _assertions, ...rest }) => rest), validation: this.checks, failures,
+      matrix, terminal: terminals.map(({ assertions: _assertions, ...rest }) => rest), validation: this.checks, automatedTests: this.automatedTests ?? null, failures,
       coverage: existsSync(join(this.project, 'coverage/coverage-final.json')) ? 'Full report generated only inside isolated workspace; console summary retained in validation/coverage.txt.' : 'See validation/coverage.txt.',
       passed: failures.length === 0 && this.executions.length === this.cases.reduce((a, c) => a + c.entries.length * c.modes.length, 0) };
     this.put(join(this.evidence, 'summary.json'), summary); this.put(join(this.evidence, '功能测试与结果记录.md'), this.document(summary));
