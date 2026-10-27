@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-26T14:11:11.856Z",
+  "generatedAt": "2026-10-27T02:57:26.725Z",
   "baseline": {
-    "codeCommit": "2f5ef475a2e9d24bd2ece7944b63fc07ac036749",
+    "codeCommit": "94acc74dc2a59c1c6cfa29474a9218548b0ca7d2",
     "branch": "main",
-    "sourceTree": "9feed6dab9c9bd15778728dc40c5a77a0c254f8f",
-    "testsTree": "12c72e9e9bdcd2b0d4ee7fbcd73c1d0fe150c3be",
-    "finalCommit": "2f5ef475a2e9d24bd2ece7944b63fc07ac036749",
-    "finalTagObject": "ebe8e0a32fd0784034a6d04bbf61110fe5e21f5a",
-    "worktreeBefore": "M README.md\n M doc/README.md\n M package.json\n?? demo.svg\n?? doc/acceptance/\n?? scripts/",
+    "sourceTree": "0deecd169bdeb78365fc444bae91468ea6706504",
+    "testsTree": "973ab0fa23ac7d4f2b520de669a44e22982c52b1",
+    "finalCommit": "c9425dc318c55c98ceeb2b8d252818a83340a0bd",
+    "finalTagObject": "95909bd02ad433e8c9362e2d74185ef61c5e79e5",
+    "worktreeBefore": "?? demo.svg",
     "businessWorktreeChanges": "",
-    "finalToHead": "",
-    "recentCommits": "2f5ef47 (HEAD -> main, tag: final, origin/main) docs: finalize complete Phase 1 submission and tag documentation\necb85a8 docs: verify Phase 1 completion and detail future development roadmap\n41f00cc docs: record user-approved Phase 1 final acceptance\n59d0d7a docs: explain style preservation and future plugin boundaries\n70d4ba1 feat: add opt-in basic style preservation for structural edits\n91837f9 fix: preserve SVG root ids and enforce document-wide uniqueness\n92c7ce7 fix: align tree attribute columns across nested shapes\n0a6606f fix: report resulting edit and restored history states"
+    "finalToHead": "M\tREADME.md\nM\tdoc/README.md\nM\tdoc/USER_GUIDE.md\nM\tscripts/acceptance/AcceptanceRunner.ts\nM\tsrc/bootstrap/Main.ts\nA\tsrc/bootstrap/StartupOptions.ts\nA\ttests/startup-options.test.ts",
+    "recentCommits": "94acc74 (HEAD -> main) fix: reject unknown CLI startup options\nc9425dc (tag: final, origin/main) docs: finalize Phase 1 delivery and acceptance references\n0b62616 test: add reproducible Phase 1 functional verification evidence\n2f5ef47 docs: finalize complete Phase 1 submission and tag documentation\necb85a8 docs: verify Phase 1 completion and detail future development roadmap\n41f00cc docs: record user-approved Phase 1 final acceptance\n59d0d7a docs: explain style preservation and future plugin boundaries\n70d4ba1 feat: add opt-in basic style preservation for structural edits"
   },
   "environment": {
     "node": "v24.22.1",
@@ -52,11 +52,11 @@
     },
     "lockSha256": "0d5bcc005b4638bc7dafcf9e9704dcad6de605fac9aefb7440e2b37a74bf49d5",
     "renderer": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-    "rendererVersion": "Google Chrome 155.0.8059.86"
+    "rendererVersion": "Google Chrome 156.0.8078.48"
   },
   "inputDigests": {
     "cases": "3d35cbf994900cc2c1404c0df65543289d62450dad10ecf15b93ac2e9ab1561e",
-    "runner": "bafa21351edb89ae5d9364511608979b9e7ec01bfc9422f32374f5af8f15b1c6"
+    "runner": "01317296e41a4a322b74928797b8af53837e618fed057dadd10ebcdbb90824e0"
   },
   "counts": {
     "mainCases": 40,
@@ -189,6 +189,10 @@
       "log": "validation/coverage.txt"
     }
   ],
+  "automatedTests": {
+    "files": 16,
+    "tests": 202
+  },
   "failures": [],
   "coverage": "Full report generated only inside isolated workspace; console summary retained in validation/coverage.txt.",
   "passed": true

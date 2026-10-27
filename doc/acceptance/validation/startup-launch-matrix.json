@@ -1,0 +1,421 @@
+{
+  "description": "Actual npm source/build launches and rejected startup at real PTYs; original command recovery preserved.",
+  "matrixRuns": 16,
+  "terminalRuns": 2,
+  "matrix": [
+    {
+      "entry": "source",
+      "command": [
+        "npm",
+        "run",
+        "cli"
+      ],
+      "exit": 0,
+      "stdout": "\n> svg-cli-lab@0.1.0 cli\n> node --import tsx src/bootstrap/Main.ts\n\ncanvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n",
+      "applicationStdout": "canvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n",
+      "stderr": "",
+      "expectedExit": 0,
+      "expectedApplicationStdout": "canvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n",
+      "expectedStderr": "",
+      "assertions": {
+        "exit": true,
+        "stderrExact": true,
+        "applicationStdoutExact": true,
+        "noUnexpectedSavedFile": true
+      },
+      "passed": true
+    },
+    {
+      "entry": "source",
+      "command": [
+        "npm",
+        "run",
+        "cli",
+        "--",
+        "--preserve-style"
+      ],
+      "exit": 0,
+      "stdout": "\n> svg-cli-lab@0.1.0 cli\n> node --import tsx src/bootstrap/Main.ts --preserve-style\n\ncanvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n  fill=red\n",
+      "applicationStdout": "canvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n  fill=red\n",
+      "stderr": "",
+      "expectedExit": 0,
+      "expectedApplicationStdout": "canvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n  fill=red\n",
+      "expectedStderr": "",
+      "assertions": {
+        "exit": true,
+        "stderrExact": true,
+        "applicationStdoutExact": true,
+        "noUnexpectedSavedFile": true
+      },
+      "passed": true
+    },
+    {
+      "entry": "source",
+      "command": [
+        "npm",
+        "run",
+        "cli",
+        "--",
+        "--preserve-style",
+        "--preserve-style"
+      ],
+      "exit": 0,
+      "stdout": "\n> svg-cli-lab@0.1.0 cli\n> node --import tsx src/bootstrap/Main.ts --preserve-style --preserve-style\n\ncanvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n  fill=red\n",
+      "applicationStdout": "canvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n  fill=red\n",
+      "stderr": "",
+      "expectedExit": 0,
+      "expectedApplicationStdout": "canvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n  fill=red\n",
+      "expectedStderr": "",
+      "assertions": {
+        "exit": true,
+        "stderrExact": true,
+        "applicationStdoutExact": true,
+        "noUnexpectedSavedFile": true
+      },
+      "passed": true
+    },
+    {
+      "entry": "source",
+      "command": [
+        "npm",
+        "run",
+        "cli",
+        "--",
+        "--preserve-stlye"
+      ],
+      "exit": 2,
+      "stdout": "\n> svg-cli-lab@0.1.0 cli\n> node --import tsx src/bootstrap/Main.ts --preserve-stlye\n\n",
+      "applicationStdout": "",
+      "stderr": "error: unknown option: --preserve-stlye\n",
+      "expectedExit": 2,
+      "expectedApplicationStdout": "",
+      "expectedStderr": "error: unknown option: --preserve-stlye\n",
+      "assertions": {
+        "exit": true,
+        "stderrExact": true,
+        "applicationStdoutExact": true,
+        "noUnexpectedSavedFile": true
+      },
+      "passed": true
+    },
+    {
+      "entry": "source",
+      "command": [
+        "npm",
+        "run",
+        "cli",
+        "--",
+        "--unknown"
+      ],
+      "exit": 2,
+      "stdout": "\n> svg-cli-lab@0.1.0 cli\n> node --import tsx src/bootstrap/Main.ts --unknown\n\n",
+      "applicationStdout": "",
+      "stderr": "error: unknown option: --unknown\n",
+      "expectedExit": 2,
+      "expectedApplicationStdout": "",
+      "expectedStderr": "error: unknown option: --unknown\n",
+      "assertions": {
+        "exit": true,
+        "stderrExact": true,
+        "applicationStdoutExact": true,
+        "noUnexpectedSavedFile": true
+      },
+      "passed": true
+    },
+    {
+      "entry": "source",
+      "command": [
+        "npm",
+        "run",
+        "cli",
+        "--",
+        "--preserve-style",
+        "--unknown"
+      ],
+      "exit": 2,
+      "stdout": "\n> svg-cli-lab@0.1.0 cli\n> node --import tsx src/bootstrap/Main.ts --preserve-style --unknown\n\n",
+      "applicationStdout": "",
+      "stderr": "error: unknown option: --unknown\n",
+      "expectedExit": 2,
+      "expectedApplicationStdout": "",
+      "expectedStderr": "error: unknown option: --unknown\n",
+      "assertions": {
+        "exit": true,
+        "stderrExact": true,
+        "applicationStdoutExact": true,
+        "noUnexpectedSavedFile": true
+      },
+      "passed": true
+    },
+    {
+      "entry": "source",
+      "command": [
+        "npm",
+        "run",
+        "cli",
+        "--",
+        "drawing.svg"
+      ],
+      "exit": 2,
+      "stdout": "\n> svg-cli-lab@0.1.0 cli\n> node --import tsx src/bootstrap/Main.ts drawing.svg\n\n",
+      "applicationStdout": "",
+      "stderr": "error: unknown option: drawing.svg\n",
+      "expectedExit": 2,
+      "expectedApplicationStdout": "",
+      "expectedStderr": "error: unknown option: drawing.svg\n",
+      "assertions": {
+        "exit": true,
+        "stderrExact": true,
+        "applicationStdoutExact": true,
+        "noUnexpectedSavedFile": true
+      },
+      "passed": true
+    },
+    {
+      "entry": "source",
+      "command": [
+        "npm",
+        "run",
+        "cli",
+        "--",
+        "--preserve-style=true"
+      ],
+      "exit": 2,
+      "stdout": "\n> svg-cli-lab@0.1.0 cli\n> node --import tsx src/bootstrap/Main.ts --preserve-style=true\n\n",
+      "applicationStdout": "",
+      "stderr": "error: unknown option: --preserve-style=true\n",
+      "expectedExit": 2,
+      "expectedApplicationStdout": "",
+      "expectedStderr": "error: unknown option: --preserve-style=true\n",
+      "assertions": {
+        "exit": true,
+        "stderrExact": true,
+        "applicationStdoutExact": true,
+        "noUnexpectedSavedFile": true
+      },
+      "passed": true
+    },
+    {
+      "entry": "build",
+      "command": [
+        "npm",
+        "start"
+      ],
+      "exit": 0,
+      "stdout": "\n> svg-cli-lab@0.1.0 start\n> node dist/bootstrap/Main.js\n\ncanvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n",
+      "applicationStdout": "canvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n",
+      "stderr": "",
+      "expectedExit": 0,
+      "expectedApplicationStdout": "canvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n",
+      "expectedStderr": "",
+      "assertions": {
+        "exit": true,
+        "stderrExact": true,
+        "applicationStdoutExact": true,
+        "noUnexpectedSavedFile": true
+      },
+      "passed": true
+    },
+    {
+      "entry": "build",
+      "command": [
+        "npm",
+        "start",
+        "--",
+        "--preserve-style"
+      ],
+      "exit": 0,
+      "stdout": "\n> svg-cli-lab@0.1.0 start\n> node dist/bootstrap/Main.js --preserve-style\n\ncanvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n  fill=red\n",
+      "applicationStdout": "canvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n  fill=red\n",
+      "stderr": "",
+      "expectedExit": 0,
+      "expectedApplicationStdout": "canvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n  fill=red\n",
+      "expectedStderr": "",
+      "assertions": {
+        "exit": true,
+        "stderrExact": true,
+        "applicationStdoutExact": true,
+        "noUnexpectedSavedFile": true
+      },
+      "passed": true
+    },
+    {
+      "entry": "build",
+      "command": [
+        "npm",
+        "start",
+        "--",
+        "--preserve-style",
+        "--preserve-style"
+      ],
+      "exit": 0,
+      "stdout": "\n> svg-cli-lab@0.1.0 start\n> node dist/bootstrap/Main.js --preserve-style --preserve-style\n\ncanvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n  fill=red\n",
+      "applicationStdout": "canvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n  fill=red\n",
+      "stderr": "",
+      "expectedExit": 0,
+      "expectedApplicationStdout": "canvas 800x600 created\ng#outer created\ng#inner created in g#outer\ng#inner updated: fill=\"red\"\nrect#r created in g#inner\ng#inner ungrouped (1 children promoted)\nerror: unknown command: unknown\nrect#r  parent=g#outer\n  x=1 y=2 width=3 height=4\n  fill=red\n",
+      "expectedStderr": "",
+      "assertions": {
+        "exit": true,
+        "stderrExact": true,
+        "applicationStdoutExact": true,
+        "noUnexpectedSavedFile": true
+      },
+      "passed": true
+    },
+    {
+      "entry": "build",
+      "command": [
+        "npm",
+        "start",
+        "--",
+        "--preserve-stlye"
+      ],
+      "exit": 2,
+      "stdout": "\n> svg-cli-lab@0.1.0 start\n> node dist/bootstrap/Main.js --preserve-stlye\n\n",
+      "applicationStdout": "",
+      "stderr": "error: unknown option: --preserve-stlye\n",
+      "expectedExit": 2,
+      "expectedApplicationStdout": "",
+      "expectedStderr": "error: unknown option: --preserve-stlye\n",
+      "assertions": {
+        "exit": true,
+        "stderrExact": true,
+        "applicationStdoutExact": true,
+        "noUnexpectedSavedFile": true
+      },
+      "passed": true
+    },
+    {
+      "entry": "build",
+      "command": [
+        "npm",
+        "start",
+        "--",
+        "--unknown"
+      ],
+      "exit": 2,
+      "stdout": "\n> svg-cli-lab@0.1.0 start\n> node dist/bootstrap/Main.js --unknown\n\n",
+      "applicationStdout": "",
+      "stderr": "error: unknown option: --unknown\n",
+      "expectedExit": 2,
+      "expectedApplicationStdout": "",
+      "expectedStderr": "error: unknown option: --unknown\n",
+      "assertions": {
+        "exit": true,
+        "stderrExact": true,
+        "applicationStdoutExact": true,
+        "noUnexpectedSavedFile": true
+      },
+      "passed": true
+    },
+    {
+      "entry": "build",
+      "command": [
+        "npm",
+        "start",
+        "--",
+        "--preserve-style",
+        "--unknown"
+      ],
+      "exit": 2,
+      "stdout": "\n> svg-cli-lab@0.1.0 start\n> node dist/bootstrap/Main.js --preserve-style --unknown\n\n",
+      "applicationStdout": "",
+      "stderr": "error: unknown option: --unknown\n",
+      "expectedExit": 2,
+      "expectedApplicationStdout": "",
+      "expectedStderr": "error: unknown option: --unknown\n",
+      "assertions": {
+        "exit": true,
+        "stderrExact": true,
+        "applicationStdoutExact": true,
+        "noUnexpectedSavedFile": true
+      },
+      "passed": true
+    },
+    {
+      "entry": "build",
+      "command": [
+        "npm",
+        "start",
+        "--",
+        "drawing.svg"
+      ],
+      "exit": 2,
+      "stdout": "\n> svg-cli-lab@0.1.0 start\n> node dist/bootstrap/Main.js drawing.svg\n\n",
+      "applicationStdout": "",
+      "stderr": "error: unknown option: drawing.svg\n",
+      "expectedExit": 2,
+      "expectedApplicationStdout": "",
+      "expectedStderr": "error: unknown option: drawing.svg\n",
+      "assertions": {
+        "exit": true,
+        "stderrExact": true,
+        "applicationStdoutExact": true,
+        "noUnexpectedSavedFile": true
+      },
+      "passed": true
+    },
+    {
+      "entry": "build",
+      "command": [
+        "npm",
+        "start",
+        "--",
+        "--preserve-style=true"
+      ],
+      "exit": 2,
+      "stdout": "\n> svg-cli-lab@0.1.0 start\n> node dist/bootstrap/Main.js --preserve-style=true\n\n",
+      "applicationStdout": "",
+      "stderr": "error: unknown option: --preserve-style=true\n",
+      "expectedExit": 2,
+      "expectedApplicationStdout": "",
+      "expectedStderr": "error: unknown option: --preserve-style=true\n",
+      "assertions": {
+        "exit": true,
+        "stderrExact": true,
+        "applicationStdoutExact": true,
+        "noUnexpectedSavedFile": true
+      },
+      "passed": true
+    }
+  ],
+  "terminal": [
+    {
+      "entry": "source",
+      "flags": [
+        "--preserve-style",
+        "--preserve-stlye"
+      ],
+      "stdinIsTTY": true,
+      "stdoutIsTTY": true,
+      "exit": 2,
+      "stdout": "",
+      "stderr": "error: unknown option: --preserve-stlye\n",
+      "expectedExit": 2,
+      "expectedStderr": "error: unknown option: --preserve-stlye\n",
+      "passed": true
+    },
+    {
+      "entry": "build",
+      "flags": [
+        "--preserve-style",
+        "--preserve-stlye"
+      ],
+      "stdinIsTTY": true,
+      "stdoutIsTTY": true,
+      "exit": 2,
+      "stdout": "",
+      "stderr": "error: unknown option: --preserve-stlye\n",
+      "expectedExit": 2,
+      "expectedStderr": "error: unknown option: --preserve-stlye\n",
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "passed": true,
+  "codeCommit": "94acc74dc2a59c1c6cfa29474a9218548b0ca7d2",
+  "executionPhase": "Pre-commit isolated copy; its complete src/ and tests/ contents were verified identical to the subsequently committed fix.",
+  "sourceTree": "0deecd169bdeb78365fc444bae91468ea6706504",
+  "testsTree": "973ab0fa23ac7d4f2b520de669a44e22982c52b1"
+}

@@ -5,7 +5,7 @@
 Isolated workspace: <isolated-workspace>
 Running isolated npm ci --prefer-offline --no-audit --no-fund
 Running isolated npm run check
-Running isolated /var/folders/p0/mfyh2_t93f1358m3s3fgzj_w0000gn/T/svg-phase1-acceptance-YexKmL/project/node_modules/.bin/tsc --ignoreConfig --noEmit --strict --noUncheckedIndexedAccess --exactOptionalPropertyTypes --noUnusedLocals --noUnusedParameters --target ES2022 --module NodeNext --moduleResolution NodeNext --types node --skipLibCheck scripts/acceptance/AcceptanceRunner.ts
+Running isolated /var/folders/p0/mfyh2_t93f1358m3s3fgzj_w0000gn/T/svg-phase1-acceptance-Op9ooN/project/node_modules/.bin/tsc --ignoreConfig --noEmit --strict --noUncheckedIndexedAccess --exactOptionalPropertyTypes --noUnusedLocals --noUnusedParameters --target ES2022 --module NodeNext --moduleResolution NodeNext --types node --skipLibCheck scripts/acceptance/AcceptanceRunner.ts
 PASS F01-help source-default (3 assertions)
 PASS F01-help build-default (3 assertions)
 PASS F02-init source-default (9 assertions)

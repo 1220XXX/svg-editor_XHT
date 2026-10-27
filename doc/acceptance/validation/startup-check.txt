@@ -1,0 +1,26 @@
+
+> svg-cli-lab@0.1.0 check
+> npm run typecheck && npm test && npm run build
+
+
+> svg-cli-lab@0.1.0 typecheck
+> tsc --noEmit
+
+
+> svg-cli-lab@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /private<isolated-project>
+
+
+ Test Files  16 passed (16)
+      Tests  202 passed (202)
+   Start at  10:54:58
+   Duration  1.51s (tests 71%, transform 15%, import 12%, worker 1%)
+
+
+> svg-cli-lab@0.1.0 build
+> tsc -p tsconfig.build.json
+
+exit=0

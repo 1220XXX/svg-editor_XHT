@@ -8,16 +8,16 @@ $ npm run test:coverage
       Coverage enabled with v8
 
 
- Test Files  15 passed (15)
-      Tests  165 passed (165)
-   Start at  22:11:11
-   Duration  526ms (transform 43%, tests 31%, import 19%, worker 8%)
+ Test Files  16 passed (16)
+      Tests  202 passed (202)
+   Start at  10:57:25
+   Duration  1.59s (tests 59%, transform 25%, import 11%, worker 5%)
 
  % Coverage report from v8
 -------------------|---------|----------|---------|---------|-------------------
 File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
 -------------------|---------|----------|---------|---------|-------------------
-All files          |   97.45 |    91.56 |     100 |   99.68 |                   
+All files          |   97.47 |     91.6 |     100 |   99.68 |                   
  application       |   97.46 |    93.54 |     100 |     100 |                   
   EditorSession.ts |   97.33 |    92.85 |     100 |     100 | 70,79             
  ...ation/commands |   97.23 |    86.56 |     100 |     100 |                   
@@ -46,10 +46,10 @@ All files          |   97.45 |    91.56 |     100 |   99.68 |
 -------------------|---------|----------|---------|---------|-------------------
 
 =============================== Coverage summary ===============================
-Statements   : 97.45% ( 882/905 )
-Branches     : 91.56% ( 369/403 )
-Functions    : 100% ( 278/278 )
-Lines        : 99.68% ( 638/640 )
+Statements   : 97.47% ( 887/910 )
+Branches     : 91.6% ( 371/405 )
+Functions    : 100% ( 280/280 )
+Lines        : 99.68% ( 642/644 )
 ================================================================================
 
 exit=0

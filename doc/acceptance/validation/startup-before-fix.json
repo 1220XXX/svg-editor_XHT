@@ -1,0 +1,34 @@
+{
+  "codeCommit": "c9425dc318c55c98ceeb2b8d252818a83340a0bd",
+  "description": "Actual behavior before the fix; all marker files were confined to temporary directories.",
+  "cases": [
+    {
+      "args": [
+        "--preserve-stlye"
+      ],
+      "exit": 0,
+      "stdout": "canvas 800x600 created\ng#marker created\nsaved to wrongly-executed.svg (1 elements)\n",
+      "stderr": "",
+      "inputWasExecuted": true
+    },
+    {
+      "args": [
+        "--unknown"
+      ],
+      "exit": 0,
+      "stdout": "canvas 800x600 created\ng#marker created\nsaved to wrongly-executed.svg (1 elements)\n",
+      "stderr": "",
+      "inputWasExecuted": true
+    },
+    {
+      "args": [
+        "--preserve-style",
+        "--unknown"
+      ],
+      "exit": 0,
+      "stdout": "canvas 800x600 created\ng#marker created\nsaved to wrongly-executed.svg (1 elements)\n",
+      "stderr": "",
+      "inputWasExecuted": true
+    }
+  ]
+}
