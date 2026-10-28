@@ -302,7 +302,7 @@ finally:
       '本轮补充黑盒验收与交付证据，不开发业务功能。覆盖任务书必做的六类图形、19 条命令及已实现的 transform、基础样式保留；box 仅验证未知类型错误，动态插件与完整 SVG/CSS 未实施。任务书为 [phase_cli_1.md](../phase_cli_1.md)，使用说明为 [USER_GUIDE.md](../USER_GUIDE.md)。', '',
       '## 基线、环境和隔离', '',
       `- 被测代码提交：\`${summary.baseline.codeCommit}\`；分支：\`${summary.baseline.branch}\`。`,
-      `- 验收采集时的 final 提交：\`${summary.baseline.finalCommit}\`；当时标签对象：\`${summary.baseline.finalTagObject}\`。验收脚本不修改标签；这些字段记录采集时状态，最终交付标签说明见 [正式报告](../README.md#本阶段交付结论)。`,
+      `- 验收采集时的 final 提交：\`${summary.baseline.finalCommit}\`；当时标签对象：\`${summary.baseline.finalTagObject}\`。验收脚本不修改标签；这些字段记录采集时状态，最终交付标签说明见 [正式报告](../README.md#1-项目完成情况)。`,
       `- Node：\`${summary.environment.node}\`；npm：\`${summary.environment.npm}\`；平台：\`${process.platform}/${process.arch}\`。`,
       '- 依赖：`@xmldom/xmldom 0.9.12`、`@types/node 26.6.5`、`tsx 4.23.15`、`typescript 7.0.2`、`vitest 5.0.5`、`@vitest/coverage-v8 5.0.5`；锁文件 SHA-256 与实际 npm ls 见 [summary.json](summary.json)。',
       '- 业务代码与提交一致；已有未提交文件仅作为工作区清单记录，均不参与测试。使用 git archive 导出确认后的提交，叠加本轮脚本、用例及唯一新增 npm 命令；依赖、npm 缓存、dist、coverage、CLI 产物和路径实验全在临时目录。原目录 demo.svg 未被读取为用例或覆盖。',

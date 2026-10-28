@@ -1,0 +1,169 @@
+
+> svg-cli-lab@0.1.0 test:acceptance
+> node --import tsx scripts/acceptance/AcceptanceRunner.ts --keep-temp
+
+Isolated workspace: <temporary-workspace>
+Running isolated npm ci --prefer-offline --no-audit --no-fund
+Running isolated npm run check
+Running isolated <temporary-workspace>/project/node_modules/.bin/tsc --ignoreConfig --noEmit --strict --noUncheckedIndexedAccess --exactOptionalPropertyTypes --noUnusedLocals --noUnusedParameters --target ES2022 --module NodeNext --moduleResolution NodeNext --types node --skipLibCheck scripts/acceptance/AcceptanceRunner.ts
+PASS F01-help source-default (3 assertions)
+PASS F01-help build-default (3 assertions)
+PASS F02-init source-default (9 assertions)
+PASS F02-init build-default (9 assertions)
+PASS F03-canvas source-default (20 assertions)
+PASS F03-canvas build-default (20 assertions)
+PASS F04-rect source-default (29 assertions)
+PASS F04-rect build-default (29 assertions)
+PASS F05-circle source-default (27 assertions)
+PASS F05-circle build-default (27 assertions)
+PASS F06-ellipse source-default (29 assertions)
+PASS F06-ellipse build-default (29 assertions)
+PASS F07-line source-default (29 assertions)
+PASS F07-line build-default (29 assertions)
+PASS F08-text source-default (16 assertions)
+PASS F08-text build-default (16 assertions)
+PASS F09-group-create source-default (15 assertions)
+PASS F09-group-create build-default (15 assertions)
+PASS F10-move-leaves source-default (3 assertions)
+PASS F10-move-leaves build-default (3 assertions)
+PASS F11-move-container source-default (3 assertions)
+PASS F11-move-container build-default (3 assertions)
+PASS F12-scale-leaves source-default (3 assertions)
+PASS F12-scale-leaves build-default (3 assertions)
+PASS F13-scale-container source-default (3 assertions)
+PASS F13-scale-container build-default (3 assertions)
+PASS F14-set-geometry source-default (3 assertions)
+PASS F14-set-geometry build-default (3 assertions)
+PASS F15-set-style source-default (3 assertions)
+PASS F15-set-style build-default (3 assertions)
+PASS F16-set-text source-default (13 assertions)
+PASS F16-set-text build-default (13 assertions)
+PASS F17-delete-leaf source-default (3 assertions)
+PASS F17-delete-leaf build-default (3 assertions)
+PASS F18-delete-container source-default (15 assertions)
+PASS F18-delete-container build-default (15 assertions)
+PASS F19-group-same source-default (25 assertions)
+PASS F19-group-same build-default (25 assertions)
+PASS F20-group-cross source-default (19 assertions)
+PASS F20-group-cross build-default (19 assertions)
+PASS F20-group-cross source-preserve-style (19 assertions)
+PASS F20-group-cross build-preserve-style (19 assertions)
+PASS F21-ungroup source-default (29 assertions)
+PASS F21-ungroup build-default (29 assertions)
+PASS F22-addto source-default (3 assertions)
+PASS F22-addto build-default (3 assertions)
+PASS F23-front source-default (23 assertions)
+PASS F23-front build-default (27 assertions)
+PASS F24-back source-default (23 assertions)
+PASS F24-back build-default (27 assertions)
+PASS F25-undo source-default (17 assertions)
+PASS F25-undo build-default (17 assertions)
+PASS F25-undo source-preserve-style (17 assertions)
+PASS F25-undo build-preserve-style (17 assertions)
+PASS F26-redo source-default (3 assertions)
+PASS F26-redo build-default (3 assertions)
+PASS F27-display-history source-default (3 assertions)
+PASS F27-display-history build-default (3 assertions)
+PASS F28-barriers source-default (12 assertions)
+PASS F28-barriers build-default (12 assertions)
+PASS F28-barriers source-preserve-style (12 assertions)
+PASS F28-barriers build-preserve-style (12 assertions)
+PASS F29-atomicity source-default (3 assertions)
+PASS F29-atomicity build-default (3 assertions)
+PASS F30-save source-default (23 assertions)
+PASS F30-save build-default (23 assertions)
+PASS F31-roundtrip source-default (23 assertions)
+PASS F31-roundtrip build-default (23 assertions)
+PASS F31-roundtrip source-preserve-style (23 assertions)
+PASS F31-roundtrip build-preserve-style (23 assertions)
+PASS F32-ids source-default (19 assertions)
+PASS F32-ids build-default (19 assertions)
+PASS F33-save-path source-default (21 assertions)
+PASS F33-save-path build-default (21 assertions)
+PASS F34-io-failure source-default (10 assertions)
+PASS F34-io-failure build-default (10 assertions)
+PASS F35-input source-default (3 assertions)
+PASS F35-input build-default (3 assertions)
+PASS F36-task-book source-default (27 assertions)
+PASS F36-task-book build-default (29 assertions)
+PASS F36-task-book source-preserve-style (27 assertions)
+PASS F36-task-book build-preserve-style (29 assertions)
+PASS F37-transform source-default (26 assertions)
+PASS F37-transform build-default (26 assertions)
+PASS F38-preserve-style source-preserve-style (31 assertions)
+PASS F38-preserve-style build-preserve-style (31 assertions)
+PASS F39-color-link source-preserve-style (26 assertions)
+PASS F39-color-link build-preserve-style (32 assertions)
+PASS F40-enhanced-reject source-preserve-style (135 assertions)
+PASS F40-enhanced-reject build-preserve-style (135 assertions)
+PASS interactive source-default
+PASS interactive source-preserve-style
+PASS interactive build-default
+PASS interactive build-preserve-style
+Running isolated npm run test:coverage
+{
+  "mainCases": 40,
+  "definedScenarios": 55,
+  "definedInputs": 650,
+  "caseExecutions": 90,
+  "scenarioExecutions": 128,
+  "executedInputs": 1508,
+  "assertions": 1674,
+  "snapshotReplays": 48,
+  "interactiveExecutions": 4,
+  "interactiveAssertions": 40,
+  "totalCLIProcesses": 180,
+  "matrix": [
+    {
+      "key": "source-default",
+      "caseExecutions": 37,
+      "scenarioExecutions": 42,
+      "snapshotReplays": 19,
+      "interactiveExecutions": 1,
+      "totalCLIProcesses": 62,
+      "assertions": 538,
+      "passed": 37,
+      "failed": 0
+    },
+    {
+      "key": "build-default",
+      "caseExecutions": 37,
+      "scenarioExecutions": 42,
+      "snapshotReplays": 19,
+      "interactiveExecutions": 1,
+      "totalCLIProcesses": 62,
+      "assertions": 548,
+      "passed": 37,
+      "failed": 0
+    },
+    {
+      "key": "source-preserve-style",
+      "caseExecutions": 8,
+      "scenarioExecutions": 22,
+      "snapshotReplays": 5,
+      "interactiveExecutions": 1,
+      "totalCLIProcesses": 28,
+      "assertions": 290,
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "key": "build-preserve-style",
+      "caseExecutions": 8,
+      "scenarioExecutions": 22,
+      "snapshotReplays": 5,
+      "interactiveExecutions": 1,
+      "totalCLIProcesses": 28,
+      "assertions": 298,
+      "passed": 8,
+      "failed": 0
+    }
+  ],
+  "failures": [],
+  "passed": true
+}
+npm notice
+npm notice New major version of npm available! 11.19.1 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-28T05:27:25.644Z",
+  "baseline": {
+    "codeCommit": "9d7fd25e2736118ab5c100ea2e7c5f07c5d5cd5e",
+    "branch": "main",
+    "sourceTree": "0deecd169bdeb78365fc444bae91468ea6706504",
+    "testsTree": "973ab0fa23ac7d4f2b520de669a44e22982c52b1",
+    "finalCommit": "9d7fd25e2736118ab5c100ea2e7c5f07c5d5cd5e",
+    "finalTagObject": "604a4915513ad89bf71db4dc9722d08f41dd64e8",
+    "worktreeBefore": "M README.md\n M doc/README.md\n M doc/USER_GUIDE.md\n M \"doc/acceptance/\\345\\212\\237\\350\\203\\275\\346\\265\\213\\350\\257\\225\\344\\270\\216\\347\\273\\223\\346\\236\\234\\350\\256\\260\\345\\275\\225.md\"\n M scripts/acceptance/AcceptanceRunner.ts",
+    "businessWorktreeChanges": "",
+    "finalToHead": "",
+    "recentCommits": "9d7fd25 (HEAD -> main, tag: final, origin/main, origin/HEAD) test: refresh verification evidence for startup option validation\n94acc74 fix: reject unknown CLI startup options\nc9425dc docs: finalize Phase 1 delivery and acceptance references\n0b62616 test: add reproducible Phase 1 functional verification evidence\n2f5ef47 docs: finalize complete Phase 1 submission and tag documentation\necb85a8 docs: verify Phase 1 completion and detail future development roadmap\n41f00cc docs: record user-approved Phase 1 final acceptance\n59d0d7a docs: explain style preservation and future plugin boundaries"
+  },
+  "environment": {
+    "node": "v24.22.1",
+    "npm": "11.19.1",
+    "platform": "darwin",
+    "architecture": "arm64",
+    "dependencies": {
+      "@types/node": {
+        "version": "26.6.5",
+        "resolved": "https://registry.npmjs.org/@types/node/-/node-26.6.5.tgz",
+        "overridden": false
+      },
+      "@vitest/coverage-v8": {
+        "version": "5.0.5",
+        "resolved": "https://registry.npmjs.org/@vitest/coverage-v8/-/coverage-v8-5.0.5.tgz",
+        "overridden": false
+      },
+      "@xmldom/xmldom": {
+        "version": "0.9.12",
+        "resolved": "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.9.12.tgz",
+        "overridden": false
+      },
+      "tsx": {
+        "version": "4.23.15",
+        "resolved": "https://registry.npmjs.org/tsx/-/tsx-4.23.15.tgz",
+        "overridden": false
+      },
+      "typescript": {
+        "version": "7.0.2",
+        "resolved": "https://registry.npmjs.org/typescript/-/typescript-7.0.2.tgz",
+        "overridden": false
+      },
+      "vitest": {
+        "version": "5.0.5",
+        "resolved": "https://registry.npmjs.org/vitest/-/vitest-5.0.5.tgz",
+        "overridden": false
+      }
+    },
+    "lockSha256": "0d5bcc005b4638bc7dafcf9e9704dcad6de605fac9aefb7440e2b37a74bf49d5",
+    "renderer": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "rendererVersion": "Google Chrome 156.0.8078.48"
+  },
+  "inputDigests": {
+    "cases": "3d35cbf994900cc2c1404c0df65543289d62450dad10ecf15b93ac2e9ab1561e",
+    "runner": "0691ded140670d1996ec3086bcda732b2aba8d4e7ac69e7069d4ce20794ed33b"
+  },
+  "counts": {
+    "mainCases": 40,
+    "definedScenarios": 55,
+    "definedInputs": 650,
+    "caseExecutions": 90,
+    "scenarioExecutions": 128,
+    "executedInputs": 1508,
+    "assertions": 1674,
+    "snapshotReplays": 48,
+    "interactiveExecutions": 4,
+    "interactiveAssertions": 40,
+    "totalCLIProcesses": 180
+  },
+  "matrix": [
+    {
+      "key": "source-default",
+      "caseExecutions": 37,
+      "scenarioExecutions": 42,
+      "snapshotReplays": 19,
+      "interactiveExecutions": 1,
+      "totalCLIProcesses": 62,
+      "assertions": 538,
+      "passed": 37,
+      "failed": 0
+    },
+    {
+      "key": "build-default",
+      "caseExecutions": 37,
+      "scenarioExecutions": 42,
+      "snapshotReplays": 19,
+      "interactiveExecutions": 1,
+      "totalCLIProcesses": 62,
+      "assertions": 548,
+      "passed": 37,
+      "failed": 0
+    },
+    {
+      "key": "source-preserve-style",
+      "caseExecutions": 8,
+      "scenarioExecutions": 22,
+      "snapshotReplays": 5,
+      "interactiveExecutions": 1,
+      "totalCLIProcesses": 28,
+      "assertions": 290,
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "key": "build-preserve-style",
+      "caseExecutions": 8,
+      "scenarioExecutions": 22,
+      "snapshotReplays": 5,
+      "interactiveExecutions": 1,
+      "totalCLIProcesses": 28,
+      "assertions": 298,
+      "passed": 8,
+      "failed": 0
+    }
+  ],
+  "terminal": [
+    {
+      "case": "terminal",
+      "entry": "source",
+      "mode": "default",
+      "passed": true,
+      "evidence": [
+        "raw.txt",
+        "actual.txt"
+      ],
+      "scenarios": 1,
+      "commands": 4
+    },
+    {
+      "case": "terminal",
+      "entry": "source",
+      "mode": "preserve-style",
+      "passed": true,
+      "evidence": [
+        "raw.txt",
+        "actual.txt"
+      ],
+      "scenarios": 1,
+      "commands": 4
+    },
+    {
+      "case": "terminal",
+      "entry": "build",
+      "mode": "default",
+      "passed": true,
+      "evidence": [
+        "raw.txt",
+        "actual.txt"
+      ],
+      "scenarios": 1,
+      "commands": 4
+    },
+    {
+      "case": "terminal",
+      "entry": "build",
+      "mode": "preserve-style",
+      "passed": true,
+      "evidence": [
+        "raw.txt",
+        "actual.txt"
+      ],
+      "scenarios": 1,
+      "commands": 4
+    }
+  ],
+  "validation": [
+    {
+      "command": "npm ci --prefer-offline --no-audit --no-fund",
+      "passed": true,
+      "log": "validation/npm-ci.txt"
+    },
+    {
+      "command": "npm run check",
+      "passed": true,
+      "log": "validation/check.txt"
+    },
+    {
+      "command": "<temporary-workspace>/project/node_modules/.bin/tsc --ignoreConfig --noEmit --strict --noUncheckedIndexedAccess --exactOptionalPropertyTypes --noUnusedLocals --noUnusedParameters --target ES2022 --module NodeNext --moduleResolution NodeNext --types node --skipLibCheck scripts/acceptance/AcceptanceRunner.ts",
+      "passed": true,
+      "log": "validation/runner-typecheck.txt"
+    },
+    {
+      "command": "npm run test:coverage",
+      "passed": true,
+      "log": "validation/coverage.txt"
+    }
+  ],
+  "automatedTests": {
+    "files": 16,
+    "tests": 202
+  },
+  "failures": [],
+  "coverage": "Full report generated only inside isolated workspace; console summary retained in validation/coverage.txt.",
+  "passed": true
+}

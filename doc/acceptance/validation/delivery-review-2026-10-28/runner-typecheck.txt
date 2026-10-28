@@ -1,0 +1,3 @@
+$ <temporary-workspace>/project/node_modules/.bin/tsc --ignoreConfig --noEmit --strict --noUncheckedIndexedAccess --exactOptionalPropertyTypes --noUnusedLocals --noUnusedParameters --target ES2022 --module NodeNext --moduleResolution NodeNext --types node --skipLibCheck scripts/acceptance/AcceptanceRunner.ts
+
+exit=0

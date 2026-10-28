@@ -1,0 +1,55 @@
+$ npm run test:coverage
+
+> svg-cli-lab@0.1.0 test:coverage
+> vitest run --coverage
+
+
+ RUN  v5.0.5 /private<temporary-workspace>/project
+      Coverage enabled with v8
+
+
+ Test Files  16 passed (16)
+      Tests  202 passed (202)
+   Start at  13:27:24
+   Duration  1.52s (tests 60%, transform 23%, import 11%, worker 5%)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   97.47 |     91.6 |     100 |   99.68 |                   
+ application       |   97.46 |    93.54 |     100 |     100 |                   
+  EditorSession.ts |   97.33 |    92.85 |     100 |     100 | 70,79             
+ ...ation/commands |   97.23 |    86.56 |     100 |     100 |                   
+  ...dArguments.ts |   91.66 |    81.81 |     100 |     100 | 13,18             
+  ...andFactory.ts |   96.15 |    42.85 |     100 |     100 | 58-59             
+  ...ingCommand.ts |   83.33 |       50 |     100 |     100 | 18-23             
+  TreeCommand.ts   |   95.65 |    91.66 |     100 |     100 | 29                
+ ...cation/history |   96.55 |    83.33 |     100 |     100 |                   
+  ...oryManager.ts |   96.29 |    83.33 |     100 |     100 | 16                
+ cli               |   95.83 |     87.5 |     100 |     100 |                   
+  Repl.ts          |   92.85 |    83.33 |     100 |     100 | 14                
+ cli/formatting    |     100 |       50 |     100 |     100 |                   
+  ...tFormatter.ts |     100 |       50 |     100 |     100 | 3                 
+ cli/parsing       |     100 |     91.3 |     100 |     100 |                   
+  Tokenizer.ts     |     100 |     91.3 |     100 |     100 | 11,21             
+ domain            |    99.4 |     97.7 |     100 |     100 |                   
+  Numeric.ts       |     100 |    92.85 |     100 |     100 | 12                
+  SvgDocument.ts   |   99.24 |    98.18 |     100 |     100 | 78                
+ domain/factories  |   97.14 |    96.42 |     100 |   96.42 |                   
+  ShapeFactory.ts  |   97.14 |    96.42 |     100 |   96.42 | 36                
+ domain/shapes     |   94.96 |    84.21 |     100 |     100 |                   
+  Group.ts         |    92.3 |    77.77 |     100 |     100 | 11-16             
+  Shape.ts         |    87.5 |    77.77 |     100 |     100 | 36-37,40,52       
+ ...astructure/svg |   96.77 |    89.88 |     100 |   99.15 |                   
+  SvgCodec.ts      |      96 |    87.67 |     100 |   98.94 | 80                
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 97.47% ( 887/910 )
+Branches     : 91.6% ( 371/405 )
+Functions    : 100% ( 280/280 )
+Lines        : 99.68% ( 642/644 )
+================================================================================
+
+exit=0

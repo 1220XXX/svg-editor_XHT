@@ -1,0 +1,81 @@
+{
+  "reviewedAt": "2026-10-28T05:29:46.344174+00:00",
+  "reviewType": "Phase 1 documentation finalization and full regression; no business feature development",
+  "codeBaseline": "9d7fd25e2736118ab5c100ea2e7c5f07c5d5cd5e",
+  "sourceTree": "0deecd169bdeb78365fc444bae91468ea6706504",
+  "testsTree": "973ab0fa23ac7d4f2b520de669a44e22982c52b1",
+  "businessSourcesTestsDependenciesExamplesCIUnchanged": true,
+  "protectedFilesCompared": 99,
+  "personalDemoUnchangedAndExcludedFromCommit": true,
+  "existingEvidenceComparison": {
+    "filesCompared": 432,
+    "allByteIdentical": true,
+    "different": [],
+    "ignoredFinderFilesExcluded": true,
+    "originalWorkspaceFilesUnchangedDuringValidation": true
+  },
+  "documentCheck": {
+    "relative_links_checked": 469,
+    "missing_links": [],
+    "distinct_commit_links_resolve": 25,
+    "taskbook_copies_identical": true,
+    "baseline_source_and_tests_match_current_HEAD": true,
+    "stored_main_cases": 40,
+    "stored_assertions_verified": 1674,
+    "svg_files": 104,
+    "png_files": 8
+  },
+  "manualVisualReview": {
+    "actualGeneratedPNGs": [
+      "../../results/F36-task-book/build-default/flowchart/files/flowchart.png",
+      "../../results/F39-color-link/build-preserve-style/frozen.png"
+    ],
+    "observations": [
+      "Flowchart has two labeled nodes and connecting line; Chinese text and v2 label visible.",
+      "Frozen-color sample shows red object and green comparison object."
+    ],
+    "scope": "Selected images only; automated pixel assertions cover all eight PNGs."
+  },
+  "scope": {
+    "existingTrackedFilesIncluded": [
+      "README.md",
+      "doc/README.md",
+      "doc/USER_GUIDE.md",
+      "doc/acceptance/功能测试与结果记录.md",
+      "scripts/acceptance/AcceptanceRunner.ts"
+    ],
+    "newMaterialsDirectory": "doc/acceptance/validation/delivery-review-2026-10-28/",
+    "runnerChange": "One generated-report heading anchor only.",
+    "historicalSummaryUnchanged": true,
+    "historicalFinalFieldsRetained": true
+  },
+  "tagPolicy": {
+    "authorizedToUpdateFinal": true,
+    "finalBeforeCommit": "9d7fd25e2736118ab5c100ea2e7c5f07c5d5cd5e",
+    "finalTagObjectBeforeUpdate": "604a4915513ad89bf71db4dc9722d08f41dd64e8",
+    "deliveryCommit": "Resolved through final after publication; not self-embedded in this commit.",
+    "remoteVerification": "Performed after push; results reported to user."
+  },
+  "limitations": [
+    "Verified macOS arm64 with Node.js v24.22.1 and npm 11.19.1; no Windows/other Node-version run.",
+    "Whole-document snapshots and tree lookup have no large-document performance guarantee.",
+    "box, dynamic plugins and complete SVG/CSS remain unimplemented by Phase 1 scope.",
+    "Remote Actions status is separate from these successful local checks."
+  ],
+  "workspaceComparison": {
+    "filesInPreReviewSnapshot": 554,
+    "existingFilesChangedDuringThisReview": [
+      "README.md",
+      "doc/README.md",
+      "doc/acceptance/功能测试与结果记录.md"
+    ],
+    "otherExistingFilesByteIdentical": 551,
+    "userGuideAndRunnerPreexistingEditsPreserved": true
+  },
+  "documentHashesAtFinalReview": {
+    "README.md": "7a359a07c54d1eaa806dd8c57c4ada92d01af0bdaf45b328e64bbbc8b90c1f15",
+    "doc/README.md": "aec84d0e892b2b948f0e0f82e50cf6623789d89b4a2d6eaeceb559048ca4d82b",
+    "doc/USER_GUIDE.md": "a5d63c8f0bcf40cee70d8f4c1c6ccf64a4318d6efae73297686e31f72f56e01e",
+    "doc/acceptance/功能测试与结果记录.md": "bcb74323951587c89ea00ec7aca2456b283c99fec131ef70e49e0bce9bde581b"
+  }
+}
